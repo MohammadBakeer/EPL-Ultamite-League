@@ -1,0 +1,65 @@
+
+/* Your existing styles */
+body {
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  background-image: url('../../public/flipyellow.png');
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* Your other styles for .app-container */
+}
+
+.navbar {
+  background-color: #2596be;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between; /* Align items horizontally with space between */
+  align-items: center; /* Center items vertically */
+}
+
+.navbar h2 {
+  margin: 0;
+}
+
+.navbar button {
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;
+}
+
+.confirm-button {
+  background-color: #28a745; /* Green color */
+  color: white;
+}
+
+.confirm-button:hover {
+  background-color: #218838; /* Darker green on hover */
+}
+
+.clear-button {
+  background-color: red; /* Red color */
+  color: white;
+  margin-right: 2em;
+}
+
+.clear-button:hover {
+  background-color: #c82333; /* Darker red on hover */
+}
+

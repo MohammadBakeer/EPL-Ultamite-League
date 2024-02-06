@@ -1,0 +1,105 @@
+/* Assuming you have a CSS file (e.g., Home.css) */
+.home-page {
+    height: 100vh; /* 100% of the viewport height */
+    width: 100vw;
+  }
+  
+  .home-field-container {
+    width: 100%; /* Adjust as needed */
+    height: 90%; /* Adjust as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .home-field{
+    height: 100%;
+    width:50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .home-field-container .field-container {
+    /* Reset the positioning styles for the field container in the home page */
+    position: static; /* or use 'relative' based on your design */
+    top: 0; /* Reset the top property */
+    right: 0; /* Reset the right property */
+    height: 70%;
+    width: 100%;
+  }
+
+  .home-nav-bar {
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+  
+  .home-nav-item {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  
+  .home-nav-item:hover {
+    text-decoration: underline;
+  }
+  .Edit-team {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFCA3A, #FF6B6B, #FF8E53, #FFCA3A); /* Gradient with vibrant colors */
+    color: white;
+    border: 2px solid transparent; /* Initial transparent border */
+    border-radius: 5px;
+    cursor: pointer;
+    animation: moveColors 5s infinite linear, glowBackground 2s infinite alternate; /* Apply color and inner glow animations */
+}
+
+.Edit-team:hover {
+    background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFCA3A); /* Change gradient on hover */
+    animation: none; /* Disable color animation on hover */
+    border: 2px solid transparent; /* Reset border on hover */
+    box-shadow: none; /* Reset box-shadow on hover */
+}
+
+/* Animation keyframes for color movement effect */
+@keyframes moveColors {
+    0% {
+        background-position: 0% 50%; /* Initial background position */
+    }
+    100% {
+        background-position: 100% 50%; /* Final background position */
+    }
+}
+
+/* Animation keyframes for glowing and dimming box-shadow effect */
+@keyframes glowBackground {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 202, 58, 0.5); /* Initial and final glow effect */
+    }
+    50% {
+        box-shadow: 0 0 5px rgba(255, 202, 58, 0.2); /* Dimming the glow effect in the middle of the animation */
+    }
+}
+
+.home-page .real-shirt img {
+  width: 6rem; /* Set the width to your desired size */
+  height: 5rem; /* Maintain the aspect ratio */
+}
+
+.home-page .real-shirt-container-2-name{
+  height: 2vh;
+  width:7vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  font-size: .8rem;
+  position: relative;
+  top: 1em;
+}

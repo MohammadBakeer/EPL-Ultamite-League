@@ -1,0 +1,222 @@
+
+@font-face {
+  font-family: 'Golazo';
+  src: url('../../public/GolazoDemo-qZGDq.ttf') format('truetype');
+}
+
+/* SignIn component styles */
+
+.signin-page {
+  width: 100vw;
+  background-color: rgb(134, 123, 123);
+  margin: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.signin-container {
+  background-image: url('../../public/goolagoon.png');
+  width: 27vw;
+  height: 70vh;
+  padding: 40px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  animation: scaleIn 0.5s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-size: 100% 100%;
+}
+
+.top-signin {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 15vh;
+  margin: 0px;
+}
+
+.top-signin h2 {
+  font-size: 3.2em;
+  margin: 0;
+}
+
+.sig-head-social {
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.in-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 40vh;
+  width: 100%;
+}
+
+label {
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+input {
+  padding: 15px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+  width: 100%;
+}
+
+input:focus {
+  border-color: black;
+  outline: none;
+}
+
+.sign-inputs-inform {
+  height: 40vh;
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.label-container {
+  width: 40%;
+  margin-bottom: .2em;
+}
+
+.sigbtn {
+  background: linear-gradient(45deg, rgba(0, 255, 247, 1) 0%, rgba(229, 255, 255, 1) 50%, rgba(4, 186, 227, 1) 100%);
+  color: black;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  animation: pulse 1s infinite;
+  margin-top: 2em;
+}
+
+.sigbtn:hover {
+  opacity: 0.9;
+  animation-play-state: paused;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.label-container {
+  width: 40%;
+  margin-bottom: .2em;
+}
+
+.input-pass {
+  margin-top: 1em;
+}
+
+.input-container svg {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #aaa;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: space-around;
+  margin: 0px;
+  width: 100%;
+}
+
+.social-icon {
+  font-size: 2em;
+  color: #555;
+  cursor: pointer;
+}
+
+.social-icon:hover {
+  color: #000;
+}
+
+.sign-display-container {
+  background-image: url('../../public/goolagoon.png');
+  width: 40vw;
+  height: 76vh;
+  padding: 40px;
+  padding-bottom: 0px;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(242, 230, 230, 0.2);
+  animation: scaleIn 0.5s ease;
+  background-size: 100% 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.signin-h1-EPL-container {
+  display: flex;
+  justify-content: center;
+}
+
+.signin-h1-EPL {
+  font-size: 3.5rem;
+}
+
+.signin-h3-EPL-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.signin-h3-EPL {
+  font-size: 1.7rem;
+  margin: 0px;
+}
+
+.sign-img {
+  height: 45vh;
+  width: 100%;
+}
+
+.sign-img img {
+  width: 100%;
+  height: 100%;
+}

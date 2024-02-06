@@ -1,0 +1,131 @@
+/* Field.css */
+.field-container {
+    height: 70vh;
+    width: 40em;
+    position: relative;
+    top: 11em;
+    right: 4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/fantasyfield.png');
+    background-size: cover; 
+    background-position: center; 
+  }
+  
+  .field-lines {
+    height: 60vh;
+    width: 88%;
+  }
+  
+  .field-FWD-line {
+    height: 15vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .field-MID-line {
+    height: 15vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+  
+  .field-DEF-line
+  {
+    height: 15vh;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+  }
+  .field-GK-line {
+    display: flex;
+    justify-content: center;
+    height: 15vh;
+    width: 100%;
+    align-items: flex-end;
+  }
+
+  .default-shirt-container {
+    height: 13vh;
+    width: 8vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  
+  .default-shirt {
+    height: 60%; /* Adjust the height as needed */
+    width: 60%;  /* Adjust the width as needed */
+  }
+
+  .real-player-shirt-container{
+    height: 13vh;
+    width: 8vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .real-shirt-container-1 {
+    height: 12vh;
+    width:7vw;
+  }
+
+  .real-shirt-container-2{
+    height: 10vh;
+    width:7vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+
+  .real-shirt-container-2-name{
+    height: 2vh;
+    width:7vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    font-size: .8rem;
+  }
+
+.real-shirt{
+    height: 10vh;
+    width:7vw;
+}
+
+.club-shirt {
+    width: 100%;
+    height: 100%;
+}
+
+#formationSelect {
+  margin-top: 10px; /* Adjust the top margin as needed */
+  padding: 4px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.formation-dropdown {
+  position: absolute;
+  top: 7em; /* Adjust the top position as needed */
+  right: 10em; /* Adjust the right position as needed */
+}
+
+.team-stats{
+  position: absolute;
+  top: 8em;
+  right: 20em;
+  display: flex;
+  justify-content: space-between;
+  width: 18em;
+}
+
+

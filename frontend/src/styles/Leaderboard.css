@@ -1,0 +1,114 @@
+.leaderboard-page {
+    width: 99.87vw;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .main-leader {
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  .leader-nav-bar {
+    background-color: #333;
+    padding: 10px;
+    padding-right: 0px;
+    padding-left: 0px;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+  
+  .leader-heading {
+    width: 100%;
+    height: 10%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .leaderboard-heading {
+    margin: 0;
+    font-size: 24px; /* Adjust the font size as needed */
+    color: #333; /* Change the color as needed */
+    font-weight: bold;
+  }
+  
+  .leader-nav-item {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  
+  .leader-nav-item:hover {
+    text-decoration: underline;
+  }
+  
+  .leaderboard-container {
+    width: 100%;
+    height: 40%;
+    margin: 0;
+  }
+  
+  .leaderboard-table {
+    width: 100%;
+    height: 80%;
+    margin: 0;
+    border-collapse: collapse;
+  }
+  
+  .leaderboard-table th,
+  .leaderboard-table td {
+    border: 2px solid #ddd; /* Add bold borders to table cells */
+    text-align: center; /* Center text in cells */
+    color: #333; /* Change the color as needed */
+    padding: .7em; 
+    text-align: center; /* Center text in cells */
+    font-size: 1rem; /* Adjust the font size as needed */
+    color: #333; /* Change the color as needed */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow content */
+    text-overflow: ellipsis; /* Display an ellipsis (...) to represent overflow */
+    max-width: 0; /* Set max-width to 0 to allow ellipsis to work */
+  }
+  
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 30%;
+    height: 40%;
+  }
+  
+  .pagination button {
+    padding: 8px 16px;
+    margin-right: 8px;
+    cursor: pointer;
+    font-size: 16px; /* Adjust the font size as needed */
+    color: #333; /* Change the color as needed */
+  }
+  
+  .pagination button.active {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  
+  .page-change {
+    display: flex;
+    height: 10vh;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .of {
+    margin-right: .75em;
+  }
+
+  .leaderboard-table tbody tr.highlighted {
+    background-color: rgba(255, 217, 0, 0.833); /* Change to the desired highlight color for rank 1 */
+  }
+  

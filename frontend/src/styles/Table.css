@@ -1,0 +1,164 @@
+/* Table.css */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.table-container {
+    position: relative;
+    top: 9rem;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh;
+    left: 1em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    font-size: 12px;
+    background-color: white;
+}
+th, td {
+    border: 2px solid black;
+    padding: 5px;
+    text-align: left;
+}
+
+th {
+    background-color: #2596be;
+    color: white;
+}
+
+tr:hover {
+    background-color: rgba(254, 173, 23, 0.871);
+}
+
+.pagination-bar {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2596be;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 0;
+}
+
+.pagination-bar button {
+    padding: px;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    background-color: gold;
+    color: black;
+    padding: .3rem;
+}
+
+.pagination-bar button:hover {
+    background-color: #922b21;
+}
+
+.pagination-bar span {
+    font-size: 14px;
+}
+
+.manual-page-input {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0; /* Adjusted margin */
+    border-radius: 5px;
+    height: 1.8rem;
+}
+
+.manual-page-input input {
+    padding: .3rem;
+    font-size: 12px;
+    border-radius: 3px;
+    width: 10%;
+}
+
+.manual-page-input button {
+    padding: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    background-color: gold;
+    color: black;
+    width: 50%;
+}
+
+.manual-page-input button:hover {
+    background-color: brown;
+}
+
+/* Add this to your existing styles or create a new rule */
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    margin-bottom: 2rem;
+  }
+      
+  .filter-bars {
+    display: flex;
+    gap: 2em;
+   
+  }
+  
+  .filter-input,
+.filter-select {
+  padding: .5rem;
+  font-size: .7em;
+  border: 1.5px solid black; /* Gold border */
+  border-radius: 3px;
+  background-color: gold;
+  color: black; /* Gold text color */
+}
+
+.filter-input:hover,
+.filter-select:hover {
+  border-color: #8b4513; /* Saddle brown border on hover */
+}
+  
+  .clear-filters-btn {
+    padding: 0.5rem 1rem;
+    background-color: #ffd700; /* Gold color */
+    color: black;
+    border: 1.5px solid black; /* Black border */
+    cursor: pointer;
+    margin: 0;
+    font-size: 12px;
+    border-radius: 3px;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;
+  }
+  
+  .clear-filters-btn:hover {
+    background-color: #8b4513; /* Saddle brown on hover */
+    color: white;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+    border: 1px solid #8b4513; /* Saddle brown border on hover */
+  }
+
+  .filter-input::placeholder {
+    color: black; /* Set the placeholder text color to a light shade of black */
+  }
+  
+  .filter-input:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: black; /* Add a custom border color when focused, you can adjust the color as needed */
+  }
+
+  .filter-select:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: black; /* Add a custom border color when focused, you can adjust the color as needed */
+  }
