@@ -7,9 +7,10 @@ const axios = require('axios'); // Declare axios here
 // Import the database connection pool from db.js
 const db = require('./db.js');
 
-app.use(cors());
+app.use(cors({origin: ["http://localhost:3000"]}));
 app.use(express.json());
 
+const PORT = process.env.PORT || 3000;
 
 app.get('/teams/api', async (req,res) => {
   try {
@@ -222,6 +223,6 @@ app.get('/getLeaderboardDataForAllUsers', async (req, res) => {
 });
 
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
