@@ -19,7 +19,7 @@ const Table = ({ onPlayerSelect }) => {
 
       switch (player.position) {
         case 'FWD':
-          points += player.goalsScored * 12;
+          points += player.goalsScored * 14;
           points += player.assists * 10;
           points += player.cleanSheets * 4;
           points += player.goalsConceded * -1;
@@ -30,25 +30,25 @@ const Table = ({ onPlayerSelect }) => {
         case 'MID':
           points += player.goalsScored * 18;
           points += player.assists * 10;
-          points += player.cleanSheets * 8;
+          points += player.cleanSheets * 6;
           points += player.goalsConceded * -3;
           points += player.yellowCards * -2;
           points += player.redCards * -8;
           points += Math.floor(player.minutes / 90) * 10;
           break;
         case 'DEF':
-          points += player.goalsScored * 24;
-          points += player.assists * 16;
-          points += player.cleanSheets * 14;
+          points += player.goalsScored * 20;
+          points += player.assists * 15;
+          points += player.cleanSheets * 18;
           points += player.goalsConceded * -5;
           points += player.yellowCards * -2;
           points += player.redCards * -8;
-          points += Math.floor(player.minutes / 90) * 10;
+          points += Math.floor(player.minutes / 90) * 15;
           break;
         case 'GK':
           points += player.cleanSheets * 25;
-          points += player.goalsConceded * -20;
-          points += player.penaltiesSaved * 30;
+          points += player.goalsConceded * -10;
+          points += player.penaltiesSaved * 50;
           points += player.saves * 4;
           points += Math.floor(player.minutes / 90) * 10;
           break;
