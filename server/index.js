@@ -1,13 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = process.env.PORT || 3000;
 const axios = require('axios'); // Declare axios here
 
 // Import the database connection pool from db.js
 const db = require('./db.js');
 
-app.use(cors({origin: ["http://localhost:3000"]}));
+app.use(cors({origin: ["http://localhost:3000", "https://epl-ultamite-league.vercel.app"]}));
 app.use(express.json());
 
 const PORT = process.env.PORT || 3000;
