@@ -5,13 +5,13 @@
 }
 
 .login-page {
-  width: 100%;
+  width: 100vw;
   background-color: rgb(134, 123, 123);
   margin: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: space-around; /* Center horizontally */
