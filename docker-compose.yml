@@ -20,7 +20,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - fpl_network # Attach backend to the custom network
+      - fpl_network # Attach backend to the custom network 
 
   postgres:
     image: postgres:latest
