@@ -39,7 +39,7 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchLeaderboardData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/getLeaderboardDataForAllUsers`);
+        const response = await axios.get(`https://api.smartdezigns.com/getLeaderboardDataForAllUsers`);
         setLeaderboardData(response.data);
         const userIds = response.data.map(item => item.userId);
         setDbUserId(userIds);
