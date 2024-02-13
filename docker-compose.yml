@@ -17,7 +17,7 @@ services:
     build: ./server
     ports:
       - "3000:3000"
-   restart: always
+    restart: always
     depends_on:
       - postgres
     networks:
@@ -36,5 +36,3 @@ services:
       - ./database.sql:/docker-entrypoint-initdb.d/database.sql
     networks:
       - fpl_network # Attach postgres to the custom network
-
-
