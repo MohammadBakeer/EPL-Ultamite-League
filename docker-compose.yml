@@ -1,0 +1,45 @@
+version: '3.8'
+
+networks:
+  fpl_network: # Define a custom network
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    networks:
+      - fpl_network # Attach frontend to the custom network
+
+  backend:
+    build: ./server
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://mohammad:stsPY3K4quvIhiSiwJIGwdRPL3lgufIj@dpg-cn0tcrocmk4c73dgcrfg-a/fpl_database
+    depends_on:
+      - postgres
+    networks:
+      - fpl_network # Attach backend to the custom network
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: mohammadbakeer320
+      POSTGRES_PASSWORD: 1a2b3cMjB(())*
+      POSTGRES_DB: postgres
+    volumes:
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+    networks:
+      - fpl_network # Attach postgres to the custom network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "5051:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@domain.com
+      - PGADMIN_DEFAULT_PASSWORD=SuperSecretPassword
+    restart: always
