@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../styles/Login.css';
+import '../styles/LogIn.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../UserContext.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

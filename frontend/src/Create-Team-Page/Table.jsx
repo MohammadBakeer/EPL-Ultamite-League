@@ -182,7 +182,7 @@ const Table = ({ onPlayerSelect }) => {
   };
 
   const totalPages = Math.ceil(filterTable().length / playersPerPage) - 1;
-  
+  console.log(eplClubs);
   useEffect(() => {
     // Reset to page 1 whenever any filter changes
     setCurrentPage(1);
