@@ -17,7 +17,7 @@ const SignUp = () => {
 
   const checkEmailExists = async (email) => {
     try {
-      const response = await fetch(`http://localhost:3000/checkEmail/${email}`);
+      const response = await fetch(`https://api.smartdezigns.com/${email}`);
       const data = await response.json();
       return data.exists;
     } catch (error) {
@@ -37,7 +37,7 @@ const SignUp = () => {
       }
   
       // If email does not exist, proceed with signup
-      const response = await fetch('http://localhost:3000/signup', {
+      const response = await fetch('https://api.smartdezigns.com/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
