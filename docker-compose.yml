@@ -17,8 +17,7 @@ services:
     build: ./server
     ports:
       - "3000:3000"
-    environment:
-      - DATABASE_URL=postgres://mohammad:stsPY3K4quvIhiSiwJIGwdRPL3lgufIj@dpg-cn0tcrocmk4c73dgcrfg-a/fpl_database
+   restart: always
     depends_on:
       - postgres
     networks:
@@ -28,6 +27,7 @@ services:
     image: postgres:latest
     ports:
       - "5434:5432"
+    restart: always
     environment:
       POSTGRES_USER: mohammadbakeer320
       POSTGRES_PASSWORD: 1a2b3cMjB(())*
@@ -37,11 +37,4 @@ services:
     networks:
       - fpl_network # Attach postgres to the custom network
 
-  pgadmin:
-    image: dpage/pgadmin4
-    ports:
-      - "5051:80"
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=user@domain.com
-      - PGADMIN_DEFAULT_PASSWORD=SuperSecretPassword
-    restart: always
+
