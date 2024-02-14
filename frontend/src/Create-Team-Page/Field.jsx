@@ -75,7 +75,7 @@ console.log(userId);
    
     const fetchUserLineup = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:3000/getUserLineup/${userId}`);
+        const response = await fetch(`https://api.smartdezigns.com/getUserLineup/${userId}`);
         if (response.ok) {
           const data = await response.json();
           
@@ -110,7 +110,7 @@ console.log(userId);
     
     const updateLineupInDatabase = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/updateLineup/${userId}`, {
+        const response = await fetch(`https://api.smartdezigns.com/updateLineup/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
