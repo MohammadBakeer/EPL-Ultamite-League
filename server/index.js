@@ -7,9 +7,13 @@ const axios = require('axios'); // Declare axios here
 // Import the database connection pool from db.js
 const db = require('./db.js');
 
+
 const corsOptions = {
     origin: 'https://smartdezigns.com' // Replace with your allowed origin
 };
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); 
 
 app.use(cors(corsOptions));
 
