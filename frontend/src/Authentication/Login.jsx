@@ -18,7 +18,7 @@ const Login = () => {
   const handleLogIn = async () => {
     try {
       // Send a POST request to your backend with login data
-      const response = await fetch('http://locahost:3000/login', {
+      const response = await fetch('http://localhost:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
