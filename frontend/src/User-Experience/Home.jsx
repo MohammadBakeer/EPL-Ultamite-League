@@ -16,7 +16,7 @@ const Home = () => {
         // Fetch team name when component mounts
         const fetchTeamName = async () => {
           try {
-            const response = await axios.get(`http://localhost:3000//getTeamName/${userId}`);
+            const response = await axios.get(`http://localhost:3000/getTeamName/${userId}`);
             setTeamName(response.data.teamName);
           } catch (error) {
             console.error('Error fetching team name:', error.message);
@@ -60,5 +60,4 @@ const Home = () => {
 };
 
 export default Home;
-
 
