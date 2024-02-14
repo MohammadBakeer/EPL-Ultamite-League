@@ -7,7 +7,7 @@ const axios = require('axios'); // Declare axios here
 // Import the database connection pool from db.js
 const db = require('./db.js');
 
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 
