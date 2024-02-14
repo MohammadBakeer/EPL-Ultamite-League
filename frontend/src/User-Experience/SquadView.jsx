@@ -16,7 +16,7 @@ const ID = viewId;
   useEffect(() => {
     const fetchTeamName = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/getTeamName/${viewId}`);
+        const response = await axios.get(`https://api.smartdezigns.com/getTeamName/${viewId}`);
         setTeamName(response.data.teamName);
       } catch (error) {
         console.error('Error fetching team name:', error.message);
