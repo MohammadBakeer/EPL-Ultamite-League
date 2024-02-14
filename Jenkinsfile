@@ -11,13 +11,13 @@ pipeline {
         stage("Down") {
             steps {
                 echo "Stopping and removing old containers"
-                sh "sudo docker compose down frontend backend"
+                sh "sudo docker compose down "
             }
         }
         stage("Deploy") {
             steps {
                 echo "Deploying the container"
-                sh "sudo docker compose up -d frontend backend"
+                sh "sudo docker compose up -d "
             }
         }
         
