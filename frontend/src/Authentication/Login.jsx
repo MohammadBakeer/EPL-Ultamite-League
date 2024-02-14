@@ -58,7 +58,7 @@ const Login = () => {
           <Link to="/signup">Don't have an account? Sign up now {'>'} </Link>
         </div>
       <div className="top-login">
-        <h2>Log In</h2>
+        <h2>Log IN</h2>
       </div>
       {/* Social media icons */}
       <div className="social-icons">
