@@ -6,10 +6,9 @@ const axios = require('axios'); // Declare axios here
 
 // Import the database connection pool from db.js
 const db = require('./db.js');
-app.use(cors({
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (e.g., IE11) choke on 204
-}));
+
+app.use(cors());
+app.options('*', cors());
 
 app.use(express.json());
 
