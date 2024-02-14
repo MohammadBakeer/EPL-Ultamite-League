@@ -74,11 +74,11 @@ const Table = ({ onPlayerSelect }) => {
     const fetchData = async () => {
       try {
         // Assuming you have a proper endpoint to fetch player data
-        const playerResponse = await fetch('https://api.smartdezigns.com/playerNames/api');
+        const playerResponse = await fetch('http://localhost:3000/playerNames/api');
       const playerData = await playerResponse.json();
 
       // Assuming you have a proper endpoint to fetch team data
-      const teamResponse = await fetch('https://api.smartdezigns.com/teams/api');
+      const teamResponse = await fetch('http://localhost:3000/teams/api');
       const teamData = await teamResponse.json();
 
       const updatedTable = playerData.playerNames.map((player) => {
@@ -182,7 +182,7 @@ const Table = ({ onPlayerSelect }) => {
   };
 
   const totalPages = Math.ceil(filterTable().length / playersPerPage) - 1;
-  console.log(eplClubs);
+  
   useEffect(() => {
     // Reset to page 1 whenever any filter changes
     setCurrentPage(1);
