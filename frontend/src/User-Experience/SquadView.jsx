@@ -16,7 +16,7 @@ const ID = viewId;
   useEffect(() => {
     const fetchTeamName = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:3000/getTeamName/${viewId}`);
+        const response = await axios.get(`http://localhost:3000/getTeamName/${viewId}`);
         setTeamName(response.data.teamName);
       } catch (error) {
         console.error('Error fetching team name:', error.message);
