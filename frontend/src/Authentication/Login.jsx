@@ -15,9 +15,10 @@ const Login = () => {
 
   const { setUserId } = useUser();
 
-  const handleLogIn = async () => {smartdezigns.com    try {
+  const handleLogIn = async () => {
+    try {
       // Send a POST request to your backend with login data
-      const response = await fetch('https://api.smartdezigns.com/login', {
+      const response = await fetch('http://localhost:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
