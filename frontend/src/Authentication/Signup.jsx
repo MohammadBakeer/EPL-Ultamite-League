@@ -50,7 +50,7 @@ console.log(response)
       if (response.ok) {
         const data = await response.json();
         const user_id = data.user.user_id;
-
+console.log(response)
         setUserId(user_id);
 
         console.log('User signed up successfully!');
@@ -58,10 +58,12 @@ console.log(response)
       } else {
         const errorData = await response.json();
         console.error('Failed to sign up:', errorData.message);
+        console.log(response)
         // Provide feedback to the user
       }
     } catch (error) {
       console.error('Error during signup:', error.message);
+      console.log(response)
       // Provide feedback to the user
     }
   };
