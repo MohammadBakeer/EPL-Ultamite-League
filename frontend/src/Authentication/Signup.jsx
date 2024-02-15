@@ -34,7 +34,7 @@ const SignUp = () => {
         return;
       }
 
-      const response = await fetch('https://smartdezigns.com/signup', {
+      const response = await fetch('https://api.smartdezigns.com/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
