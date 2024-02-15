@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../styles/SignUp.css';
 import { useNavigate } from 'react-router-dom';
-import Field from '../Create-Team-Page/Field.jsx'; // Import the Field component
-import { useUser } from '../UserContext.jsx'
+import { useUser } from '../UserContext.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faFacebook, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
@@ -12,7 +11,6 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [teamName, setTeamName] = useState('');
   const navigate = useNavigate();
-
   const { setUserId } = useUser();
 
   const checkEmailExists = async (email) => {
@@ -28,15 +26,14 @@ const SignUp = () => {
 
   const handleSignUp = async () => {
     try {
-      // Check if the email already exists in the database
       const emailExists = await checkEmailExists(email);
-  
+
       if (emailExists) {
         console.log('Email already exists. Please choose another email.');
+        // You can also provide feedback to the user here
         return;
       }
-  
-      // If email does not exist, proceed with signup
+
       const response = await fetch('https://api.smartdezigns.com/signup', {
         method: 'POST',
         headers: {
@@ -48,45 +45,40 @@ const SignUp = () => {
           teamName,
         }),
       });
-  
-      // Check if the request was successful (status code 2xx)
+
       if (response.ok) {
-        // Parse the response JSON to get the user_id
         const data = await response.json();
         const user_id = data.user.user_id;
-  
-        // Set the user_id in the component state
+
         setUserId(user_id);
-  
+
         console.log('User signed up successfully!');
-  
-        // Navigate to the Edit component with the user_id
         navigate(`/edit/${user_id}`);
-        // Optionally, you can redirect the user or perform other actions after signup
       } else {
-        console.error('Failed to sign up:', response.statusText);
+        const errorData = await response.json();
+        console.error('Failed to sign up:', errorData.message);
+        // Provide feedback to the user
       }
     } catch (error) {
       console.error('Error during signup:', error.message);
+      // Provide feedback to the user
     }
   };
-  
-
 
   return (
     <div className="signin-page">
       <div className="signin-container">
         <div className="sig-head-social">
-        <div className="top-signin">
-          <h2>Sign Up</h2>
-          <h4>Build Your Winning XI</h4>
-        </div>
-        <div className="social-icons">
-          <FontAwesomeIcon icon={faInstagram} className="social-icon" />
-          <FontAwesomeIcon icon={faTiktok} className="social-icon" />
-          <FontAwesomeIcon icon={faYoutube} className="social-icon" />
-          <FontAwesomeIcon icon={faFacebook} className="social-icon" />
-        </div>
+          <div className="top-signin">
+            <h2>Sign Up</h2>
+            <h4>Build Your Winning XI</h4>
+          </div>
+          <div className="social-icons">
+            <FontAwesomeIcon icon={faInstagram} className="social-icon" />
+            <FontAwesomeIcon icon={faTiktok} className="social-icon" />
+            <FontAwesomeIcon icon={faYoutube} className="social-icon" />
+            <FontAwesomeIcon icon={faFacebook} className="social-icon" />
+          </div>
         </div>
         <form>
           <div className="in-form">
@@ -153,7 +145,5 @@ const SignUp = () => {
     </div>
   );
 };
-
-
 
 export default SignUp;
