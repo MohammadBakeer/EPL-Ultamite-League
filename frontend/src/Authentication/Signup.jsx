@@ -45,7 +45,8 @@ const SignUp = () => {
           teamName,
         }),
       });
-
+      console.log('hi')
+console.log(response)
       if (response.ok) {
         const data = await response.json();
         const user_id = data.user.user_id;
