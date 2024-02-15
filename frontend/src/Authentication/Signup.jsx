@@ -37,7 +37,7 @@ const SignUp = () => {
       }
   
       // If email does not exist, proceed with signup
-      const response = await fetch('https://api.smartdezigns.com/signup', {
+      const response = await fetch('https://api.smartdezigns.com/sign', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
