@@ -76,7 +76,7 @@ app.get('/playerNames/api', async (req, res) => {
 });
 
 // Inside your signup route
-app.post('/sign', async (req, res) => {
+app.post('/signup', async (req, res) => {
   try {
     const { email, password, teamName } = req.body;
 
