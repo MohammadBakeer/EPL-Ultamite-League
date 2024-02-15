@@ -17,7 +17,7 @@ pipeline {
         stage("Deploy") {
             steps {
                 echo "Deploying the container"
-                sh "sudo docker compose up -d frontend backend"
+                sh "sudo docker compose up -d frontend backend pgadmin"
             }
         }
         
