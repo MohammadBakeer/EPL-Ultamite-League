@@ -75,15 +75,15 @@ const Table = ({ onPlayerSelect }) => {
       try {
         // Assuming you have a proper endpoint to fetch player data
         const playerResponse = await fetch('http://localhost:3000/playerNames/api');
-      const playerData = await playerResponse.json();
+        const playerData = await playerResponse.json();
 
       // Assuming you have a proper endpoint to fetch team data
       const teamResponse = await fetch('http://localhost:3000/teams/api');
       const teamData = await teamResponse.json();
-
+ 
       const updatedTable = playerData.playerNames.map((player) => {
         const { firstName, lastName, teamId, positionId, ...stats } = player;
-
+     
         const matchingTeam = teamData.team.find((team) => team.id === teamId);
 
         if (matchingTeam) {
@@ -114,6 +114,7 @@ const Table = ({ onPlayerSelect }) => {
     };
 
     fetchData();
+
   }, []);
 
   

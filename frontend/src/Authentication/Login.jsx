@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import '../styles/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../UserContext.jsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faFacebook, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
-
+import '../styles/Login.css';
 
 
 const Login = () => {

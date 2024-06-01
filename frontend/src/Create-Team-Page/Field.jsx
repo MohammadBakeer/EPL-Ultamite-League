@@ -13,7 +13,6 @@ const DefaultShirt = ({ player }) => {
       const handleRemove = () => {
         onRemove(player);
       };
-      console.log('playershirt: ', isHomePage);
       const playerName = player.lastName.length > 16 ? player.firstName : player.lastName;
     
       return (
@@ -53,8 +52,6 @@ const DefaultShirt = ({ player }) => {
 
 const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHomePage}) => {
 
-
-console.log(userId);
     const [currentFormation, setCurrentFormation] = useState(["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]) 
     const [playerLineup, setPlayerLineup] = useState(currentFormation)
     const [selectedFormation, setSelectedFormation] = useState("fourThreeThree");
@@ -70,8 +67,6 @@ console.log(userId);
         onClearTeam(); // Callback to reset isClearTeamRequested in the parent component
       }
     }, [isClearTeamRequested]);
-  
-   console.log(isHomePage);
    
     const fetchUserLineup = async (userId) => {
       try {
@@ -82,7 +77,6 @@ console.log(userId);
           const { formation, playerLineup, selectedFormation, totalBudget, totalPoints } = data;
         
           
-   
           setCurrentFormation(formation);
           setPlayerLineup(JSON.parse(playerLineup));
           setSelectedFormation(selectedFormation);
@@ -90,7 +84,6 @@ console.log(userId);
           setTotalPoints(totalPoints)
 
           
-        
           document.getElementById('formationSelect').value = selectedFormation;
 
         } else {
@@ -133,10 +126,10 @@ console.log(userId);
         console.error('Error updating lineup and formation in the database:', error.message);
       }
     };
-    
-
+   
     const handleRemove = (removedPlayer) => {
       // Create a temporary lineup based on the current state
+      
       const tempLineup = [...playerLineup];
     
       // Find the index of the removed player in the lineup
@@ -149,7 +142,7 @@ console.log(userId);
       // Create a temporary budget variable
       let tempBudget = totalBudget + (removedPlayer.price || 0);
       setTotalPoints((prevPoints) => prevPoints - (removedPlayer.points || 0));
-    
+
       // Set the playerLineup state with the temporary lineup
       setPlayerLineup(tempLineup);
     
@@ -183,7 +176,7 @@ console.log(userId);
   
     useEffect(() => {
         if (selectedPlayer) {
-        
+     
             let newLineup;
             let lastNameMatch = false;
     
@@ -213,7 +206,6 @@ console.log(userId);
         
         }, [selectedPlayer]);
       
-   
     
       const handleFormationChange = (e) => {
         const selectedFormation = e.target.value;
@@ -300,6 +292,7 @@ if (playerLineup.length === 0) {
         }
       }, [playerLineup, selectedPlayer, selectedFormation, totalBudget, totalPoints]);
     
+  
 
       return (
         <>

@@ -3,12 +3,139 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 const axios = require('axios'); // Declare axios here
+const cron = require('node-cron');
 
 // Import the database connection pool from db.js
 const db = require('./db.js');
 
 app.use(cors());
 app.use(express.json());
+
+async function fetchPlayerStats() {
+  const playerResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
+  const playerData = playerResponse.data.elements;
+
+  const playerStats = {};
+
+  playerData.forEach(player => {
+    const playerName = `${player.first_name} ${player.second_name}`;
+    
+    playerStats[playerName] = {
+      goals_scored: player.goals_scored,
+      assists: player.assists,
+      clean_sheets: player.clean_sheets,
+      goals_conceded: player.goals_conceded,
+      penalties_saved: player.penalties_saved,
+      yellow_cards: player.yellow_cards,
+      red_cards: player.red_cards,
+      saves: player.saves,
+      minutes: player.minutes
+    };
+  });
+
+  return playerStats;
+}
+
+// Function to update team data with the latest player stats
+async function updateTeamData(playerStats) {
+  const teamsResult = await db.query('SELECT * FROM teams');
+  const teams = teamsResult.rows; // Use .rows to get the actual data from the query result
+
+  for (const team of teams) {
+      let totalPoints = 0; 
+
+      team.player_lineup.forEach(player => {
+          const playerName = `${player.firstName} ${player.lastName}`;
+
+          if (playerName in playerStats) {
+              const stats = playerStats[playerName];
+              player.goalsScored = stats.goals_scored;
+              player.assists = stats.assists;
+              player.cleanSheets = stats.clean_sheets;
+              player.goalsConceded = stats.goals_conceded;
+              player.penaltiesSaved = stats.penalties_saved;
+              player.yellowCards = stats.yellow_cards;
+              player.redCards = stats.red_cards;
+              player.saves = stats.saves;
+              player.minutes = stats.minutes;
+
+              let points = 0;
+              let price = 0; // Assuming a default value for price
+
+              // Calculate points based on player's position
+              switch (player.position) {
+                  case 'FWD':
+                      points += player.goalsScored * 14;
+                      points += player.assists * 10;
+                      points += player.cleanSheets * 4;
+                      points += player.goalsConceded * -1;
+                      points += player.yellowCards * -5;
+                      points += player.redCards * -15;
+                      points += Math.floor(player.minutes / 90) * 10;
+                      break;
+                  case 'MID':
+                      points += player.goalsScored * 18;
+                      points += player.assists * 10;
+                      points += player.cleanSheets * 6;
+                      points += player.goalsConceded * -3;
+                      points += player.yellowCards * -2;
+                      points += player.redCards * -8;
+                      points += Math.floor(player.minutes / 90) * 10;
+                      break;
+                  case 'DEF':
+                      points += player.goalsScored * 20;
+                      points += player.assists * 15;
+                      points += player.cleanSheets * 18;
+                      points += player.goalsConceded * -5;
+                      points += player.yellowCards * -2;
+                      points += player.redCards * -8;
+                      points += Math.floor(player.minutes / 90) * 15;
+                      break;
+                  case 'GK':
+                      points += player.cleanSheets * 25;
+                      points += player.goalsConceded * -10;
+                      points += player.penaltiesSaved * 50;
+                      points += player.saves * 4;
+                      points += Math.floor(player.minutes / 90) * 10;
+                      break;
+                  default:
+                      break;
+              }
+
+              let additionalPrice = Math.floor(points / 50) * 25;
+              price += additionalPrice;
+              player.points = points;
+              player.price = price;
+
+              totalPoints += points;
+          }
+      });
+
+      // Update total_points column in the database for this team
+      const playerLineupJson = JSON.stringify(team.player_lineup);
+      await db.query('UPDATE teams SET player_lineup = $1, total_points = $2 WHERE team_id = $3', [playerLineupJson, totalPoints, team.team_id]);
+  }
+}
+
+// Main function to execute the data synchronization
+async function synchronizeData() {
+  try {
+    console.log('Starting data synchronization...');
+
+    // Step 1: Fetch latest player data from the API
+    const playerStats = await fetchPlayerStats();
+
+    // Step 2: Retrieve and update team data with the latest player stats
+    await updateTeamData(playerStats);
+
+    console.log('Data synchronization complete.');
+  } catch (error) {
+    console.error('Error synchronizing data:', error);
+  }
+}
+
+// Schedule the synchronization task
+cron.schedule('*/10 * * * * *', synchronizeData);
 
 
 app.get('/teams/api', async (req,res) => {
@@ -42,10 +169,10 @@ app.get('/playerNames/api', async (req, res) => {
 
     // Create an array of player details
     const playerDetails = elements.map(player => ({
-      firstName: player.first_name,
-      lastName: player.second_name,
-      teamId: player.team,
-      positionId: player.element_type, 
+        firstName: player.first_name,
+        lastName: player.second_name,
+        teamId: player.team,
+        positionId: player.element_type, 
         goalsScored: player.goals_scored,
         assists: player.assists,
         cleanSheets: player.clean_sheets,
@@ -162,7 +289,7 @@ app.get('/getUserLineup/:userId', async (req, res) => {
 
     if (result.rows.length > 0) {
       const { formation, player_lineup, selected_formation, total_budget, total_points } = result.rows[0];
-      console.log(player_lineup)
+     
       res.json({ formation, playerLineup: JSON.stringify(player_lineup), selectedFormation: selected_formation, totalBudget: total_budget, totalPoints: total_points });
     } else {
       res.status(404).json({ error: 'User lineup not found' });

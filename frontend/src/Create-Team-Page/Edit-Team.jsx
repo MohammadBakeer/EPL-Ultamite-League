@@ -12,9 +12,8 @@ const Edit = () => {
   const [isClearTeamRequested, setIsClearTeamRequested] = useState(false);
   const { userId } = useParams();
   const navigate = useNavigate();
-  console.log("id from edit", userId);
 
-  const handleConfirmTeam = () => {
+  const handleConfirmTeam = () => { 
     // Perform any logic needed before confirming the team
 
     // After confirming the team, navigate to the home page with the specific user ID
