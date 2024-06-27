@@ -203,7 +203,7 @@ app.post('/signup', async (req, res) => {
     const userId = userResult.rows[0].user_id;
 
     // Perform database insert operation for teams table
-    await db.query('INSERT INTO teams (user_id, formation, player_lineup, selected_formation, total_budget) VALUES ($1, $2, $3, $4, $5)', [userId, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 'fourThreeThree', 1000]);
+    await db.query('INSERT INTO teams (user_id, formation, player_lineup, selected_formation, total_budget, total_points) VALUES ($1, $2, $3, $4, $5, $6)', [userId, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 'fourThreeThree', 1000, 0]);
 
     // Send a response indicating success
     res.status(201).json({ message: 'User signed up successfully', user: { user_id: userId, email, team_name: teamName } });
