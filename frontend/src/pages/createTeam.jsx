@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Table from './Table.jsx';
-import Field from './Field.jsx';
+import Table from '../components/Table.jsx';
+import Field from '../components/Field.jsx';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; // Import axios
@@ -49,6 +49,7 @@ const Edit = () => {
     fetchTeamName();
   }, [userId]); // Fetch team name when userId changes
 
+  
 
   return (
     <div>

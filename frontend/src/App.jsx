@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Edit from './Create-Team-Page/Edit-Team.jsx';
-import Signup from './Authentication/Signup.jsx';
-import Login from './Authentication/Login.jsx';
-import Home from './User-Experience/Home.jsx'
-import Leaderboard from './User-Experience/Leaderboard.jsx' 
-import SquadView from './User-Experience/SquadView.jsx'
-import Schedule from './User-Experience/Schedule.jsx'; 
-import Predictor from './User-Experience/Predictor.jsx';
-import Rules from './User-Experience/Rules.jsx';
+import CreateTeam from './pages/createTeam.jsx'
+import Signup from './pages/Signup.jsx';
+import Login from './pages/Login.jsx';
+import Home from './pages/Home.jsx'
+import Leaderboard from './pages/Leaderboard.jsx' 
+import SquadView from './pages/SquadView.jsx'
+import Schedule from './pages/Schedule.jsx'; 
+import Predictor from './pages/Predictor.jsx';
+import Rules from './pages/Rules.jsx';
 import { UserProvider } from './UserContext.jsx';
 import './styles/App.css';
 
@@ -18,7 +18,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/edit/:userId" element={<Edit />} />
+        <Route path="/createteam/:userId" element={<CreateTeam />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home/:userId" element={<Home />} />
         <Route path="/leaderboard/:userId" element={<Leaderboard />} />

@@ -1,90 +1,37 @@
-import React, { useEffect,useState } from 'react';
-import { useUser } from '../UserContext.jsx';
+import React, { useEffect,useState, useRef } from 'react';
+import { DefaultShirt, PlayerShirt } from './playerShirts.jsx';
 import '../styles/Field.css';
-
-const DefaultShirt = ({ player }) => {
-      return (
-        <div className="default-shirt-container">
-          <img src="/default-shirt.png" className="default-shirt" alt="default-shirt" />
-        </div>
-      );
-    }
-    const PlayerShirt = ({ player, onRemove, isHomePage }) => {
-      const handleRemove = () => {
-        onRemove(player);
-      };
-      const playerName = player.lastName.length > 16 ? player.firstName : player.lastName;
-    
-      return (
-        <div className="real-player-shirt-container">
-          <div className="real-shirt-container-1">
-            <div className="real-shirt-container-2">
-            {isHomePage && (
-              <div className="information-player">
-                <svg width="11" height="11" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="12" height="12" transform="translate(0 0.00158691)" fill="#ECC435" />
-                  <rect x="5" y="2.00159" width="2" height="2" fill="white" />
-                  <rect x="5" y="5.00159" width="2" height="5" fill="white" />
-                </svg>
-              </div>
-            )}
-              <div className="real-shirt">
-                <img src={`/${player.club}.png`} alt="" className="club-shirt" />
-              </div>
-              {isHomePage && (
-              <div className="close-player" onClick={handleRemove}>
-                <svg width="11" height="11" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="12" height="12.0016" fill="#ECC435" />
-                  <rect width="2.26273" height="9.05092" transform="matrix(0.707103 0.707111 -0.707103 0.707111 8.40015 2.00159)" fill="white" />
-                  <rect width="1.98588" height="9.05092" transform="matrix(-0.707103 0.707111 -0.707103 -0.707111 9.8042 8.40002)" fill="white" />
-                </svg>
-              </div>
-              )}
-            </div>
-            <div className="real-shirt-container-2-name">
-              {playerName}
-            </div>
-          </div>
-        </div>
-      );
-    };
-
 
 const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHomePage}) => {
 
-    const [currentFormation, setCurrentFormation] = useState(["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]) 
-    const [playerLineup, setPlayerLineup] = useState(currentFormation)
-    const [selectedFormation, setSelectedFormation] = useState("fourThreeThree");
+    const [formation, setFormation] = useState(["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]) 
+    const [playerLineup, setPlayerLineup] = useState(formation)
     const [totalBudget, setTotalBudget] = useState(1000);
     const [totalPoints, setTotalPoints] = useState(0);
     const [isInitialRender, setIsInitialRender] = useState(true);
+    const formationSelectRef = useRef(null);
    
     useEffect(() => {
       if (isClearTeamRequested) {
-        setPlayerLineup(currentFormation);
+        setPlayerLineup(formation);
         setTotalBudget(1000); // Reset totalBudget to the initial value
         setTotalPoints(0); // Reset totalPoints to zero
         onClearTeam(); // Callback to reset isClearTeamRequested in the parent component
       }
     }, [isClearTeamRequested]);
-   
+
     const fetchUserLineup = async (userId) => {
       try {
         const response = await fetch(`http://localhost:3000/getUserLineup/${userId}`);
         if (response.ok) {
           const data = await response.json();
           
-          const { formation, playerLineup, selectedFormation, totalBudget, totalPoints } = data;
-        
-          
-          setCurrentFormation(formation);
+          const { formation, playerLineup, totalBudget, totalPoints } = data;
+
+          setFormation(formation);
           setPlayerLineup(JSON.parse(playerLineup));
-          setSelectedFormation(selectedFormation);
           setTotalBudget(totalBudget);
           setTotalPoints(totalPoints)
-
-          
-          document.getElementById('formationSelect').value = selectedFormation;
 
         } else {
           console.error('Failed to fetch user lineup:', response.statusText);
@@ -109,9 +56,8 @@ const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHo
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            formation: currentFormation,
-            selectedFormation: selectedFormation,
-            playerLineup: JSON.stringify(playerLineup), // Convert to JSON string
+            formation: formation,
+            playerLineup: JSON.stringify(playerLineup), 
             totalBudget: totalBudget,
             totalPoints: totalPoints,
           }),
@@ -208,12 +154,13 @@ const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHo
       
     
       const handleFormationChange = (e) => {
-        const selectedFormation = e.target.value;
-        setSelectedFormation(selectedFormation);
+        const formation = e.target.value;
     
-        // Set the currentFormation based on the selectedFormation
+        setFormation(formation);
+    
+        // Set the formation to formation
         let newFormation;
-        switch (selectedFormation) {
+        switch (formation) {
             case "fourThreeThree":
                 newFormation = ["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"];
                 break;
@@ -236,24 +183,20 @@ const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHo
 
         setTotalPoints(points)
 
-        setCurrentFormation(newFormation);
+        setFormation(newFormation);
 
         setPlayerLineup(newFormation);
-      
-     
     };  
 
 
 if (playerLineup.length === 0) {
-  setPlayerLineup(currentFormation)
+  setPlayerLineup(formation)
 }
 
     let Lineup = playerLineup.map((position, index) => {
     
         const player = playerLineup[index];
         
-        
-
         if (position === "FWD") {
           return (
             <DefaultShirt player={player} key={index}/>
@@ -290,10 +233,32 @@ if (playerLineup.length === 0) {
           // This block will run on subsequent renders
           updateLineupInDatabase();
         }
-      }, [playerLineup, selectedPlayer, selectedFormation, totalBudget, totalPoints]);
-    
-  
+      }, [playerLineup, selectedPlayer, totalBudget, totalPoints]);
 
+      useEffect(() => {
+        // Check if formationSelectRef.current is not null
+        if (formationSelectRef.current) {
+          // Switch case based on formation to set value of select element
+          switch (JSON.stringify(formation)) {
+            case JSON.stringify(['GK', 'DEF', 'DEF', 'DEF', 'DEF', 'MID', 'MID', 'MID', 'FWD', 'FWD', 'FWD']):
+              formationSelectRef.current.value = 'fourThreeThree';
+              break;
+            case JSON.stringify(['GK', 'DEF', 'DEF', 'DEF', 'MID', 'MID', 'MID', 'MID', 'MID', 'FWD', 'FWD']):
+              formationSelectRef.current.value = 'threeFivetwo';
+              break;
+            case JSON.stringify(['GK', 'DEF', 'DEF', 'DEF', 'MID', 'MID', 'MID', 'MID', 'FWD', 'FWD', 'FWD']):
+              formationSelectRef.current.value = 'threeFourThree';
+              break;
+            case JSON.stringify(['GK', 'DEF', 'DEF', 'DEF', 'DEF', 'MID', 'MID', 'MID', 'MID', 'FWD', 'FWD']):
+              formationSelectRef.current.value = 'fourFourTwo';
+              break;
+            default:
+              // Handle any other cases if needed
+              break;
+          }
+        }
+      }, [formation]);
+      
       return (
         <>
          {isHomePage && (
@@ -309,7 +274,7 @@ if (playerLineup.length === 0) {
        {isHomePage && (
           <div className="formation-dropdown">
             <label htmlFor="formationSelect"></label>
-            <select id="formationSelect" onChange={handleFormationChange}>
+            <select id="formationSelect" ref={formationSelectRef} onChange={handleFormationChange}>
               <option value="fourThreeThree">4-3-3</option>
               <option value="fourFourTwo">4-4-2</option>
               <option value="threeFivetwo">3-5-2</option>
@@ -338,4 +303,3 @@ if (playerLineup.length === 0) {
     };
     
     export default Field;
-
