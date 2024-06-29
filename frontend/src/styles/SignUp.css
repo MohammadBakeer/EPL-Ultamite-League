@@ -20,7 +20,7 @@
 }
 
 .signin-container {
-  background-image: url('../../public/goolagoon.png');
+  background-image: url('/goolagoon.png');
   width: 27vw;
   height: 70vh;
   padding: 40px;

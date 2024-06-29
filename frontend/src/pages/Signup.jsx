@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/SignUp.css';
 import { useNavigate } from 'react-router-dom';
-import Field from '../Create-Team-Page/Field.jsx'; // Import the Field component
 import { useUser } from '../UserContext.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
@@ -61,7 +60,7 @@ const SignUp = () => {
         console.log('User signed up successfully!');
   
         // Navigate to the Edit component with the user_id
-        navigate(`/edit/${user_id}`);
+        navigate(`/createteam/${user_id}`);
         // Optionally, you can redirect the user or perform other actions after signup
       } else {
         console.error('Failed to sign up:', response.statusText);

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useUser } from '../UserContext';
+import { useUser } from '../UserContext.jsx';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import Field from '../../src/Create-Team-Page/Field.jsx';
+import Field from '../components/Field.jsx';
 import '../styles/SquadView.css'
 
 const SquadView = () => {

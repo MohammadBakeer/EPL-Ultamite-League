@@ -3,7 +3,7 @@ import { useUser } from '../UserContext.jsx';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Field from '../../src/Create-Team-Page/Field.jsx';  // Update the path accordingly
+import Field from '../components/Field.jsx';  // Update the path accordingly
 import '../styles/Home.css';
 
 const Home = () => {
@@ -50,7 +50,7 @@ const Home = () => {
         <div className="home-field">
             <h1 className="home-team">{teamName}</h1>
             <Field userId={userId} isHomePage={false}/> {/* Pass userId only */}
-            <Link to={`/edit/${userId}`} className="Edit-team-link">
+            <Link to={`/createteam/${userId}`} className="Edit-team-link">
                 <button className="Edit-team">View Squad</button>
             </Link>
         </div>

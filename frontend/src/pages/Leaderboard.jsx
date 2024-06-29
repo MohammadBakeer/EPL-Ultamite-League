@@ -30,7 +30,6 @@ const Leaderboard = () => {
   const [dbuserId, setDbUserId] = useState([]);
   const itemsPerPage = 10;
   const [viewAllow, setViewAllow] = useState(false)
-
   const { viewId, setViewId } = useUser();
   const navigate = useNavigate();
 

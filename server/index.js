@@ -11,6 +11,7 @@ const db = require('./db.js');
 app.use(cors());
 app.use(express.json());
 
+// Player stats from the API
 async function fetchPlayerStats() {
   const playerResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
   const playerData = playerResponse.data.elements;
@@ -203,7 +204,8 @@ app.post('/signup', async (req, res) => {
     const userId = userResult.rows[0].user_id;
 
     // Perform database insert operation for teams table
-    await db.query('INSERT INTO teams (user_id, formation, player_lineup, selected_formation, total_budget, total_points) VALUES ($1, $2, $3, $4, $5, $6)', [userId, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 'fourThreeThree', 1000, 0]);
+    await db.query('INSERT INTO teams (user_id, formation, player_lineup, total_budget, total_points) VALUES ($1, $2, $3, $4, $5)', [userId, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 1000, 0]);
+
 
     // Send a response indicating success
     res.status(201).json({ message: 'User signed up successfully', user: { user_id: userId, email, team_name: teamName } });
@@ -257,20 +259,20 @@ app.post('/login', async (req, res) => {
 app.put('/updateLineup/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
-    const { formation, totalBudget, totalPoints, playerLineup, selectedFormation } = req.body;
-
+    const { formation, totalBudget, totalPoints, playerLineup } = req.body;
+    
     // Convert playerLineup to a JSON string before storing in the database
     const parsedPlayerLineup = JSON.parse(playerLineup);
     const playerLineupString = JSON.stringify(parsedPlayerLineup);
 
     // Perform database update operation for teams table
-    await db.query('UPDATE teams SET formation = $1, selected_formation = $2, player_lineup = $3, total_budget = $4, total_points = $5 WHERE user_id = $6',
-      [JSON.stringify(formation), selectedFormation, playerLineupString, totalBudget, totalPoints, userId]);
+    await db.query('UPDATE teams SET formation = $1, player_lineup = $2, total_budget = $3, total_points = $4 WHERE user_id = $5',
+      [JSON.stringify(formation), playerLineupString, totalBudget, totalPoints, userId]);
 
     // Send a response indicating success
     res.status(200).json({
       message: 'Team state updated successfully',
-      teamState: { user_id: userId, formation, selected_formation: selectedFormation, player_lineup: playerLineup, total_budget: totalBudget, total_points: totalPoints },
+      teamState: { user_id: userId, formation, player_lineup: playerLineup, total_budget: totalBudget, total_points: totalPoints },
     });
   } catch (error) {
     console.error('Error updating team state:', error.message);
@@ -285,12 +287,12 @@ app.get('/getUserLineup/:userId', async (req, res) => {
     const { userId } = req.params;
 
     // Perform the database query to get user lineup information
-    const result = await db.query('SELECT formation, player_lineup, selected_formation, total_budget, total_points FROM teams WHERE user_id = $1', [userId]);
+    const result = await db.query('SELECT formation, player_lineup, total_budget, total_points FROM teams WHERE user_id = $1', [userId]);
 
     if (result.rows.length > 0) {
-      const { formation, player_lineup, selected_formation, total_budget, total_points } = result.rows[0];
+      const { formation, player_lineup, total_budget, total_points } = result.rows[0];
      
-      res.json({ formation, playerLineup: JSON.stringify(player_lineup), selectedFormation: selected_formation, totalBudget: total_budget, totalPoints: total_points });
+      res.json({ formation, playerLineup: JSON.stringify(player_lineup), totalBudget: total_budget, totalPoints: total_points });
     } else {
       res.status(404).json({ error: 'User lineup not found' });
     }
