@@ -13,6 +13,8 @@ const Edit = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
+  console.log(userId);
+
   const handleConfirmTeam = () => { 
     // Perform any logic needed before confirming the team
 
@@ -39,7 +41,17 @@ const Edit = () => {
     // Fetch team name when component mounts
     const fetchTeamName = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/getTeamName/${userId}`);
+        const token = sessionStorage.getItem('authToken');
+        const response = await axios.post(
+          'http://localhost:3000/api/getTeamName',
+          { userId }, // Request body
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`, // Include the token in Authorization header
+              'Content-Type': 'application/json' // Optional, specify the content type
+            }
+          }
+        );
         setTeamName(response.data.teamName);
       } catch (error) {
         console.error('Error fetching team name:', error.message);

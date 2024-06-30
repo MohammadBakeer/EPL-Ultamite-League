@@ -21,51 +21,63 @@ const Table = ({ onPlayerSelect }) => {
   // Fetch data when the component mounts
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        // Fetch player data from the endpoint
-        const playerResponse = await fetch('http://localhost:3000/playerNames/api');
-        const playerData = await playerResponse.json();
+        try {
+            // Fetch JWT token from session storage
+            const token = sessionStorage.getItem('authToken');
+          
+            // Fetch player data from the endpoint
+            const playerResponse = await fetch('http://localhost:3000/api/playerNames', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            const playerData = await playerResponse.json();
 
-        // Fetch team data from the endpoint
-        const teamResponse = await fetch('http://localhost:3000/teams/api');
-        const teamData = await teamResponse.json();
+            // Fetch team data from the endpoint
+            const teamResponse = await fetch('http://localhost:3000/api/teams', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            const teamData = await teamResponse.json();
 
-        // Map player data to include club names and positions
-        const updatedTable = playerData.playerNames.map((player) => {
-          const { firstName, lastName, teamId, positionId, ...stats } = player;
-          const matchingTeam = teamData.team.find((team) => team.id === teamId);
+            // Map player data to include club names and positions
+            const updatedTable = playerData.playerNames.map((player) => {
+                const { firstName, lastName, teamId, positionId, ...stats } = player;
+                const matchingTeam = teamData.team.find((team) => team.id === teamId);
 
-          if (matchingTeam) {
-            return {
-              firstName,
-              lastName,
-              club: matchingTeam.club,
-              position: mapPosition(positionId),
-              price: '',
-              points: '',
-              ...stats,
-            };
-          } else {
-            console.warn(`No matching team found for player with teamId ${teamId}`);
-            return null;
-          }
-        });
+                if (matchingTeam) {
+                    return {
+                        firstName,
+                        lastName,
+                        club: matchingTeam.club,
+                        position: mapPosition(positionId),
+                        price: '',
+                        points: '',
+                        ...stats,
+                    };
+                } else {
+                    console.warn(`No matching team found for player with teamId ${teamId}`);
+                    return null;
+                }
+            });
 
-        // Calculate points and price for each player and sort by price
-        const { table: newTable } = calculatePointsAndPrice(updatedTable);
-        const orderedTable = newTable.sort((a, b) => b.price - a.price);
-        setTable(orderedTable);
+            // Calculate points and price for each player and sort by price
+            const { table: newTable } = calculatePointsAndPrice(updatedTable);
+            const orderedTable = newTable.sort((a, b) => b.price - a.price);
+            setTable(orderedTable);
 
-        // Extract unique club names for the filter dropdown
-        const eplClubsList = Array.from(new Set(teamData.team.map((team) => team.club)));
-        setEplClubs(eplClubsList);
-      } catch (error) {
-        console.error('Error fetching data:', error.message);
-      }
+            // Extract unique club names for the filter dropdown
+            const eplClubsList = Array.from(new Set(teamData.team.map((team) => team.club)));
+            setEplClubs(eplClubsList);
+        } catch (error) {
+            console.error('Error fetching data:', error.message);
+        }
     };
 
     fetchData();
-  }, []);
+}, []);
+
 
   // Map numerical position IDs to position strings
   const mapPosition = (positionId) => {

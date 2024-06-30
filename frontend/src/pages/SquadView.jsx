@@ -13,20 +13,33 @@ const SquadView = () => {
   const { userId } = useParams();
 
 const ID = viewId;
-  useEffect(() => {
-    const fetchTeamName = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/getTeamName/${viewId}`);
-        setTeamName(response.data.teamName);
-      } catch (error) {
-        console.error('Error fetching team name:', error.message);
-      }
-    };
+useEffect(() => {
+  const fetchTeamName = async () => {
+    try {
+      // Get the token from session storage
+      const token = sessionStorage.getItem('authToken');
 
-    if (viewId) {
-      fetchTeamName();
+      // Use a POST request to send viewId securely with Authorization header
+      const response = await axios.post(
+        'http://localhost:3000/api/getTeamName',
+        { viewId }, // Request body
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in Authorization header
+            'Content-Type': 'application/json' // Optional, specify the content type
+          }
+        }
+      );
+      setTeamName(response.data.teamName);
+    } catch (error) {
+      console.error('Error fetching team name:', error.message);
     }
-  }, [viewId]);
+  };
+
+  if (viewId) {
+    fetchTeamName();
+  }
+}, [viewId]);
 
   return (
     <div className="squad-page">

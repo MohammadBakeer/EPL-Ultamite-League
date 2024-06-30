@@ -38,8 +38,20 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchLeaderboardData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/getLeaderboardDataForAllUsers`);
+        // Fetch JWT token from session storage
+        const token = sessionStorage.getItem('authToken');
+
+        // Make a GET request to fetch leaderboard data with authorization header
+        const response = await axios.get('http://localhost:3000/api/getLeaderboardDataForAllUsers', {
+          headers: {
+            'Authorization': `Bearer ${token}` // Pass the token in the Authorization header
+          }
+        });
+
+        // Set leaderboard data in state
         setLeaderboardData(response.data);
+
+        // Extract userIds from response data and set in state
         const userIds = response.data.map(item => item.userId);
         setDbUserId(userIds);
       } catch (error) {
@@ -48,7 +60,7 @@ const Leaderboard = () => {
     };
 
     fetchLeaderboardData();
-  }, []);
+  }, []); 
 
   const sortedData = [...leaderboardData].sort((a, b) => b.totalPrice - a.totalPrice);
 

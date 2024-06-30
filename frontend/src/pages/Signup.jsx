@@ -14,29 +14,9 @@ const SignUp = () => {
 
   const { setUserId } = useUser();
 
-  const checkEmailExists = async (email) => {
-    try {
-      const response = await fetch(`http://localhost:3000/checkEmail/${email}`);
-      const data = await response.json();
-      return data.exists;
-    } catch (error) {
-      console.error('Error checking email existence:', error.message);
-      return false;
-    }
-  };
-
   const handleSignUp = async () => {
     try {
-      // Check if the email already exists in the database
-      const emailExists = await checkEmailExists(email);
-  
-      if (emailExists) {
-        console.log('Email already exists. Please choose another email.');
-        return;
-      }
-  
-      // If email does not exist, proceed with signup
-      const response = await fetch('http://localhost:3000/signup', {
+      const response = await fetch('http://localhost:3000/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,29 +28,30 @@ const SignUp = () => {
         }),
       });
   
-      // Check if the request was successful (status code 2xx)
+      const data = await response.json();
+  
       if (response.ok) {
-        // Parse the response JSON to get the user_id
-        const data = await response.json();
+        sessionStorage.setItem('authToken', data.token);
         const user_id = data.user.user_id;
-  
-        // Set the user_id in the component state
         setUserId(user_id);
-  
         console.log('User signed up successfully!');
-  
-        // Navigate to the Edit component with the user_id
         navigate(`/createteam/${user_id}`);
-        // Optionally, you can redirect the user or perform other actions after signup
       } else {
-        console.error('Failed to sign up:', response.statusText);
+        if (data.error === 'Email already exists. Please choose another email.') {
+          console.log('Email already exists. Please choose another email.');
+          // Handle displaying this error message to the user in your UI
+        } else {
+          console.error('Failed to sign up:', response.statusText);
+          // Handle other error scenarios if needed
+        }
       }
     } catch (error) {
       console.error('Error during signup:', error.message);
     }
   };
   
-
+  
+  
 
   return (
     <div className="signin-page">
