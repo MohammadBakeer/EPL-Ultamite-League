@@ -22,17 +22,24 @@ const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHo
 
     const fetchUserLineup = async (userId) => {
       try {
-        const response = await fetch(`http://localhost:3000/getUserLineup/${userId}`);
+        const token = sessionStorage.getItem('authToken');
+        const response = await fetch('http://localhost:3000/api/getUserLineup', {
+          method: 'POST', // Change to POST method
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ userId }), // Send userId in the request body
+        });
+    
         if (response.ok) {
           const data = await response.json();
-          
           const { formation, playerLineup, totalBudget, totalPoints } = data;
-
+    
           setFormation(formation);
           setPlayerLineup(JSON.parse(playerLineup));
           setTotalBudget(totalBudget);
-          setTotalPoints(totalPoints)
-
+          setTotalPoints(totalPoints);
         } else {
           console.error('Failed to fetch user lineup:', response.statusText);
         }
@@ -40,7 +47,7 @@ const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHo
         console.error('Error fetching user lineup:', error.message);
       }
     };
-
+    
     useEffect(() => {
       if (userId) {
         fetchUserLineup(userId);
@@ -50,10 +57,13 @@ const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHo
     
     const updateLineupInDatabase = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/updateLineup/${userId}`, {
+        const token = sessionStorage.getItem('authToken');
+   
+        const response = await fetch('http://localhost:3000/api/updateLineup', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
+             'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({
             formation: formation,
@@ -62,7 +72,7 @@ const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHo
             totalPoints: totalPoints,
           }),
         });
-        
+  
         if (response.ok) {
           console.log('Lineup and formation updated successfully in the database.');
         } else {

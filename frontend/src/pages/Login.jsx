@@ -6,7 +6,6 @@ import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faFacebook, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import '../styles/LogIn.css';
 
-
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,7 +16,7 @@ const Login = () => {
   const handleLogIn = async () => {
     try {
       // Send a POST request to your backend with login data
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -32,13 +31,19 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.match) {
+
           console.log('There is a match!');
-          const { user_id } = data; // Extract user_id from the response
-          
+
+          sessionStorage.setItem('authToken', data.token);
+
+          const decodedToken = decodeJWT(data.token);
+
+          const userId = decodedToken.userId; 
+     
           // Set the user_id in the UserContext
-          setUserId(user_id);
-            console.log(user_id);
-          navigate(`/home/${user_id}`); // Navigate to the Edit component
+          setUserId(userId);
+           
+          navigate(`/home/${userId}`); // Navigate to the Edit component
         } else {
           console.log('No match found.');
         }
@@ -49,6 +54,18 @@ const Login = () => {
       console.error('Error during login:', error.message);
     }
   };
+
+  const decodeJWT = (token) => {
+    const base64Url = token.split('.')[1]; // Get the payload part of the JWT
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/'); // Base64 URL decode
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  
+    return JSON.parse(jsonPayload); // Parse the JSON payload
+  };
+  
+  
   
   return (
   <div className="login-page">
