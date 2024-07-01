@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useUser } from '../UserContext.jsx';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { decodeJWT } from '../jwtUtils.js';
 import Field from '../components/Field.jsx';
 import '../styles/SquadView.css'
 
@@ -10,8 +10,8 @@ const SquadView = () => {
   const { viewId } = useUser(); // Use the UserContext
   const [teamName, setTeamName] = useState('');
 
-  const { userId } = useParams();
-
+  const decodedToken = decodeJWT();
+  const userId = decodedToken.userId;
 const ID = viewId;
 useEffect(() => {
   const fetchTeamName = async () => {
@@ -47,7 +47,7 @@ useEffect(() => {
         <div className="home-field">
             <h1 className="home-team">{teamName}</h1>
             <Field userId={ID} isHomePage={false} />
-            <Link to={`/leaderboard/${userId}`} className="Edit-team-link">
+            <Link to={`/leaderboard`} className="Edit-team-link">
             <button className="Edit-team">Exit View</button>
             </Link>
         </div>

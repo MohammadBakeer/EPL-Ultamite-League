@@ -35,7 +35,7 @@ const SignUp = () => {
         const user_id = data.user.user_id;
         setUserId(user_id);
         console.log('User signed up successfully!');
-        navigate(`/createteam/${user_id}`);
+        navigate(`/createteam`);
       } else {
         if (data.error === 'Email already exists. Please choose another email.') {
           console.log('Email already exists. Please choose another email.');

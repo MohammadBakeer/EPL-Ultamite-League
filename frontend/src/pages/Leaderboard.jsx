@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Leaderboard.css'; // Ensure the correct path to your CSS file
-import { useParams } from 'react-router-dom';
+import { decodeJWT } from '../jwtUtils.js';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../UserContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,7 +33,8 @@ const Leaderboard = () => {
   const { viewId, setViewId } = useUser();
   const navigate = useNavigate();
 
-  const { userId } = useParams();
+  const decodedToken = decodeJWT();
+  const userId = decodedToken.userId;
 
   useEffect(() => {
     const fetchLeaderboardData = async () => {
@@ -102,19 +103,19 @@ if(viewAllow){
   return (
     <div className="leaderboard-page">
       <div className="leader-nav-bar">
-        <Link to={`/home/${userId}`} className="leader-nav-item" title="Home">
+        <Link to={`/home`} className="leader-nav-item" title="Home">
           <i className="fas fa-home"></i>
         </Link>
-        <Link to={`/leaderboard/${userId}`} className="leader-nav-item" title="Leaderboard">
+        <Link to={'/leaderboard'} className="leader-nav-item" title="Leaderboard">
           <i className="fas fa-trophy"></i>
         </Link>
-        <Link to={`/predictor/${userId}`} className="leader-nav-item" title="Predictor">
+        <Link to={`/predictor`} className="leader-nav-item" title="Predictor">
           <i className="fas fa-futbol"></i>
         </Link>
-        <Link to={`/rules/${userId}`} className="leader-nav-item" title="Rules">
+        <Link to={`/rules`} className="leader-nav-item" title="Rules">
           <i className="fas fa-scroll"></i>
         </Link>
-        <Link to={`/schedule/${userId}`} className="leader-nav-item" title="Schedule">
+        <Link to={`/schedule`} className="leader-nav-item" title="Schedule">
           <i className="fas fa-calendar-alt"></i>
         </Link>
       </div>
