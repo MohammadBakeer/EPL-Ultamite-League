@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../components/Table.jsx';
 import Field from '../components/Field.jsx';
-import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios
+import { decodeJWT } from '../jwtUtils.js';
+import axios from 'axios'; 
 import '../styles/Edit-Team.css'
+
+
 
 const Edit = () => {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [teamName, setTeamName] = useState(''); // State to store team name
   const [isClearTeamRequested, setIsClearTeamRequested] = useState(false);
-  const { userId } = useParams();
   const navigate = useNavigate();
 
-  console.log(userId);
+
+  const decodedToken = decodeJWT();
+  const userId = decodedToken.userId;
+
 
   const handleConfirmTeam = () => { 
     // Perform any logic needed before confirming the team
 
     // After confirming the team, navigate to the home page with the specific user ID
-    navigate(`/home/${userId}`);
+    navigate(`/home`);
   };
 
 
