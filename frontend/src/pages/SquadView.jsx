@@ -13,6 +13,7 @@ const SquadView = () => {
   const decodedToken = decodeJWT();
   const userId = decodedToken.userId;
 const ID = viewId;
+
 useEffect(() => {
   const fetchTeamName = async () => {
     try {

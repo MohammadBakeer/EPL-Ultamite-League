@@ -1,114 +1,196 @@
 .leaderboard-page {
-    width: 99.87vw;
-    height: 100vh;
-    margin: 0;
-  }
-  
-  .main-leader {
-    height: 90%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-  }
-  
-  .leader-nav-bar {
-    background-color: #333;
-    padding: 10px;
-    padding-right: 0px;
-    padding-left: 0px;
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-  }
-  
-  .leader-heading {
-    width: 100%;
-    height: 10%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .leaderboard-heading {
-    margin: 0;
-    font-size: 24px; /* Adjust the font size as needed */
-    color: #333; /* Change the color as needed */
-    font-weight: bold;
-  }
-  
-  .leader-nav-item {
-    color: #fff;
-    text-decoration: none;
-    font-size: 20px;
-  }
-  
-  .leader-nav-item:hover {
-    text-decoration: underline;
-  }
-  
-  .leaderboard-container {
-    width: 100%;
-    height: 40%;
-    margin: 0;
-  }
-  
-  .leaderboard-table {
-    width: 100%;
-    height: 80%;
-    margin: 0;
-    border-collapse: collapse;
-  }
-  
-  .leaderboard-table th,
-  .leaderboard-table td {
-    border: 2px solid #ddd; /* Add bold borders to table cells */
-    text-align: center; /* Center text in cells */
-    color: #333; /* Change the color as needed */
-    padding: .7em; 
-    text-align: center; /* Center text in cells */
-    font-size: 1rem; /* Adjust the font size as needed */
-    color: #333; /* Change the color as needed */
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflow content */
-    text-overflow: ellipsis; /* Display an ellipsis (...) to represent overflow */
-    max-width: 0; /* Set max-width to 0 to allow ellipsis to work */
-  }
-  
-  .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 30%;
-    height: 40%;
-  }
-  
-  .pagination button {
-    padding: 8px 16px;
-    margin-right: 8px;
-    cursor: pointer;
-    font-size: 16px; /* Adjust the font size as needed */
-    color: #333; /* Change the color as needed */
-  }
-  
-  .pagination button.active {
-    background-color: #4caf50;
-    color: #fff;
-  }
-  
-  .page-change {
-    display: flex;
-    height: 10vh;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .of {
-    margin-right: .75em;
-  }
+  width: 99.87vw;
+  height: 100vh;
+  margin: 0;
+}
 
-  .leaderboard-table tbody tr.highlighted {
-    background-color: rgba(255, 217, 0, 0.833); /* Change to the desired highlight color for rank 1 */
-  }
-  
+.main-leader {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.leader-nav-bar {
+  background-color: #333;
+  padding: 10px;
+  padding-right: 0px;
+  padding-left: 0px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.leader-heading {
+  width: 100%;
+  height: 10%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.leaderboard-heading {
+  margin: 0;
+  font-size: 24px; /* Adjust the font size as needed */
+  color: #333; /* Change the color as needed */
+  font-weight: bold;
+}
+
+.leader-nav-item {
+  color: #fff;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.leader-nav-item:hover {
+  text-decoration: underline;
+}
+
+.leaderboard-container {
+  width: 100%;
+  /* height: 40%; */
+  height: 300px;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.leaderboard-table {
+  width: 100%;
+  height: 80%;
+  margin: 0;
+  border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  border: 2px solid #ddd; /* Add bold borders to table cells */
+  text-align: center; /* Center text in cells */
+  color: #333; /* Change the color as needed */
+  padding: .7em; 
+  text-align: center; /* Center text in cells */
+  font-size: 1rem; /* Adjust the font size as needed */
+  color: #333; /* Change the color as needed */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Display an ellipsis (...) to represent overflow */
+  max-width: 0; /* Set max-width to 0 to allow ellipsis to work */
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 30%;
+  height: 40%;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  margin-right: 8px;
+  cursor: pointer;
+  font-size: 16px; /* Adjust the font size as needed */
+  color: #333; /* Change the color as needed */
+}
+
+.pagination button.active {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.page-change {
+  display: flex;
+  height: 10vh;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.of {
+  margin-right: .75em;
+}
+
+.leaderboard-table tbody tr.highlighted {
+  background-color: rgba(255, 217, 0, 0.833); /* Change to the desired highlight color for rank 1 */
+}
+
+.league-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adjust the gap as needed */
+  margin: 20px 0; /* Add margin to separate the buttons from other elements */
+}
+
+.league-buttons button {
+  padding: 10px 20px; /* Adjust the padding as needed */
+  font-size: 16px; /* Adjust the font size as needed */
+  cursor: pointer;
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Adjust the gap as needed */
+  margin: 20px 0; /* Add margin to separate the cards from other elements */
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-content: flex-start; /* Align items to the start (top) */
+  align-items: center;
+  padding: 20px;
+  flex-basis: 45%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  background-color: #fff; /* Add a background color to the cards */
+  border-radius: 10px; /* Add border-radius to make the cards look nicer */
+  text-align: center; /* Center the text inside the cards */
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.card-title {
+  margin-top: 0;
+  margin-bottom: 10px; /* Add some space between the title and the rest of the card content */
+}
+
+  /* Modal styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Darken the background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it sits above other content */
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px; /* Adjust the width as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content label {
+  margin-bottom: 10px;
+}
+
+.modal-content button {
+  margin-top: 10px;
+}

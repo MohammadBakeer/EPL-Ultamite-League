@@ -31,11 +31,14 @@ const SignUp = () => {
       const data = await response.json();
   
       if (response.ok) {
+
         sessionStorage.setItem('authToken', data.token);
+
         const user_id = data.user.user_id;
         setUserId(user_id);
-        console.log('User signed up successfully!');
+  
         navigate(`/createteam`);
+        
       } else {
         if (data.error === 'Email already exists. Please choose another email.') {
           console.log('Email already exists. Please choose another email.');
