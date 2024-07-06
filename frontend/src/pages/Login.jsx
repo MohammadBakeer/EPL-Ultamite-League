@@ -43,7 +43,7 @@ const Login = () => {
           // Set the user_id in the UserContext
           setUserId(userId);
            
-          navigate(`/home/${userId}`); // Navigate to the Edit component
+          navigate('/home'); // Navigate to the Edit component
         } else {
           console.log('No match found.');
         }

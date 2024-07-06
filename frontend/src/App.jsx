@@ -25,7 +25,7 @@ const App = () => {
         <Route path="/schedule" element={<Schedule />} /> 
           <Route path="/predictor" element={<Predictor />} /> 
           <Route path="/rules" element={<Rules />} />
-        <Route path="/squad-view/:userId" element={<SquadView />} />
+        <Route path="/squad-view" element={<SquadView />} />
       </Routes>
     </Router>
     </UserProvider>

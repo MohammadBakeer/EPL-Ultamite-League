@@ -5,7 +5,8 @@ import axios from 'axios';
 import '../styles/Leaderboard.css'; // Ensure the correct path to your CSS file
 import { decodeJWT } from '../jwtUtils.js';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../UserContext'
+import { useDispatch } from 'react-redux';
+import { setViewId } from '../redux/viewSlice.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
@@ -165,14 +166,16 @@ const Leaderboard = () => {
 
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [dbuserId, setDbUserId] = useState([]);
+  const [allTeams, setAllTeams] = useState([]);
   const itemsPerPage = 10;
-  const [viewAllow, setViewAllow] = useState(false)
-  const { viewId, setViewId } = useUser();
+  const [viewAllow, setViewAleamslow] = useState(false)
+  
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const decodedToken = decodeJWT();
   const userId = decodedToken.userId;
+
 
   useEffect(() => {
     const fetchLeaderboardData = async () => {
@@ -192,7 +195,7 @@ const Leaderboard = () => {
 
         // Extract userIds from response data and set in state
         const userIds = response.data.map(item => item.userId);
-        setDbUserId(userIds);
+        setAllTeams(userIds);
       } catch (error) {
         console.error('Error fetching leaderboard data:', error.message);
       }
@@ -225,18 +228,14 @@ const Leaderboard = () => {
     setCurrentPage(page);
   };
 
-  const handleViewSquadClick = (viewUserId) => {
-    // Set viewId in the UserContext
-    setViewId(viewUserId);
-    setViewAllow(true)
-  };
-  console.log(viewAllow);
 
-  useEffect(() => {
-if(viewAllow){
-      navigate(`/squad-view/${userId}`);
-}
-}, [viewAllow]);
+  const handleViewSquadClick = (viewUserId) => {
+    dispatch(setViewId(viewUserId)); // Update Redux state with viewUserId
+    navigate('/squad-view'); // Navigate to SquadView page
+  };
+
+
+console.log(viewAllow);
 
 
   const [showCreateLeagueModal, setShowCreateLeagueModal] = useState(false);
