@@ -2,15 +2,18 @@ import React, { useEffect,useState, useRef } from 'react';
 import { DefaultShirt, PlayerShirt } from './playerShirts.jsx';
 import '../styles/Field.css';
 
-const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHomePage}) => {
+const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTeam, isHomePage}) => {
 
+  console.log(userId);
     const [formation, setFormation] = useState(["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]) 
     const [playerLineup, setPlayerLineup] = useState(formation)
     const [totalBudget, setTotalBudget] = useState(1000);
     const [totalPoints, setTotalPoints] = useState(0);
     const [isInitialRender, setIsInitialRender] = useState(true);
     const formationSelectRef = useRef(null);
-   
+   console.log("viewid from field: ", viewId);
+   console.log("userId from field: ", userId);
+
     useEffect(() => {
       if (isClearTeamRequested) {
         setPlayerLineup(formation);
@@ -20,40 +23,45 @@ const Field = ({ selectedPlayer, userId, isClearTeamRequested, onClearTeam, isHo
       }
     }, [isClearTeamRequested]);
 
-    const fetchUserLineup = async (userId) => {
-      try {
-        const token = sessionStorage.getItem('authToken');
-        const response = await fetch('http://localhost:3000/api/getUserLineup', {
-          method: 'POST', // Change to POST method
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({ userId }), // Send userId in the request body
-        });
-    
-        if (response.ok) {
-          const data = await response.json();
-          const { formation, playerLineup, totalBudget, totalPoints } = data;
-    
-          setFormation(formation);
-          setPlayerLineup(JSON.parse(playerLineup));
-          setTotalBudget(totalBudget);
-          setTotalPoints(totalPoints);
-        } else {
-          console.error('Failed to fetch user lineup:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Error fetching user lineup:', error.message);
-      }
-    };
-    
-    useEffect(() => {
-      if (userId) {
-        fetchUserLineup(userId);
-      }
-    }, [userId]);
-  
+   const fetchUserLineup = async (id, isViewId) => {
+  try {
+    const token = sessionStorage.getItem('authToken');
+    const response = await fetch('http://localhost:3000/api/getUserLineup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        userId: !isViewId ? id : undefined, // Include userId if not using viewId
+        viewId: isViewId ? id : undefined,  // Include viewId if using viewId
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const { formation, playerLineup, totalBudget, totalPoints } = data;
+
+      setFormation(formation);
+      setPlayerLineup(JSON.parse(playerLineup));
+      setTotalBudget(totalBudget);
+      setTotalPoints(totalPoints);
+    } else {
+      console.error('Failed to fetch user lineup:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error fetching user lineup:', error.message);
+  }
+};
+
+useEffect(() => {
+  if (viewId) {
+    fetchUserLineup(viewId, true);  // Fetch using viewId
+  } else if (userId) {
+    fetchUserLineup(userId, false); // Fetch using userId
+  }
+}, [userId, viewId]);
+
     
     const updateLineupInDatabase = async () => {
       try {
@@ -236,14 +244,13 @@ if (playerLineup.length === 0) {
     
 
       useEffect(() => {
-        if (isInitialRender) {
-          // This block will run only during the initial render
-          setIsInitialRender(false);
-        } else {
-          // This block will run on subsequent renders
+        if (!viewId && !isInitialRender) {
           updateLineupInDatabase();
+        } else {
+          setIsInitialRender(false); // This ensures setIsInitialRender(false) is still called on initial render
         }
-      }, [playerLineup, selectedPlayer, totalBudget, totalPoints]);
+      }, [playerLineup, selectedPlayer, totalBudget, totalPoints, viewId]);
+      
 
       useEffect(() => {
         // Check if formationSelectRef.current is not null
