@@ -12,6 +12,7 @@ export default function authMiddleware(req, res, next) {
     const decoded = verify(token, 'your_jwt_secret');
     req.user = {
       userId: decoded.userId,
+      
     };
   
     next();

@@ -3,7 +3,7 @@
 }
 .squad-page {
     height: 100vh; /* Adjust the height as needed */
-    background-image: url('../../public/goolagoon.png');
+    background-image: url('/goolagoon.png');
     background-size: cover;
     background-repeat: no-repeat;
 }
