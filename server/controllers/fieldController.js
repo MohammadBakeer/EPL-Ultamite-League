@@ -47,12 +47,10 @@ export const updateLineup = async (req, res) => {
         if (viewId) {
           queryId = viewId
         }
-      console.log("controller: ", userId);
-      console.log("queryId: ", queryId);
 
       // Perform the database query to get user lineup information
       const result = await db.query('SELECT formation, player_lineup, total_budget, total_points FROM teams WHERE user_id = $1', [queryId]);
-  
+        
       if (result.rows.length > 0) {
         const { formation, player_lineup, total_budget, total_points } = result.rows[0];
   
@@ -67,3 +65,4 @@ export const updateLineup = async (req, res) => {
   };
 
  
+  

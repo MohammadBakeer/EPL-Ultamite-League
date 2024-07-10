@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Table from '../components/Table.jsx';
-import Field from '../components/Field.jsx';
+import Table from '../components/table/Table.jsx'
+import Field from '../components/field/Field.jsx';
 import { useNavigate } from 'react-router-dom';
 import { decodeJWT } from '../jwtUtils.js';
 import axios from 'axios'; 

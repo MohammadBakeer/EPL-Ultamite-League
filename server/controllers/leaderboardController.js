@@ -1,6 +1,6 @@
 
 import db from '../config/db.js'; // Assuming db connection import
-
+import { decodeJWT } from '../config/jwtUtils.js';
 
 export const getLeaderboardDataForAllUsers = async (req, res) => {
   try {
@@ -47,9 +47,6 @@ export const joinLeague = async (req, res) => {
     // Extract league_id from the first row of leagueResult
     const leagueId = leagueResult.rows[0].league_id;
 
-    // Log the extracted leagueId
-    console.log('League ID:', leagueId);
-
     // Check if the user already belongs to this league
     const userResult = await db.query('SELECT * FROM league_members WHERE user_id = $1 AND league_id = $2', [userId, leagueId]);
 
@@ -71,12 +68,13 @@ export const joinLeague = async (req, res) => {
 
 export const createLeague = async (req, res) => {
   try {
-    const { leagueName, ownerId, startRound } = req.body;
+    const { leagueName, ownerId, startRound, leagueBadge } = req.body;
+
    
     // Perform database insert operation for private_league table
     const leagueResult = await db.query(
-      'INSERT INTO private_leagues (league_name, owner_id, start_round) VALUES ($1, $2, $3) RETURNING league_id, league_code',
-      [leagueName, ownerId, startRound]
+      'INSERT INTO private_leagues (league_name, owner_id, start_round, league_badge) VALUES ($1, $2, $3, $4) RETURNING league_id, league_code',
+      [leagueName, ownerId, startRound, leagueBadge]
     );
 
     // Get the newly created league_id
@@ -95,6 +93,49 @@ export const createLeague = async (req, res) => {
     });
   } catch (error) {
     console.error('Error during league creation:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+export const getPrivateTeamLeagues = async (req, res) => {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = decodeJWT(token);
+    const userId = decodedToken.userId;
+   
+    // Query to get the league_id(s) for the user from league_members table
+    const leagueIdsQuery = `
+      SELECT league_id 
+      FROM league_members 
+      WHERE user_id = $1
+    `;
+    const leagueIdsResult = await db.query(leagueIdsQuery, [userId]);
+    const leagueIds = leagueIdsResult.rows.map(row => row.league_id);
+   
+    if (leagueIds.length === 0) {
+      // No leagues found for the user
+      return res.status(200).json({ message: 'No leagues found for this user.', leagues: [] });
+    }
+
+    // Query to get the league details from private_leagues table
+    const leaguesQuery = `
+      SELECT league_id, league_name, start_round, league_badge
+      FROM private_leagues
+      WHERE league_id = ANY($1::int[])
+    `;
+
+    const leaguesResult = await db.query(leaguesQuery, [leagueIds]);
+
+    const leagueData = leaguesResult.rows.map(row => ({
+      leagueId: row.league_id,
+      leagues: [row.league_name],
+      startRound: row.start_round,
+      leagueBadge: row.league_badge
+    }));
+
+    res.status(200).json(leagueData);
+  } catch (error) {
+    console.error('Error fetching the league data:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };

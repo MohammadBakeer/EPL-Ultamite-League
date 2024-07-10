@@ -1,16 +1,17 @@
 // src/components/PlayerShirts.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
+import shirtImages from '../../images/shirts/exportShirts.js';  // Import the images object
+import defaultShirt from '../../images/shirts/default-shirt.png'
 
 // DefaultShirt Component
 const DefaultShirt = () => {
   return (
     <div className="default-shirt-container">
-      <img src="/default-shirt.png" className="default-shirt" alt="default-shirt" />
+      <img src= {defaultShirt} className="default-shirt" alt="default-shirt" />
     </div>
   );
 };
-
 
 // PlayerShirt Component
 const PlayerShirt = ({ player, onRemove, isHomePage }) => {
@@ -34,7 +35,7 @@ const PlayerShirt = ({ player, onRemove, isHomePage }) => {
             </div>
           )}
           <div className="real-shirt">
-            <img src={`/${player.club}.png`} alt="" className="club-shirt" />
+            <img src={shirtImages[player.club]} alt={`${player.club} shirt`} className="club-shirt" />
           </div>
           {isHomePage && (
             <div className="close-player" onClick={handleRemove}>

@@ -1,6 +1,6 @@
 
 // Function to calculate points and price for each player
-export const calculatePointsAndPrice = (table) => {
+export const calculatePoints = (table) => {
     table.forEach((player) => {
       let points = 0;
       let price = player.price || 0; // Assuming a default value for price
@@ -46,9 +46,6 @@ export const calculatePointsAndPrice = (table) => {
           break;
       }
   
-      // Adjust price based on points
-      let additionalPrice = Math.floor(points / 50) * 25;
-      price += additionalPrice;
   
       player.points = points;
       player.price = price;

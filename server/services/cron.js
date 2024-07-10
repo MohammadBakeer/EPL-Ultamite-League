@@ -102,10 +102,9 @@ async function updateTeamData(playerStats) {
         totalPoints += points;
       }
     });
-    
     // Update total_points column in the database for this team
     const playerLineupJson = JSON.stringify(team.player_lineup);
-    await db.query('UPDATE teams SET player_lineup = $1, total_points = $2 WHERE team_id = $3', [playerLineupJson, totalPoints, team.team_id]);
+    await db.query('UPDATE teams SET player_lineup = $1, total_points = $2 WHERE user_id = $3', [playerLineupJson, totalPoints, team.user_id]);
   }
 }
 
