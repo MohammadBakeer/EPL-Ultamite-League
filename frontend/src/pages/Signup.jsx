@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/SignUp.css';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../UserContext.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faFacebook, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
@@ -12,7 +11,6 @@ const SignUp = () => {
   const [teamName, setTeamName] = useState('');
   const navigate = useNavigate();
 
-  const { setUserId } = useUser();
 
   const handleSignUp = async () => {
     try {
@@ -34,9 +32,6 @@ const SignUp = () => {
 
         sessionStorage.setItem('authToken', data.token);
 
-        const user_id = data.user.user_id;
-        setUserId(user_id);
-  
         navigate(`/createteam`);
         
       } else {

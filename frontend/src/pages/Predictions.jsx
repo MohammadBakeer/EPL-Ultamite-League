@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/Leaderboard.css'; // Ensure the correct path to your CSS file
+import '../styles/FantasyLeague.css'; // Ensure the correct path to your CSS file
 import { decodeJWT } from '../jwtUtils.js';
 
 const Predictor = () => {

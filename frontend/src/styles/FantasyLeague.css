@@ -24,7 +24,6 @@
 .leader-heading {
   width: 100%;
   height: 10%;
-  margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
@@ -131,11 +130,12 @@
 .cards-container {
   display: flex;
   justify-content: center;
-  gap: 20px; /* Adjust the gap as needed */
-  margin: 20px 0; /* Add margin to separate the cards from other elements */
+  align-items: flex-end;
+  gap: 20px; 
+  margin: 20px 0;
 }
 
-.card {
+.league-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -148,6 +148,8 @@
   background-color: #fff; /* Add a background color to the cards */
   border-radius: 10px; /* Add border-radius to make the cards look nicer */
   text-align: center; /* Center the text inside the cards */
+  overflow-y: auto;
+  height: 75%;
 }
 
 .card:hover {
@@ -193,4 +195,185 @@
 
 .modal-content button {
   margin-top: 10px;
+}
+
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 50px; /* Set to match the height of your table rows or other tall elements */
+  margin-top: 10px; /* Adjust margin as needed */
+}
+
+/* Styling for pagination buttons */
+.pagination button {
+  padding: 8px 16px;
+  margin-right: 8px;
+  cursor: pointer;
+  font-size: 16px; /* Adjust the font size as needed */
+  color: #333; /* Change the color as needed */
+}
+
+.pagination button.active {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* Additional table styling for consistency */
+.leaderboard-table tbody tr {
+  height: 50px; /* Ensure table rows have consistent height */
+}
+
+/* Ensure pagination is within the tallest container */
+.leaderboard-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.private-leagues-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-evenly;
+  width: 95%;
+}
+
+.private-league-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.private-league-row:hover {
+  background-color: #e9e9e9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.league-badge {
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.league-name {
+  flex-grow: 1;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.view-league-button {
+  padding: 10px 15px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.view-league-button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+
+.no-leagues-message {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+  margin: 20px;
+}
+
+.no-leagues-message p {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.no-leagues-message .league-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.no-leagues-message button {
+  padding: 12px 24px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.no-leagues-message button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.no-leagues-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.no-leagues-info {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+
+.create-league-button join-league-button {
+  padding: 12px 24px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.create-league-button join-league-button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.badge-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjust grid columns based on badge size */
+  gap: 10px;
+  height: 40%;
+}
+
+.badge-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.badge-item:hover {
+  border-color: #888;
+}
+
+.badge-image {
+  max-width: 50px; /* Adjust maximum width of badge images */
+  max-height: 50px; /* Adjust maximum height of badge images */
 }

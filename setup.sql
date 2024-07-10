@@ -10,10 +10,8 @@ CREATE TABLE users (
 ----------- Game Leagues ----------------
 
 
-
- CREATE TABLE teams (
-    team_id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+CREATE TABLE teams (
+    user_id INTEGER PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
     formation JSONB NOT NULL,
     player_lineup JSONB NOT NULL,
     total_budget INTEGER NOT NULL,
@@ -33,7 +31,7 @@ CREATE TABLE league_members (
 CREATE TABLE private_leagues (
     league_id SERIAL PRIMARY KEY,
     league_name VARCHAR(20) NOT NULL,
-    league_code VARCHAR(9) UNIQUE NOT NULL,
+    league_code NUMERIC(5, 0) UNIQUE NOT NULL,
     owner_id INT NOT NULL,
     start_round INT CHECK (start_round BETWEEN 1 AND 38),
     FOREIGN KEY (owner_id) REFERENCES users(user_id)
@@ -60,55 +58,97 @@ CREATE TABLE player_round_points (
 
 ------------ Prediction Leagues ----------------
 
+CREATE TABLE private_leagues (
+    league_id SERIAL PRIMARY KEY,
+    league_name VARCHAR(20) NOT NULL,
+    league_code NUMERIC(5, 0) UNIQUE NOT NULL,
+    owner_id INT NOT NULL,
+    start_round INT CHECK (start_round BETWEEN 1 AND 38),
+    FOREIGN KEY (owner_id) REFERENCES users(user_id)
+);
 
-CREATE TABLE prediction_leagues (
+CREATE TABLE private_prediction_members (
     user_id INT NOT NULL,
     league_id INT NOT NULL,
-	league_points INT DEFAULT 0, -- Adds the points from prediciton round points for every user
+    league_points INT DEFAULT 0,
     PRIMARY KEY (user_id, league_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (league_id) REFERENCES private_leagues(league_id)
 );
 
-
-CREATE TABLE prediction_round_points (
-    user_id INTEGER NOT NULL,          
-    round_num INTEGER NOT NULL,        
-    points INTEGER NOT NULL,      
-    PRIMARY KEY (user_id, round_num),  
-    FOREIGN KEY (user_id) REFERENCES users(user_id) 
+CREATE TABLE global_prediction_members (
+    user_id INT NOT NULL,
+    league_points INT DEFAULT 0,
+    PRIMARY KEY (user_id)
 );
 
+CREATE TABLE private_prediction_round_points (
+    user_id INTEGER NOT NULL,
+    league_id INT NOT NULL,
+    round_num INTEGER NOT NULL,
+    points INTEGER NOT NULL,
+    PRIMARY KEY (user_id, league_id, round_num),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE global_prediction_round_points (
+    user_id INTEGER NOT NULL,
+    round_num INTEGER NOT NULL,
+    points INTEGER NOT NULL,
+    PRIMARY KEY (user_id, round_num),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
 
 CREATE TABLE games (
     game_id SERIAL PRIMARY KEY,
     game_date DATE NOT NULL,
     team_1 VARCHAR(100) NOT NULL,
     team_2 VARCHAR(100) NOT NULL,
-    team_1_result INT default 0  -- Stores the result once the game is over
-    team_2_result INT default 0 -- Stores the result once the game is over\
+    team_1_result INT DEFAULT 30,
+    team_2_result INT DEFAULT 30,
+    round_num INT NOT NULL
 );
 
-CREATE TABLE privated_predictions (
+
+CREATE TABLE private_predictions (
     prediction_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
     game_id INT NOT NULL,
-    round_num INT NOT NULL, 
-    private_league_ai INT DEFAULT 0, -- Limit to 1
-    team_1_result
-    team_2_result
+    league_id INT NOT NULL,
+    round_num INT NOT NULL,
+    private_league_ai INT DEFAULT 0,
+    team_1_result INT,
+    team_2_result INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (game_id) REFERENCES games(game_id)
 );
 
-CREATE TABLE golbal_predicitons (
+CREATE TABLE global_predictions (
     prediction_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
     game_id INT NOT NULL,
-    round_num INT NOT NULL, -- 
-    global_league_ai INT DEFAULT 0, -- Limit to 1
-    team_1_result
-    team_2_result
+    round_num INT NOT NULL,
+    global_league_ai INT DEFAULT 0,
+    team_1_result INT,
+    team_2_result INT,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (game_id) REFERENCES games(game_id)
+);
+
+-----------------------
+
+CREATE TABLE players (
+    player_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL
+);
+
+CREATE TABLE player_stats (
+    stat_id SERIAL PRIMARY KEY,
+    player_id INT NOT NULL REFERENCES players(player_id),
+    matches_played INT NOT NULL,
+    goals INT NOT NULL,
+    assists INT NOT NULL,
+    // Other stats columns
 );
