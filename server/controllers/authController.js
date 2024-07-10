@@ -21,8 +21,8 @@ export const register = async (req, res) => {
 
     const userId = userResult.rows[0].user_id;
 
-    // Perform database insert operation for teams table
-    await db.query('INSERT INTO teams (user_id, formation, player_lineup, total_budget, total_points) VALUES ($1, $2, $3, $4, $5)', [userId, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 1000, 0]);
+    // Perform database insert operation for teams tabl
+    await db.query('INSERT INTO teams (user_id, formation, player_lineup, total_budget, total_points) VALUES ($1, $2, $3, $4, $5)', [userId, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 100, 0]);
 
     // Sign JWT token and send it back to the client upon successful user creation
     const token = sign({ userId }, config.jwtSecret, { expiresIn: '1h' });

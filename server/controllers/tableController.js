@@ -1,4 +1,5 @@
 import axios from 'axios';
+import db from '../config/db.js';
 
 //Get the teams for in the table component
 export const getTeamsData = async (req, res) => {
@@ -29,6 +30,7 @@ export const getTeamsData = async (req, res) => {
         const teamResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
         const teamData = teamResponse.data;
         const elements = teamData.elements;
+ 
     
         const playerDetails = elements.map(player => ({
             firstName: player.first_name,
@@ -52,4 +54,31 @@ export const getTeamsData = async (req, res) => {
         console.error('Error fetching data from the Fantasy Premier League API:', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+};
+
+
+
+export const storePlayerPrices = async (req, res) => {
+  const { table } = req.body;
+
+  try {
+    // Use a loop to insert each player's data into the database
+    for (let player of table) {
+      const { firstName, lastName, price } = player;
+
+      // Example SQL query to insert data into the 'players' table
+      const query = `
+        INSERT INTO players (first_name, last_name, price)
+        VALUES ($1, $2, $3);
+      `;
+
+      // Execute the query with sanitized values using db.query
+      await db.query(query, [firstName, lastName, price]);
+    }
+
+    res.status(200).json({ message: 'Player prices stored successfully' });
+  } catch (error) {
+    console.error('Error storing player prices:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };

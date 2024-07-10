@@ -4,32 +4,33 @@ import CreateTeam from './pages/createTeam.jsx'
 import Signup from './pages/Signup.jsx';
 import Login from './pages/Login.jsx';
 import Home from './pages/Home.jsx'
-import Leaderboard from './pages/Leaderboard.jsx' 
+import FantasyLeague from './pages/FantasyLeague.jsx'
+import PredictionLeague from './pages/PredictionLeague.jsx' 
 import SquadView from './pages/SquadView.jsx'
-import Schedule from './pages/Schedule.jsx'; 
-import Predictor from './pages/Predictor.jsx';
+import Predictions from './pages/Predictions.jsx';
 import Rules from './pages/Rules.jsx';
-import { UserProvider } from './UserContext.jsx';
+import Schedule from './pages/Schedule.jsx'
 import './styles/App.css';
 
 const App = () => {
   return (
-    <UserProvider>
+
     <Router>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/createteam" element={<CreateTeam />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="/fantasyleague" element={<FantasyLeague />} />
+        <Route path="/predictionleague" element={<PredictionLeague />} />
         <Route path="/schedule" element={<Schedule />} /> 
-          <Route path="/predictor" element={<Predictor />} /> 
-          <Route path="/rules" element={<Rules />} />
+        <Route path="/predictions" element={<Predictions />} /> 
+        <Route path="/rules" element={<Rules />} />
         <Route path="/squad-view" element={<SquadView />} />
       </Routes>
     </Router>
-    </UserProvider>
+  
   );
 }
 
-export default App;
+export default App; 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/Table.css';
-import { calculatePointsAndPrice } from './playerPoints'; // Adjust the path as necessary
+import '../../styles/Table.css';
+import { calculatePoints} from './playerPoints'; // Adjust the path as necessary
+import { calculatePlayerPrice, updatePlayerPrices  } from './playerPrices'
 
 
 // onPlayerSelect is a function that takes in the player object from the table and sends it to the create team page to then pass the player object to the Fiel.jsx component
@@ -45,7 +46,7 @@ const Table = ({ onPlayerSelect }) => {
             const updatedTable = playerData.playerNames.map((player) => {
                 const { firstName, lastName, teamId, positionId, ...stats } = player;
                 const matchingTeam = teamData.team.find((team) => team.id === teamId);
-
+                   
                 if (matchingTeam) {
                     return {
                         firstName,
@@ -63,8 +64,12 @@ const Table = ({ onPlayerSelect }) => {
             });
 
             // Calculate points and price for each player and sort by price
-            const { table: newTable } = calculatePointsAndPrice(updatedTable);
+            const { table: newTable } = calculatePlayerPrice(updatedTable);
+            
             const orderedTable = newTable.sort((a, b) => b.price - a.price);
+            
+            updatePlayerPrices(orderedTable)
+
             setTable(orderedTable);
 
             // Extract unique club names for the filter dropdown
@@ -101,7 +106,7 @@ const Table = ({ onPlayerSelect }) => {
       const nextPage = currentPage + 1;
       const lastPage = Math.ceil(table.length / playersPerPage);
 
-      if (nextPage <= lastPage && filterTable().slice(nextPage * playersPerPage, (nextPage + 1) * playersPerPage).length > 0) {
+      if (direction === 'next' && currentPage < lastPage) {
         setCurrentPage(nextPage);
       }
     } else if (direction === 'prev' && currentPage > 1) {
@@ -111,8 +116,10 @@ const Table = ({ onPlayerSelect }) => {
 
   // Handle manual page change via user input
   const handleManualPageChange = () => {
+   
     const newPage = parseInt(manualPage, 10);
     if (!isNaN(newPage) && newPage > 0 && newPage <= totalPages) {
+      
       setCurrentPage(newPage);
     }
   };
@@ -229,7 +236,6 @@ const Table = ({ onPlayerSelect }) => {
             <th>Club</th>
             <th>Position</th>
             <th>Price</th>
-            <th>Points</th>
           </tr>
         </thead>
         <tbody>
@@ -242,7 +248,6 @@ const Table = ({ onPlayerSelect }) => {
                 <td>{player.club}</td>
                 <td>{player.position}</td>
                 <td>{player.price}</td>
-                <td>{player.points}</td>
               </tr>
           ))}
         </tbody>

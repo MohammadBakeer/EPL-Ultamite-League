@@ -1,29 +1,28 @@
 import React, { useEffect,useState, useRef } from 'react';
 import { DefaultShirt, PlayerShirt } from './playerShirts.jsx';
-import '../styles/Field.css';
+import '../../styles/Field.css'
 
 const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTeam, isHomePage}) => {
 
-  console.log(userId);
     const [formation, setFormation] = useState(["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]) 
     const [playerLineup, setPlayerLineup] = useState(formation)
-    const [totalBudget, setTotalBudget] = useState(1000);
+    const [totalBudget, setTotalBudget] = useState(100);
     const [totalPoints, setTotalPoints] = useState(0);
     const [isInitialRender, setIsInitialRender] = useState(true);
     const formationSelectRef = useRef(null);
-   console.log("viewid from field: ", viewId);
-   console.log("userId from field: ", userId);
 
     useEffect(() => {
       if (isClearTeamRequested) {
         setPlayerLineup(formation);
-        setTotalBudget(1000); // Reset totalBudget to the initial value
+        setTotalBudget(100); // Reset totalBudget to the initial value
         setTotalPoints(0); // Reset totalPoints to zero
         onClearTeam(); // Callback to reset isClearTeamRequested in the parent component
       }
     }, [isClearTeamRequested]);
 
-   const fetchUserLineup = async (id, isViewId) => {
+
+
+  const fetchUserLineup = async (id, isViewId) => {
   try {
     const token = sessionStorage.getItem('authToken');
     const response = await fetch('http://localhost:3000/api/getUserLineup', {
@@ -54,6 +53,8 @@ const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTe
   }
 };
 
+
+
 useEffect(() => {
   if (viewId) {
     fetchUserLineup(viewId, true);  // Fetch using viewId
@@ -61,6 +62,8 @@ useEffect(() => {
     fetchUserLineup(userId, false); // Fetch using userId
   }
 }, [userId, viewId]);
+
+
 
     
     const updateLineupInDatabase = async () => {
@@ -90,7 +93,25 @@ useEffect(() => {
         console.error('Error updating lineup and formation in the database:', error.message);
       }
     };
-   
+
+
+
+
+
+    useEffect(() => {
+      if (!viewId && !isInitialRender) {
+        updateLineupInDatabase();
+      } else {
+        setIsInitialRender(false); // This ensures setIsInitialRender(false) is still called on initial render
+      }
+    }, [playerLineup, selectedPlayer, totalBudget, totalPoints, viewId]);
+    
+
+
+    
+
+    
+
     const handleRemove = (removedPlayer) => {
       // Create a temporary lineup based on the current state
       
@@ -112,10 +133,12 @@ useEffect(() => {
     
       // Update the total budget state
       setTotalBudget(tempBudget);
-     
-
     };
     
+
+
+
+
     
     // Function to get the default position based on the player's type
     const getDefaultPosition = (player) => {
@@ -137,6 +160,8 @@ useEffect(() => {
       return "FWD"; // Default to "FWD" if the player or position is not provided
     };
     
+
+
   
     useEffect(() => {
         if (selectedPlayer) {
@@ -170,6 +195,10 @@ useEffect(() => {
         
         }, [selectedPlayer]);
       
+
+
+
+
     
       const handleFormationChange = (e) => {
         const formation = e.target.value;
@@ -194,7 +223,7 @@ useEffect(() => {
             default:
                 newFormation = ["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]; // Default to 4-3-3
         }
-        let tempBudget = 1000; // Assuming 1000 is the initial budget, update it accordingly
+        let tempBudget = 100;
         let points = 0;
 
         setTotalBudget(tempBudget);
@@ -205,6 +234,9 @@ useEffect(() => {
 
         setPlayerLineup(newFormation);
     };  
+
+
+
 
 
 if (playerLineup.length === 0) {
@@ -243,14 +275,8 @@ if (playerLineup.length === 0) {
       let Goalkeepr = Lineup.filter((shirt) => shirt.props.player && (shirt.props.player === "GK" || shirt.props.player.position === "GK"));
     
 
-      useEffect(() => {
-        if (!viewId && !isInitialRender) {
-          updateLineupInDatabase();
-        } else {
-          setIsInitialRender(false); // This ensures setIsInitialRender(false) is still called on initial render
-        }
-      }, [playerLineup, selectedPlayer, totalBudget, totalPoints, viewId]);
-      
+
+
 
       useEffect(() => {
         // Check if formationSelectRef.current is not null
@@ -275,7 +301,10 @@ if (playerLineup.length === 0) {
           }
         }
       }, [formation]);
-      
+
+
+
+
       return (
         <>
          {isHomePage && (

@@ -9,11 +9,8 @@ export const getTeamNameByUserId = async (req, res) => {
     
     if(viewId) {
       userId = viewId
-      console.log(userId);
     }
-    
-    console.log("userId: ", userId);
-
+  
     // Perform the database query to get the team name based on the user ID
     const result = await db.query('SELECT team_name FROM users WHERE user_id = $1', [userId]);
 
