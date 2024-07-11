@@ -9,7 +9,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
   // State to manage the input values for the match score
   const [team1Score, setTeam1Score] = useState('');
   const [team2Score, setTeam2Score] = useState('');
-
+  const [isLoading, setIsLoading] = useState(true);
 
   const token = sessionStorage.getItem('authToken'); 
 
@@ -20,63 +20,60 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 
   // Function to handle cancel prediction
   const handleCancelPrediction = async () => {
-   try {
-     if (isPredicted) {
-       const response = await axios.delete(`http://localhost:3000/api/deleteGlobalPrediction/${gameId}`, {
-         headers: {
-           Authorization: `Bearer ${token}`
-         }
-       });
+    try {
+      if (isPredicted) {
+        const response = await axios.delete(`http://localhost:3000/api/deleteGlobalPrediction/${gameId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
 
-       if (response.status === 200) {
-         console.log('Prediction deleted successfully');
-         setIsPredicted(false);
-         setTeam1Score('');
-         setTeam2Score('');
-       } else {
-         console.warn('Failed to delete prediction.');
-       }
-     } else {
-       setIsPredicted(false);
-       setTeam1Score('');
-       setTeam2Score('');
-     }
-   } catch (error) {
-     console.error('Error deleting prediction:', error.message);
-   }
- };
-
+        if (response.status === 200) {
+          console.log('Prediction deleted successfully');
+          setIsPredicted(false);
+          setTeam1Score('');
+          setTeam2Score('');
+        } else {
+          console.warn('Failed to delete prediction.');
+        }
+      } else {
+        setIsPredicted(false);
+        setTeam1Score('');
+        setTeam2Score('');
+      }
+    } catch (error) {
+      console.error('Error deleting prediction:', error.message);
+    }
+  };
 
   // Function to handle save prediction
-  const handleSavePrediction = () => {
+  const handleSavePrediction = async () => {
     if (!team1Score || !team2Score) {
       console.warn('Please enter scores for both teams.');
       return;
     }
-    // Perform save logic (e.g., API call to store predictions)
-    fetch('http://localhost:3000/api/storeGlobalPredictions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}` 
-      },
-      body: JSON.stringify({
+    try {
+      const response = await axios.post('http://localhost:3000/api/storeGlobalPredictions', {
         team1Score: parseInt(team1Score),
         team2Score: parseInt(team2Score),
         roundNum,
         gameId
-      }),
-    })
-      .then(response => {
-        if (response.ok) {
-          console.log('Prediction has been saved.');
-        } else {
-          console.warn('Failed to save prediction.');
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}` 
         }
-      })
-      .catch(error => {
-        console.error('Error saving prediction:', error);
       });
+
+      if (response.status === 200) {
+        console.log('Prediction has been saved.');
+        setIsPredicted(true);
+      } else {
+        console.warn('Failed to save prediction.');
+      }
+    } catch (error) {
+      console.error('Error saving prediction:', error);
+    }
   };
 
   useEffect(() => {
@@ -89,22 +86,27 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
         });
         
         const predictions = response.data;
-        console.log(predictions);
-        
+     
         const matchPrediction = predictions.find(prediction => prediction.game_id === gameId);
    
         if (matchPrediction) {
           setTeam1Score(matchPrediction.team_1_result);
           setTeam2Score(matchPrediction.team_2_result);
           setIsPredicted(true);
+        } else {
+          setIsPredicted(false);
+          setTeam1Score('');
+          setTeam2Score('');
         }
+        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching round games:', error.message);
+        setIsLoading(false);
       }
     };
 
     fetchMatchPredictions();
-  }, );
+  }, [roundNum, gameId, token]);
 
   // Function to get badge URL based on team name
   const getBadgeForTeam = (teamName) => {
@@ -115,7 +117,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
   // Get badge URLs for both teams
   const team1Badge = getBadgeForTeam(team1Name);
   const team2Badge = getBadgeForTeam(team2Name);
-  console.log('Team 1 badge:', team1Badge); // Log to verify badge URL
+
 
   return (
     <div className="teams-card">
@@ -136,7 +138,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
             <p>{matchDate} at <strong>{matchTime}</strong></p>
           </div>
           {/* Conditionally render input fields for score */}
-          {isPredicted ? (
+          {isPredicted && !isLoading ? (
             <div className="match-score">
               <input 
                 type="number" 
@@ -178,7 +180,7 @@ function Card({ gamePairs }) {
     <div className="container">
       <div className="teams-card-container">
         {gamePairs.map((pair) => {
-          console.log("Rendering pair:", pair); // Log each pair object before rendering
+       
           return (
             <TeamCard
               key={pair.game_id} // Add a unique key to each card

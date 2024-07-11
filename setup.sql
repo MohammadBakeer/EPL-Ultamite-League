@@ -28,7 +28,7 @@ CREATE TABLE league_members (
     FOREIGN KEY (league_id) REFERENCES private_leagues(league_id)
 );
 
-CREATE TABLE private_leagues (
+CREATE TABLE fantasy_private_leagues (
     league_id SERIAL PRIMARY KEY,
     league_name VARCHAR(20) NOT NULL,
     league_code NUMERIC(5, 0) UNIQUE NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE player_round_points (
 
 ------------ Prediction Leagues ----------------
 
-CREATE TABLE private_leagues (
+CREATE TABLE private_prediction_leagues (
     league_id SERIAL PRIMARY KEY,
     league_name VARCHAR(20) NOT NULL,
     league_code NUMERIC(5, 0) UNIQUE NOT NULL,

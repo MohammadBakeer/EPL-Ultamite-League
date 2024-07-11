@@ -67,11 +67,11 @@ export const getRoundPredictions = async (req, res) => {
   if (!token) {
     return res.status(401).json({ error: 'Token not provided' });
   }
-
+  
   const decoded = jwt.verify(token, config.jwtSecret);
   const userId = decoded.userId; // Assuming the token payload contains userId
 
-  try {
+  try { 
     const query = `SELECT team_1_result, team_2_result, game_id, round_num, user_id 
     FROM global_predictions 
     WHERE round_num = $1 AND user_id = $2`;
@@ -114,3 +114,5 @@ export const deleteGlobalPrediciton = async (req, res) => {
     }
 
 }
+
+

@@ -28,7 +28,7 @@ function Rounds({ number, defaultExpanded, roundbarText }) {
     
      
         setRoundGames(response.data)
-  
+
       } catch (error) {
         console.error('Error fetching round games:', error.message);
       }
@@ -52,7 +52,6 @@ function Rounds({ number, defaultExpanded, roundbarText }) {
     renderedCards.push(<Card key={index} gamePairs={pair} />);
   });
 
-  console.log(gamePairs);
 
   return (
     <div className="container">

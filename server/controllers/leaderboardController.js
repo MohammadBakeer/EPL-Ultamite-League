@@ -34,11 +34,11 @@ export const getLeaderboardDataForAllUsers = async (req, res) => {
 export const joinLeague = async (req, res) => {
   try {
     const { userId, leagueCode } = req.body;
-   
+    console.log(userId);
     // Log leagueCode to verify its value
 
     // Query to fetch league_id based on league_code
-    const leagueResult = await db.query('SELECT * FROM private_leagues WHERE league_code = $1', [leagueCode]);
+    const leagueResult = await db.query('SELECT * FROM private_prediction_leagues WHERE league_code = $1', [leagueCode]);
 
     // Check if leagueResult.rows is empty
     if (leagueResult.rows.length === 0) {
@@ -49,14 +49,14 @@ export const joinLeague = async (req, res) => {
     const leagueId = leagueResult.rows[0].league_id;
 
     // Check if the user already belongs to this league
-    const userResult = await db.query('SELECT * FROM league_members WHERE user_id = $1 AND league_id = $2', [userId, leagueId]);
+    const userResult = await db.query('SELECT * FROM private_prediction_members WHERE user_id = $1 AND league_id = $2', [userId, leagueId]);
 
     if (userResult.rows.length > 0) {
       return res.status(404).json({ error: 'User already in league' });
     }
 
     // Insert user into league_members table
-    await db.query('INSERT INTO league_members (user_id, league_id) VALUES ($1, $2)', [userId, leagueId]);
+    await db.query('INSERT INTO private_prediction_members (user_id, league_id) VALUES ($1, $2)', [userId, leagueId]);
 
     // Respond with success message
     res.status(200).json({ message: 'Successfully joined league' });
@@ -74,7 +74,7 @@ export const createLeague = async (req, res) => {
    
     // Perform database insert operation for private_league table
     const leagueResult = await db.query(
-      'INSERT INTO private_leagues (league_name, owner_id, start_round, league_badge) VALUES ($1, $2, $3, $4) RETURNING league_id, league_code',
+      'INSERT INTO private_prediction_leagues (league_name, owner_id, start_round, league_badge) VALUES ($1, $2, $3, $4) RETURNING league_id, league_code',
       [leagueName, ownerId, startRound, leagueBadge]
     );
 
@@ -83,7 +83,7 @@ export const createLeague = async (req, res) => {
 
     // Insert new record for user
     await db.query(
-      'INSERT INTO league_members (user_id, league_id) VALUES ($1, $2)',
+      'INSERT INTO private_prediction_members (user_id, league_id) VALUES ($1, $2)',
       [ownerId, league_id]
     );
 
@@ -107,7 +107,7 @@ export const getPrivateTeamLeagues = async (req, res) => {
     // Query to get the league_id(s) for the user from league_members table
     const leagueIdsQuery = `
       SELECT league_id 
-      FROM league_members 
+      FROM private_prediction_members 
       WHERE user_id = $1
     `;
     const leagueIdsResult = await db.query(leagueIdsQuery, [userId]);
@@ -121,7 +121,7 @@ export const getPrivateTeamLeagues = async (req, res) => {
     // Query to get the league details from private_leagues table
     const leaguesQuery = `
       SELECT league_id, league_name, start_round, league_badge
-      FROM private_leagues
+      FROM private_prediction_leagues
       WHERE league_id = ANY($1::int[])
     `;
 
