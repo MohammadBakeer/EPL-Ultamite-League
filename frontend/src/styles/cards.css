@@ -1,94 +1,135 @@
-
-
-/* CARD STYLES START*/
-
 .teams-card-container{
-    width: 85%;
-  }
-  
-  
-  .teams-card{
-    width: 50%;
-    height: 300px;
-    border: 1px solid #6c757d;
-    margin: 10px;
-    display:flex;
-    flex-direction: column;
-    box-shadow: 0px 0px 3px .2px;
-   }
-  
-   .card-header{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-   }
-  
-   .teams-card .card-header img{
-    width: 50px;
-    height: 50px;
-  
-   }
-  
-   .teams-card .card-header p{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-   }
-  
-   .card-contents{
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    flex-grow: 1;
-    font-family: Arial, Helvetica, sans-serif;
-    
-   }
-  
-   .card-contents img{
-    width: 100px;
-    height: 100px;
-   }
-  
-   .column-first-team, .column-match-result, .column-second-team {
-    display: flex;
-    flex-direction: column; 
-    justify-content: center;
-    align-items: center;
-    width: 200px; 
-  }
-  
-  
-  .first-second-column-teams-card{
-    display: flex;
-    width: 100%;
-  }
-  
-  
-  /* second column in the card match score*/
-  .match-score{
-    display: flex;
-     gap: 15px;
-     margin-bottom: 20px;
-  }
-  
-  .match-score span{
-    font-size: 50px;
-    font-weight: 600;
-  }
-  
-  .prediction-btn{
-    width: 150px;
-    height: 40px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 400; 
-    border: none;
-    cursor: pointer;
-  
-  }
-  
-  /*CARD STYLES END*/
+  width: 85%;
+  display: flex;
+ 
+}
+
+.teams-card{
+  width: 50%;
+  height: 300px;
+  border: 1px solid #6c757d;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 3px .2px;
+}
+
+.card-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.teams-card .card-header img{
+  width: 50px;
+  height: 50px;
+}
+
+.teams-card .card-header p{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.card-contents{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-grow: 1;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.card-contents img{
+  width: 100px;
+  height: 100px;
+}
+
+.column-first-team, .column-match-result, .column-second-team {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  width: 200px; 
+}
+
+.first-second-column-teams-card{
+  display: flex;
+  width: 100%;
+}
+
+/* Second column in the card match score */
+.match-score{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.match-score span{
+  font-size: 45px; /* Smaller font size for colon */
+  font-weight: 1000;
+}
+
+.match-score input[type='number']::-webkit-outer-spin-button,
+.match-score input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.match-score input[type='number'] {
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: center;
+  width: 40px; /* Smaller width for input boxes */
+  height: 55px; /* Smaller height for input boxes */
+  font-size: 24px; /* Smaller font size for input text */
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+}
+
+/* Add these styles to your existing cards.css or adjust as needed */
+
+/* Add/Edit these styles in your existing cards.css */
+
+.prediction-btn {
+  width: 150px;
+  height: 40px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px; /* Space below the button */
+}
+
+.cancel-btn,
+.save-btn,
+.edit-prediction-btn {
+  width: 100px;
+  height: 40px;
+  background-color: #dc3545; /* Red color for cancel */
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px; /* Space between buttons */
+}
+
+.save-btn {
+  background-color: #28a745; /* Green color for save */
+}
+
+.edit-prediction-btn {
+  background-color: #ffc107; /* Yellow color for edit prediction */
+}
+
+.prediction-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px; /* Space above the buttons */
+}

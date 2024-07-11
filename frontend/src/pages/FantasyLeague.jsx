@@ -170,7 +170,7 @@ const Leaderboard = () => {
       {showJoinLeagueModal && <JoinLeagueModal onClose={() => setShowJoinLeagueModal(false)} />}
       <div className="main-leader">
         <div className="leader-heading">
-          <h1 className="leaderboard-heading">Leagues</h1>
+          <h1 className="leaderboard-heading">Fantasy Leagues</h1>
         </div>
         <div className='league-buttons'>
           {privateLeagues.length > 0 && (

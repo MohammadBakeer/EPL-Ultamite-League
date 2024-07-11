@@ -1,4 +1,5 @@
 
+
 import db from '../config/db.js'; // Adjust the path to your database config
 
 // Define and export the function to get team name by user ID
@@ -25,3 +26,4 @@ export const getTeamNameByUserId = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+

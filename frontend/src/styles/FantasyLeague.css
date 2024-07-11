@@ -377,3 +377,13 @@
   max-width: 50px; /* Adjust maximum width of badge images */
   max-height: 50px; /* Adjust maximum height of badge images */
 }
+
+.prediction-league-global-header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.prediction-league-global-header{
+  font-size: 30px;
+}
