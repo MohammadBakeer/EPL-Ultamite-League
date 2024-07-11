@@ -52,4 +52,14 @@ span{
   height: 50px;
 }
 
-/*round-bar style END*/
+
+.roundbar-predictions-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px; /* Adjust the font size as needed */
+  font-weight: bold; /* Adjust the font weight as needed */
+  color: balck; /* Adjust the text color */
+  margin-top: 10px; /* Add margin top for spacing */
+  text-align: center; /* Ensure text alignment */
+}

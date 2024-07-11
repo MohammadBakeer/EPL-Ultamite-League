@@ -1,18 +1,58 @@
-import { useState } from 'react';
-import React from 'react';
-import Card from './Card.jsx';
-import '../styles/roundBars.css'
+import React, { useState, useEffect } from 'react';
+import Card from './Cards.jsx';
+import axios from 'axios';
+import '../styles/roundBars.css';
 
+function Rounds({ number, defaultExpanded, roundbarText }) {
+  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+  const [roundNum, setRoundNum] = useState(1);
+  const [roundGames, setRoundGames] = useState([]);
 
-
-function Rounds({ number }) {
-  // State to manage visibility and toggle state
-  const [isExpanded, setIsExpanded] = useState(false);
-   
-  // Function to toggle the visibility and background color
   const toggleVisibility = () => {
     setIsExpanded(prevState => !prevState);
   };
+
+
+  useEffect(() => {
+    const fetchRoundGames = async () => {
+      try {
+        const token = sessionStorage.getItem('authToken'); // Fetch JWT token from session storage
+        // Make a GET request to fetch round games data with authorization header
+        const response = await axios.get(`http://localhost:3000/api/getRoundGames/${roundNum}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+  
+  
+    
+     
+        setRoundGames(response.data)
+  
+      } catch (error) {
+        console.error('Error fetching round games:', error.message);
+      }
+    };
+
+    fetchRoundGames();
+  }, []);
+
+  const splitGamesIntoPairs = (games) => {
+    let pairs = [];
+    for (let i = 0; i < games.length; i += 2) {
+      pairs.push(games.slice(i, i + 2));
+    }
+    return pairs;
+  };
+
+  const gamePairs = splitGamesIntoPairs(roundGames);
+
+  const renderedCards = [];
+  gamePairs.forEach((pair, index) => {
+    renderedCards.push(<Card key={index} gamePairs={pair} />);
+  });
+
+  console.log(gamePairs);
 
   return (
     <div className="container">
@@ -22,7 +62,7 @@ function Rounds({ number }) {
         <div className="rounds" style={{ color: isExpanded ? '#fff' : '#000', transition: '.3s' }}>
           Round {number}
         </div>
-           
+        
         <div className="completed-arrow" onClick={toggleVisibility}>
           <span style={{ color: isExpanded ? '#fff' : '#000', transition: '.3s' }}>completed</span>
           <img 
@@ -31,15 +71,14 @@ function Rounds({ number }) {
           />
         </div>
       </div>
-      
+
       {isExpanded && (
-        <div className="teams-card-container">
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-        </div>
+        <>
+          <div className="roundbar-predictions-text">
+            {roundbarText}
+          </div>
+          {renderedCards}
+        </>
       )}
     </div>
   );

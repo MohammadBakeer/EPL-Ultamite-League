@@ -4,6 +4,7 @@ import { decodeJWT } from '../config/jwtUtils.js';
 
 export const getLeaderboardDataForAllUsers = async (req, res) => {
   try {
+
     // Fetch team names from the users table
     const teamNameQuery = await db.query('SELECT user_id, team_name FROM users');
     const teamNameData = teamNameQuery.rows;
