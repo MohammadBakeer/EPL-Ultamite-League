@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Card from './Cards.jsx';
+import Card from './GlobalCards.jsx';
 import axios from 'axios';
 import '../styles/roundBars.css';
 
 function Rounds({ number, defaultExpanded, roundbarText }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
-  const [roundNum, setRoundNum] = useState(1);
+  const [roundNum, setRoundNum] = useState(2);
   const [roundGames, setRoundGames] = useState([]);
 
   const toggleVisibility = () => {
@@ -28,7 +28,7 @@ function Rounds({ number, defaultExpanded, roundbarText }) {
     
      
         setRoundGames(response.data)
-  
+
       } catch (error) {
         console.error('Error fetching round games:', error.message);
       }
@@ -52,7 +52,6 @@ function Rounds({ number, defaultExpanded, roundbarText }) {
     renderedCards.push(<Card key={index} gamePairs={pair} />);
   });
 
-  console.log(gamePairs);
 
   return (
     <div className="container">

@@ -29,30 +29,6 @@ EXECUTE FUNCTION generate_league_code();
 
 --- Triggers for league inserts 
 
-CREATE OR REPLACE FUNCTION update_prediction_points() 
-RETURNS TRIGGER AS $$
-DECLARE
-    pred RECORD;
-BEGIN
-    -- Loop through private_predictions
-    FOR pred IN
-        SELECT * FROM private_predictions WHERE game_id = NEW.game_id
-    LOOP
-        PERFORM update_points(pred.user_id, pred.league_id, pred.round_num, pred.team_1_result, pred.team_2_result, NEW.team_1_result, NEW.team_2_result, 'private');
-    END LOOP;
-    
-    -- Loop through global_predictions
-    FOR pred IN
-        SELECT * FROM global_predictions WHERE game_id = NEW.game_id
-    LOOP
-        PERFORM update_points(pred.user_id, NULL, pred.round_num, pred.team_1_result, pred.team_2_result, NEW.team_1_result, NEW.team_2_result, 'global');
-    END LOOP;
-    
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Helper function to update points
 CREATE OR REPLACE FUNCTION update_points(user_id INT, league_id INT, round_num INT, pred_team1 INT, pred_team2 INT, actual_team1 INT, actual_team2 INT, league_type TEXT)
 RETURNS VOID AS $$
 DECLARE
@@ -66,19 +42,15 @@ BEGIN
                   ELSE NULL
                   END;
 
-    -- Correct prediction
+    -- Calculate points based on prediction accuracy
     IF pred_team1 = actual_team1 AND pred_team2 = actual_team2 THEN
-        total_points := 10;
-    
-    -- Wrong score but correct outcome
+        total_points := 10; -- Correct prediction
     ELSIF (pred_team1 > pred_team2 AND actual_team1 > actual_team2) OR
           (pred_team1 < pred_team2 AND actual_team1 < actual_team2) OR
           (pred_team1 = pred_team2 AND actual_team1 = actual_team2) THEN
-        total_points := 5;
-    
-    -- Attempt points
+        total_points := 5;  -- Correct outcome but not exact score
     ELSE
-        total_points := 1;
+        total_points := 2;  -- Attempt points
     END IF;
 
     -- Update or insert points for private or global predictions
@@ -102,8 +74,61 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
+
+CREATE OR REPLACE FUNCTION update_prediction_points() 
+RETURNS TRIGGER AS $$
+DECLARE
+    pred_record RECORD;
+BEGIN
+    -- Call update_points for private_predictions
+    FOR pred_record IN
+        SELECT * FROM private_predictions WHERE game_id = NEW.game_id
+    LOOP
+        PERFORM update_points(pred_record.user_id, pred_record.league_id, pred_record.round_num, pred_record.team_1_result, pred_record.team_2_result, NEW.team_1_result, NEW.team_2_result, 'private');
+    END LOOP;
+    
+    -- Call update_points for global_predictions
+    FOR pred_record IN
+        SELECT * FROM global_predictions WHERE game_id = NEW.game_id
+    LOOP
+        PERFORM update_points(pred_record.user_id, NULL, pred_record.round_num, pred_record.team_1_result, pred_record.team_2_result, NEW.team_1_result, NEW.team_2_result, 'global');
+    END LOOP;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE TRIGGER after_game_update
 AFTER UPDATE OF team_1_result, team_2_result
 ON games
 FOR EACH ROW
 EXECUTE FUNCTION update_prediction_points();
+
+
+
+--------------------------------------------------------------------
+
+-- Function to add user to global_prediction_members
+CREATE OR REPLACE FUNCTION add_to_global_prediction_members()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Insert into global_prediction_members
+    INSERT INTO global_prediction_members (user_id)
+    VALUES (NEW.user_id);
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Trigger to execute add_to_global_prediction_members after insert into users
+CREATE TRIGGER after_user_creation
+AFTER INSERT ON users
+FOR EACH ROW
+EXECUTE FUNCTION add_to_global_prediction_members();
+
+
+-----------------------------------------------------------------------------
+
+
+

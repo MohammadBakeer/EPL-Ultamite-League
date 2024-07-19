@@ -7,6 +7,7 @@ import '../styles/FantasyLeague.css'; // Ensure the correct path to your CSS fil
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setViewId } from '../redux/viewSlice.js';
+import { setLeagueId } from '../redux/leagueSlice.js'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import CreateLeagueModal from '../components/league/CreateLeagueModal.jsx'
@@ -14,7 +15,7 @@ import JoinLeagueModal from '../components/league/JoinLeagueModal.jsx'
 import LeagueBadgeModal from '../components/league/LeagueBadgeModal.jsx'; // Import LeagueBadgeModal directly
 import Badges from '../images/badges/exportBadges.js'; // Adjust the path as per your project structure
 import Navbar from '../components/Navbar.jsx'
-import Rounds from '../components/Rounds.jsx'
+import GlobalRounds from '../components/GlobalRounds.jsx'
 
 
 
@@ -45,8 +46,6 @@ const Leaderboard = () => {
             'Authorization': `Bearer ${token}` 
           }
         });
-
-        console.log(response.data);
 
         if (response.data.message === 'No leagues found for this user.') {
         
@@ -90,12 +89,40 @@ const Leaderboard = () => {
     setCurrentPage(page);
   };
 
+  const currentToken = sessionStorage.getItem('authToken');
 
-  const handleViewSquadClick = (viewUserId) => {
-    dispatch(setViewId(viewUserId)); 
-    navigate('/squad-view');
+ const handleTokenUpdate = async (newPayload) => {
+    try {
+      const response = await axios.post('http://localhost:3000/api/updatetoken', newPayload, {
+        headers: {
+          'Authorization': `Bearer ${currentToken}`,
+        },
+      });
+
+      const newToken = response.data.token;
+      sessionStorage.setItem('authToken', newToken);
+      return newToken;
+    } catch (error) {
+      console.error('Error updating token:', error.message);
+      return null;
+    }
   };
 
+  const handleViewSquadClick = async (viewUserId) => {
+    const newToken = await handleTokenUpdate({ viewId: viewUserId });
+    if (newToken) {
+      dispatch(setViewId(viewUserId)); 
+      navigate('/squad-view');
+    }
+  };
+
+  const handleViewLeagueClick = async (newLeagueId) => {
+    const newToken = await handleTokenUpdate({ leagueId: newLeagueId });
+    if (newToken) {
+      dispatch(setLeagueId(newLeagueId));
+      navigate('/privatepredictionleague');
+    }
+  };
 
   const Pagination = ({ totalPages, currentPage, onPageChange }) => (
     <div className="pagination">
@@ -207,7 +234,7 @@ const Leaderboard = () => {
                   <div key={league.leagueId || `fake-${index}`} className="private-league-row">
                      <img src={Badges[league.leagueBadge]} alt="League Badge" className="league-badge" />
                     <span className="league-name">{league.leagues}</span>
-                    <button className="view-league-button" onClick={() => handleViewLeagueClick(league.id)}>View League</button>
+                    <button className="view-league-button" onClick={() => handleViewLeagueClick(league.leagueId)}>View League</button>
                   </div>
                 ))
               )}
@@ -219,7 +246,7 @@ const Leaderboard = () => {
             Global League Predictions
           </h3>
         </div>
-        <Rounds number={1} defaultExpanded={true} roundbarText="Make 3 predictions per round" />
+        <GlobalRounds number={2} defaultExpanded={true} roundbarText="Make 3 predictions per round" />
       </div>
     </div>
     </>

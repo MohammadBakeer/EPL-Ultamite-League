@@ -39,8 +39,8 @@ const Login = () => {
 
           const userId = decodedToken.userId; 
      
-          // Set the user_id in the UserContext
-          setUserId(userId);
+     
+        
            
           navigate('/home'); // Navigate to the Edit component
         } else {

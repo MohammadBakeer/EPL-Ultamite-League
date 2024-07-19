@@ -28,7 +28,7 @@ CREATE TABLE league_members (
     FOREIGN KEY (league_id) REFERENCES private_leagues(league_id)
 );
 
-CREATE TABLE private_leagues (
+CREATE TABLE fantasy_private_leagues (
     league_id SERIAL PRIMARY KEY,
     league_name VARCHAR(20) NOT NULL,
     league_code NUMERIC(5, 0) UNIQUE NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE player_round_points (
 
 ------------ Prediction Leagues ----------------
 
-CREATE TABLE private_leagues (
+CREATE TABLE private_prediction_leagues (
     league_id SERIAL PRIMARY KEY,
     league_name VARCHAR(20) NOT NULL,
     league_code NUMERIC(5, 0) UNIQUE NOT NULL,
@@ -134,6 +134,26 @@ CREATE TABLE global_predictions (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (game_id) REFERENCES games(game_id)
 );
+
+CREATE TABLE private_prediction_options ( -- Type of predicion in the private chosen by owner
+    option_id SERIAL PRIMARY KEY,
+    league_id INTEGER NOT NULL,
+    round_num INTEGER NOT NULL,
+    prediction_type VARCHAR(50) NOT NULL,
+    submitted BOOLEAN DEFAULT false, -- Add the submitted column here
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (league_id, round_num)
+);
+
+CREATE TABLE private_prediction_choose_cards ( -- For the starred games
+    owner_id INT NOT NULL,
+    game_id INT NOT NULL,
+    league_id INT NOT NULL,
+    round_num INT NOT NULL,
+    PRIMARY KEY (owner_id, game_id, league_id, round_num)
+);
+
 
 -----------------------
 

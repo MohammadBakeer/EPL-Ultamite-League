@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import viewReducer from './viewSlice';
+import viewIdReducer from './viewSlice';
+import leagueIdReducer from './leagueSlice'; // Corrected the import name
 
 const store = configureStore({
   reducer: {
-    viewId: viewReducer,
+    viewId: viewIdReducer,
+    leagueId: leagueIdReducer, // This is correct
   },
 });
 
