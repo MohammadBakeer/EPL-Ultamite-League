@@ -1,10 +1,11 @@
 //PrivateCards.jsx
 
 import React, { useState, useEffect } from 'react';
-import Badges from '../images/badges/exportBadges.js'; // Adjust the path as per your project structure
+import Badges from '../../../images/badges/exportBadges.js'; // Adjust the path as per your project structure
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import '../styles/cards.css';
+import '../../../styles/cards.css'
 
 
 function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name, choose_cards, isOwner, notAllowStarClick, setChosenGames, onStarStatusChange, setAnyPrivateGames, predictionOption, setStarClicked, isSubmitted }) {
@@ -17,6 +18,9 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
   const [matchedPrediction, setMatchedPrediction] = useState([]);
   const [leagueMemberStar, setLeagueMemberStar] = useState(false)
 
+
+  const navigate = useNavigate();
+
   const token = sessionStorage.getItem('authToken'); 
 
   // Function to handle the prediction button click
@@ -24,8 +28,6 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
     setIsPredicted(true);
   };
 
-  console.log(choose_cards);
-  console.log(predictionOption);
 
   useEffect(() => {
     const fetchChosenGames = async () => {
@@ -194,8 +196,13 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
         });
   
         const predictions = response.data;
+
+        if(predictions.length >= 3){
+          setMaxPredictions(true)
+        }
+
         const matchPrediction = predictions.find(prediction => prediction.game_id === gameId);
-       
+   
         if (matchPrediction) {
           setTeam1Score(matchPrediction.team_1_result);
           setTeam2Score(matchPrediction.team_2_result);
@@ -254,6 +261,7 @@ useEffect(()=>{
 
     } catch (error) {
       console.error('Error fetching prediction option type:', error);
+      navigate('/predictionleague')
     }
   };
 

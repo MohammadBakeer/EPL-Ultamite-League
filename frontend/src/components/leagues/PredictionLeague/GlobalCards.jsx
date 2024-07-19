@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Badges from '../images/badges/exportBadges.js'; // Adjust the path as per your project structure
+import Badges from '../../../images/badges/exportBadges.js'; // Adjust the path as per your project structure
 import axios from 'axios';
-import '../styles/cards.css';
+import '../../../styles/cards.css'
 
 function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name }) {
   // State to manage whether the prediction button is clicked
@@ -13,10 +13,47 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 
   const token = sessionStorage.getItem('authToken'); 
 
-  // Function to handle the prediction button click
+  const fetchMatchPredictions = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/getRoundPredictions/${roundNum}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      
+      const predictions = response.data;
+      console.log(predictions.length);
+      if(predictions.length >= 3){
+      
+
+      }
+      else if(predictions.length < 3){
+
+      }
+
+     const matchPrediction = predictions.find(prediction => prediction.game_id === gameId);
+    
+      if (matchPrediction) {
+        setTeam1Score(matchPrediction.team_1_result);
+        setTeam2Score(matchPrediction.team_2_result);
+        setIsPredicted(true);
+      } else {
+        setIsPredicted(false);
+        setTeam1Score('');
+        setTeam2Score('');
+      }
+      setIsLoading(false);
+
+    } catch (error) {
+      console.error('Error fetching round games:', error.message);
+      setIsLoading(false);
+    }
+  };
+
   const handlePredictionClick = () => {
     setIsPredicted(true);
-  };
+  }; 
+
 
   // Function to handle cancel prediction
   const handleCancelPrediction = async () => {
@@ -29,10 +66,11 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
         });
 
         if (response.status === 200) {
-          console.log('Prediction deleted successfully');
+   
           setIsPredicted(false);
           setTeam1Score('');
           setTeam2Score('');
+        
         } else {
           console.warn('Failed to delete prediction.');
         }
@@ -48,26 +86,37 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 
   // Function to handle save prediction
   const handleSavePrediction = async () => {
+    // Check if both scores are provided
     if (!team1Score || !team2Score) {
       console.warn('Please enter scores for both teams.');
       return;
     }
   
+    // Parse scores to integers
+    const parsedTeam1Score = parseInt(team1Score, 10);
+    const parsedTeam2Score = parseInt(team2Score, 10);
+  
+    // Check if both scores are non-negative integers
+    if (parsedTeam1Score < 0 || parsedTeam2Score < 0) {
+      console.warn('Please enter positive scores.');
+      return;
+    }
+  
     try {
+      // Send the scores to the server
       const response = await axios.post('http://localhost:3000/api/storeGlobalPredictions', {
-        team1Score: parseInt(team1Score),
-        team2Score: parseInt(team2Score),
+        team1Score: parsedTeam1Score,
+        team2Score: parsedTeam2Score,
         roundNum,
         gameId
       }, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}` 
+          Authorization: `Bearer ${token}`
         }
       });
-
+  
       if (response.status === 200) {
-        console.log('Prediction has been saved.');
         setIsPredicted(true);
       } else {
         console.warn('Failed to save prediction.');
@@ -78,34 +127,6 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
   };
 
   useEffect(() => {
-    const fetchMatchPredictions = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/api/getRoundPredictions/${roundNum}`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        
-        const predictions = response.data;
-     
-        const matchPrediction = predictions.find(prediction => prediction.game_id === gameId);
-   
-        if (matchPrediction) {
-          setTeam1Score(matchPrediction.team_1_result);
-          setTeam2Score(matchPrediction.team_2_result);
-          setIsPredicted(true);
-        } else {
-          setIsPredicted(false);
-          setTeam1Score('');
-          setTeam2Score('');
-        }
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching round games:', error.message);
-        setIsLoading(false);
-      }
-    };
-
     fetchMatchPredictions();
   }, [roundNum, gameId, token]);
 
@@ -163,7 +184,12 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
               <button className="save-btn" onClick={handleSavePrediction}>Save</button>
             </div>
           ) : (
-            <button className="prediction-btn" onClick={handlePredictionClick}>Make Prediction</button>
+            <button 
+            className="prediction-btn" 
+            onClick={handlePredictionClick} 
+          >
+            Make Prediction
+          </button>
           )}
         </div>
 

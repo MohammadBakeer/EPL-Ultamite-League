@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import { decodeJWT } from '../../jwtUtils/';
-import '../../styles/FantasyLeague.css'
+import { decodeJWT } from '../../../jwtUtils/';
+import '../../../styles/FantasyLeague.css'
 
-const CreateLeagueModal = ({ onClose, selectedBadge  }) => {
+
+const CreateLeagueModal = ({ onClose, selectedBadge }) => {
   const [leagueName, setLeagueName] = useState('');
   const [startRound, setStartRound] = useState(1);
 
@@ -35,8 +36,9 @@ const CreateLeagueModal = ({ onClose, selectedBadge  }) => {
         }
       );
 
+      onClose(true); 
       console.log(response.data.message);
-      onClose();
+    
     } catch (error) {
       console.error('Error creating league:', error.message);
     }

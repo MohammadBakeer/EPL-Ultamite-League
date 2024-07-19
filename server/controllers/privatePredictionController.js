@@ -25,62 +25,6 @@ export const getGamesByRoundNumber = async (req, res) => {
   }
 };
 
-
-export const storeGlobalPredictions = async (req, res) => {
-  const { team1Score, team2Score, roundNum, gameId } = req.body;
-  const token = req.headers.authorization?.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({ error: 'Token not provided' });
-  }
-
-  let decoded;
-  try {
-    decoded = jwt.verify(token, config.jwtSecret);
-  } catch (error) {
-    return res.status(401).json({ error: 'Invalid token' });
-  }
-
-  const userId = decoded.userId; // Assuming the token payload contains userId
-
-  try {
-    // Check if the prediction already exists
-    const checkQuery = `
-      SELECT * FROM global_predictions WHERE user_id = $1 AND game_id = $2
-    `;
-    const checkResult = await db.query(checkQuery, [userId, gameId]);
-
-    let prediction;
-    if (checkResult.rows.length > 0) {
-      // Prediction exists, update it
-      const updateQuery = `
-        UPDATE global_predictions
-        SET team_1_result = $1, team_2_result = $2, round_num = $3
-        WHERE user_id = $4 AND game_id = $5
-        RETURNING *
-      `;
-      const updateResult = await db.query(updateQuery, [team1Score, team2Score, roundNum, userId, gameId]);
-      prediction = updateResult.rows[0];
-    } else {
-      // Prediction does not exist, insert a new one
-      const insertQuery = `
-        INSERT INTO global_predictions (user_id, team_1_result, team_2_result, round_num, game_id)
-        VALUES ($1, $2, $3, $4, $5) RETURNING *
-      `;
-      const insertResult = await db.query(insertQuery, [userId, team1Score, team2Score, roundNum, gameId]);
-      prediction = insertResult.rows[0];
-    }
-
-    // Return the saved prediction data as JSON response
-    res.status(200).json(prediction);
-  } catch (error) {
-    console.error('Error storing prediction:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-};
-
-
-
 export const getRoundPredictions = async (req, res) => {
 
     const { roundNum } = req.params; 
@@ -108,31 +52,6 @@ export const getRoundPredictions = async (req, res) => {
     console.error('Error fetching games:', error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
-
-}
-
-export const deleteGlobalPrediciton = async (req, res) => {
-
-    const { gameId } = req.params;
-     
-    const token = req.headers.authorization?.split(' ')[1];
-  
-    if (!token) {
-      return res.status(401).json({ error: 'Token not provided' });
-    }
-  
-    try {
-      const decoded = jwt.verify(token, config.jwtSecret);
-      const userId = decoded.userId; // Assuming the token payload contains userId
-
-      const query = 'DELETE FROM global_predictions WHERE game_id = $1 AND user_id = $2';
-      await db.query(query, [gameId, userId]);
-  
-      res.status(200).json({ message: 'Prediction deleted successfully' });
-    } catch (error) {
-      console.error('Error deleting prediction:', error.message);
-      res.status(500).json({ error: 'Internal server error' });
-    }
 
 }
 
@@ -558,6 +477,123 @@ export const getAllPrivateRoundPredictions = async (req, res) => {
     res.status(200).json(predictions);
   } catch (error) {
     console.error('Error fetching private round predictions:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+export const fetchLeagueCode = async (req, res) => {
+  const { leagueId } = req.params;
+  const token = req.headers.authorization?.split(' ')[1]; 
+
+  if (!token) {
+    return res.status(401).json({ error: 'Token not provided' });
+  }
+
+  try {
+  
+    const decoded = jwt.verify(token, config.jwtSecret);
+    const userId = decoded.userId;
+
+    const query = `
+      SELECT league_code 
+      FROM private_prediction_leagues 
+      WHERE league_id = $1 AND owner_id = $2
+    `;
+    const result = await db.query(query, [leagueId, userId]);
+
+    if (result.rows.length > 0) {
+      const leagueCode = result.rows[0].league_code;
+      res.status(200).json({ leagueCode: leagueCode.toString() });
+    } else {
+      res.status(404).json({ message: 'League code not found or user is not the owner' });
+    }
+  } catch (error) {
+    console.error('Error fetching league code:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+export const deletePrivatePredictionLeague = async (req, res) => {
+  console.log("hi");
+  const { leagueId } = req.params;
+  const token = req.headers.authorization?.split(' ')[1]; 
+  console.log(leagueId);
+  if (!token) {
+    return res.status(401).json({ error: 'Token not provided' });
+  }
+
+  try {
+    // Verify the JWT token
+    const decoded = jwt.verify(token, config.jwtSecret);
+    const userId = decoded.userId;
+    console.log(userId);
+    // Check if the user is the owner of the league
+    const leagueCheckQuery = `
+      SELECT owner_id 
+      FROM private_prediction_leagues 
+      WHERE league_id = $1
+    `;
+    const leagueCheckResult = await db.query(leagueCheckQuery, [leagueId]);
+
+    if (leagueCheckResult.rows.length === 0) {
+      return res.status(404).json({ error: 'League not found' });
+    }
+
+    const leagueOwnerId = leagueCheckResult.rows[0].owner_id;
+    console.log(leagueOwnerId);
+    if (leagueOwnerId !== userId) {
+      return res.status(403).json({ error: 'User does not have permission to delete this league' });
+    }
+
+    // Begin transaction
+    await db.query('BEGIN');
+
+    // 1. Delete records from private_prediction_choose_cards table
+    await db.query(
+      'DELETE FROM private_prediction_choose_cards WHERE league_id = $1',
+      [leagueId]
+    );
+
+    // 2. Delete records from private_prediction_options table
+    await db.query(
+      'DELETE FROM private_prediction_options WHERE league_id = $1',
+      [leagueId]
+    );
+
+    // 3. Delete records from private_prediction_round_points table
+    await db.query(
+      'DELETE FROM private_prediction_round_points WHERE league_id = $1',
+      [leagueId]
+    );
+
+    // 4. Delete records from private_predictions table
+    await db.query(
+      'DELETE FROM private_predictions WHERE league_id = $1',
+      [leagueId]
+    );
+
+    // 5. Delete records from private_prediction_members table
+    await db.query(
+      'DELETE FROM private_prediction_members WHERE league_id = $1',
+      [leagueId]
+    );
+
+    // 6. Delete the league from private_prediction_leagues table
+    await db.query(
+      'DELETE FROM private_prediction_leagues WHERE league_id = $1',
+      [leagueId]
+    );
+
+    // Commit transaction
+    await db.query('COMMIT');
+
+    res.status(200).json({ message: 'League deleted successfully' });
+  } catch (error) {
+    // Rollback transaction in case of error
+    await db.query('ROLLBACK');
+    console.error('Error deleting league:', error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

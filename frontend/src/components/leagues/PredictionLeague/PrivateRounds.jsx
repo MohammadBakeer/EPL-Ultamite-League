@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from './PrivateCards.jsx';
 import axios from 'axios';
-import '../styles/roundBars.css';
+import '../../../styles/roundBars.css'
 
 function Rounds({ number, defaultExpanded, roundbarText, predictionOption, isOwner, notAllowStarClick, setChosenGames, setAnyPrivateGames, setStarClicked, isSubmitted  }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
