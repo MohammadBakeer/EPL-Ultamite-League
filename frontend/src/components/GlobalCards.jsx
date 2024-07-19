@@ -52,6 +52,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
       console.warn('Please enter scores for both teams.');
       return;
     }
+  
     try {
       const response = await axios.post('http://localhost:3000/api/storeGlobalPredictions', {
         team1Score: parseInt(team1Score),

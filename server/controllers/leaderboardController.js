@@ -34,7 +34,7 @@ export const getLeaderboardDataForAllUsers = async (req, res) => {
 export const joinLeague = async (req, res) => {
   try {
     const { userId, leagueCode } = req.body;
-    console.log(userId);
+   
     // Log leagueCode to verify its value
 
     // Query to fetch league_id based on league_code
@@ -69,7 +69,7 @@ export const joinLeague = async (req, res) => {
 
 export const createLeague = async (req, res) => {
   try {
-    const { leagueName, ownerId, startRound, leagueBadge } = req.body;
+    const { leagueName, ownerId, startRound, leagueBadge, roundNum } = req.body;
 
    
     // Perform database insert operation for private_league table
@@ -85,6 +85,11 @@ export const createLeague = async (req, res) => {
     await db.query(
       'INSERT INTO private_prediction_members (user_id, league_id) VALUES ($1, $2)',
       [ownerId, league_id]
+    );
+
+    await db.query(
+      'INSERT INTO private_prediction_options (league_id, round_num, prediction_type) VALUES ($1, $2, $3)',
+      [league_id, roundNum, 'allow_any'] // Default option for round 1
     );
 
     // Send a response indicating success

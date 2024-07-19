@@ -2,20 +2,27 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import { decodeJWT } from '../jwtUtils.js';
+import { setViewId } from '../redux/viewSlice';
 import Field from '../components/field/Field.jsx';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import '../styles/SquadView.css'
 
 const SquadView = () => {
   const viewId = useSelector((state) => state.viewId.value); 
+  const dispatch = useDispatch();
   const [teamName, setTeamName] = useState('');
   const navigate = useNavigate();
 
   const decodedToken = decodeJWT();
   const userId = decodedToken.userId;
 
-
-const ID = viewId;
+  useEffect(() => {
+    const decodedToken = decodeJWT();
+    if (decodedToken && decodedToken.viewId) {
+      dispatch(setViewId(decodedToken.viewId));
+    }
+  
+  }, [dispatch]);
 
 useEffect(() => {
   const fetchTeamName = async () => {
@@ -50,7 +57,7 @@ useEffect(() => {
       <div className="home-field-container">
         <div className="home-field">
             <h1 className="home-team">{teamName}</h1>
-            <Field viewId={ID} isHomePage={false} />
+            <Field viewId={viewId} isHomePage={false} />
             <button className="Edit-team" onClick={() => navigate(-1)}>Exit View</button>
         </div>
       </div>

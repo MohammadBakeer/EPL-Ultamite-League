@@ -66,9 +66,7 @@ const Leaderboard = () => {
             'Authorization': `Bearer ${token}` 
           }
         });
-
-        console.log(response.data);
-
+        
         if (response.data.message === 'No leagues found for this user.') {
         
           console.log('No leagues found for this user.');
@@ -111,12 +109,32 @@ const Leaderboard = () => {
     setCurrentPage(page);
   };
 
+  const currentToken = sessionStorage.getItem('authToken');
 
-  const handleViewSquadClick = (viewUserId) => {
-    dispatch(setViewId(viewUserId)); 
-    navigate('/squad-view');
+  const handleTokenUpdate = async (newPayload) => {
+     try {
+       const response = await axios.post('http://localhost:3000/api/updatetoken', newPayload, {
+         headers: {
+           'Authorization': `Bearer ${currentToken}`,
+         },
+       });
+ 
+       const newToken = response.data.token;
+       sessionStorage.setItem('authToken', newToken);
+       return newToken;
+     } catch (error) {
+       console.error('Error updating token:', error.message);
+       return null;
+     }
+   };
+
+  const handleViewSquadClick = async (viewUserId) => {
+    const newToken = await handleTokenUpdate({ viewId: viewUserId });
+    if (newToken) {
+      dispatch(setViewId(viewUserId)); 
+      navigate('/squad-view');
+    }
   };
-
 
   const Pagination = ({ totalPages, currentPage, onPageChange }) => (
     <div className="pagination">

@@ -13,6 +13,7 @@ const CreateLeagueModal = ({ onClose, selectedBadge  }) => {
   const userId = decodedToken.userId;
 
   const handleCreateLeague = async (e) => {
+    const roundNum = 2
     e.preventDefault();
     try {
       const token = sessionStorage.getItem('authToken');
@@ -24,6 +25,7 @@ const CreateLeagueModal = ({ onClose, selectedBadge  }) => {
           ownerId: userId,
           startRound,
           leagueBadge: selectedBadge,
+          roundNum
         },
         {
           headers: {

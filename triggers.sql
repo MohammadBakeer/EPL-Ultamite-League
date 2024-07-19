@@ -45,14 +45,12 @@ BEGIN
     -- Calculate points based on prediction accuracy
     IF pred_team1 = actual_team1 AND pred_team2 = actual_team2 THEN
         total_points := 10; -- Correct prediction
-    ELSIF (pred_team1 - pred_team2) = (actual_team1 - actual_team2) THEN
-        total_points := 5;  -- Correct goal difference
     ELSIF (pred_team1 > pred_team2 AND actual_team1 > actual_team2) OR
           (pred_team1 < pred_team2 AND actual_team1 < actual_team2) OR
           (pred_team1 = pred_team2 AND actual_team1 = actual_team2) THEN
-        total_points := 3;  -- Correct outcome but not exact score
+        total_points := 5;  -- Correct outcome but not exact score
     ELSE
-        total_points := 1;  -- Attempt points
+        total_points := 2;  -- Attempt points
     END IF;
 
     -- Update or insert points for private or global predictions
@@ -74,6 +72,8 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+
+
 
 
 CREATE OR REPLACE FUNCTION update_prediction_points() 

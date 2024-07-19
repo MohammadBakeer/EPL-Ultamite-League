@@ -135,6 +135,26 @@ CREATE TABLE global_predictions (
     FOREIGN KEY (game_id) REFERENCES games(game_id)
 );
 
+CREATE TABLE private_prediction_options ( -- Type of predicion in the private chosen by owner
+    option_id SERIAL PRIMARY KEY,
+    league_id INTEGER NOT NULL,
+    round_num INTEGER NOT NULL,
+    prediction_type VARCHAR(50) NOT NULL,
+    submitted BOOLEAN DEFAULT false, -- Add the submitted column here
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (league_id, round_num)
+);
+
+CREATE TABLE private_prediction_choose_cards ( -- For the starred games
+    owner_id INT NOT NULL,
+    game_id INT NOT NULL,
+    league_id INT NOT NULL,
+    round_num INT NOT NULL,
+    PRIMARY KEY (owner_id, game_id, league_id, round_num)
+);
+
+
 -----------------------
 
 CREATE TABLE players (
