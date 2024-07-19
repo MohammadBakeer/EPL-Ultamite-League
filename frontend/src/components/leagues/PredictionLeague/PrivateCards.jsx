@@ -196,11 +196,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
         });
   
         const predictions = response.data;
-
-        if(predictions.length >= 3){
-          setMaxPredictions(true)
-        }
-
+        
         const matchPrediction = predictions.find(prediction => prediction.game_id === gameId);
    
         if (matchPrediction) {
