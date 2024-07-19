@@ -1,5 +1,5 @@
 import React from 'react';
-import Rounds from '../components/GlobalRounds.jsx';
+import Rounds from '../components/leagues/PredictionLeague/GlobalRounds.jsx';
 import Title from '../components/Title.jsx';
 import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';

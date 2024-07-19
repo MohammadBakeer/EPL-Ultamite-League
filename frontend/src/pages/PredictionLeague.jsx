@@ -10,18 +10,18 @@ import { setViewId } from '../redux/viewSlice.js';
 import { setLeagueId } from '../redux/leagueSlice.js'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import CreateLeagueModal from '../components/league/CreateLeagueModal.jsx'
-import JoinLeagueModal from '../components/league/JoinLeagueModal.jsx'
-import LeagueBadgeModal from '../components/league/LeagueBadgeModal.jsx'; // Import LeagueBadgeModal directly
+import CreateLeagueModal from '../components/leagues/PredictionLeague/CreatePredictionLeagueModal.jsx'
+import JoinLeagueModal from '../components/leagues/PredictionLeague/JoinPredictionLeagueModal.jsx'
+import LeagueBadgeModal from '../components/leagues/PredictionLeague/LeagueBadgeModal.jsx'; // Import LeagueBadgeModal directly
 import Badges from '../images/badges/exportBadges.js'; // Adjust the path as per your project structure
 import Navbar from '../components/Navbar.jsx'
-import GlobalRounds from '../components/GlobalRounds.jsx'
+import GlobalRounds from '../components/leagues/PredictionLeague/GlobalRounds.jsx'
 
 
 
 
 
-const Leaderboard = () => {
+const PredictionLeague = () => {
 
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [privateLeagues, setPrivateLeagues] = useState([]);
@@ -30,43 +30,74 @@ const Leaderboard = () => {
   const [showJoinLeagueModal, setShowJoinLeagueModal] = useState(false);
   const [showBadgeModal, setShowBadgeModal] = useState(false); // State for badge selection modal
   const [selectedBadge, setSelectedBadge] = useState(null); // State to hold selected badge
+  const [maxLeagues, setMaxLeagues] = useState(true)
+
   const itemsPerPage = 10;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
-
   useEffect(() => {
-    const fetchPrivateLeagues = async () => {
+    const fetchGlobalPredictions = async () => {
       try {
         const token = sessionStorage.getItem('authToken');
-  
-        const response = await axios.get('http://localhost:3000/api/privateteamleagues', {
+        
+        const response = await axios.get('http://localhost:3000/api/fetchallglobalpredictions', {
           headers: {
             'Authorization': `Bearer ${token}` 
           }
         });
 
-        if (response.data.message === 'No leagues found for this user.') {
+        const processedData = response.data.map(item => ({
+          userId: item.user_id,
+          teamName: item.team_name,
+          leaguePoints: item.league_points
+        }));
         
-          console.log('No leagues found for this user.');
-
-          setPrivateLeagues([]); // Set empty array or handle as needed
-        } else {
-          setPrivateLeagues(response.data);
-        }
-  
+        setLeaderboardData(processedData);
+    
       } catch (error) {
-        console.error('Error fetching league data:', error.message);
+        console.error('Error fetching global predictions:', error.message);
       }
     };
+
+    fetchGlobalPredictions();
+  }, []);
+
+  const fetchPrivateLeagues = async () => {
+    try {
+      const token = sessionStorage.getItem('authToken');
+
+      const response = await axios.get('http://localhost:3000/api/privateteamleagues', {
+        headers: {
+          'Authorization': `Bearer ${token}` 
+        }
+      });
+
+      if (response.data.message === 'No leagues found for this user.') {
+      
+        console.log('No leagues found for this user.');
+      
+        setPrivateLeagues([]); // Set empty array or handle as needed
+        
+      } else {
+        setPrivateLeagues(response.data);
   
-    fetchPrivateLeagues();
+        if(response.data.length >= 4){
+          setMaxLeagues(false)
+        }
+      }
+
+    } catch (error) {
+      console.error('Error fetching league data:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchPrivateLeagues(setPrivateLeagues); // Call the function once
   }, []);
   
-  
 
-  const sortedData = [...leaderboardData].sort((a, b) => b.totalPrice - a.totalPrice);
+  const sortedData = [...leaderboardData].sort((a, b) => b.leaguePoints - a.leaguePoints);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
@@ -78,10 +109,10 @@ const Leaderboard = () => {
   ].map((team, index) => ({
     ...team,
     teamName: team.emptyRow ? 'NONE' : team.teamName,
-    totalBudget: team.emptyRow ? 'NONE' : team.totalBudget,
-    totalPrice: team.emptyRow ? 'NONE' : team.totalPrice,
+    leaguePoints: team.emptyRow ? 'NONE' : team.leaguePoints,
     rank: index + 1 + indexOfFirstItem,
   }));
+
 
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
 
@@ -108,13 +139,6 @@ const Leaderboard = () => {
     }
   };
 
-  const handleViewSquadClick = async (viewUserId) => {
-    const newToken = await handleTokenUpdate({ viewId: viewUserId });
-    if (newToken) {
-      dispatch(setViewId(viewUserId)); 
-      navigate('/squad-view');
-    }
-  };
 
   const handleViewLeagueClick = async (newLeagueId) => {
     const newToken = await handleTokenUpdate({ leagueId: newLeagueId });
@@ -148,13 +172,7 @@ const Leaderboard = () => {
     setShowCreateLeagueModal(true); // Show the CreateLeagueModal after badge selection
   };
 
-  const handleBackToBadgeSelection = () => {
-    setShowBadgeModal(true); // Show badge selection modal again
-    setSelectedBadge(null); // Reset selected badge
-    setShowCreateLeagueModal(false); // Hide CreateLeagueModal on cancel
-  };
-
-
+  
   const NoPrivateLeaguesMessage = (
     <div className="no-leagues-message">
       <p className="no-leagues-text">Create or Join your first private league</p>
@@ -167,22 +185,41 @@ const Leaderboard = () => {
   );
 
 
+
+  const handleCreateLeagueModalClose = (showLeagues) => {
+    setShowCreateLeagueModal(false);
+    if (showLeagues) {
+      fetchPrivateLeagues();
+    }
+  };
+
+  const handleJoinLeagueModalClose = (showLeagues) => {
+    setShowJoinLeagueModal(false)
+    if (showLeagues) {
+      fetchPrivateLeagues();
+    }
+  };
+  
    return (
     <>
     < Navbar/>
     <div className="leaderboard-page">
-       {showBadgeModal && <LeagueBadgeModal onClose={() => setShowBadgeModal(false)} onSelectBadge={handleSelectBadge} />}
-      {showCreateLeagueModal && <CreateLeagueModal onClose={() => setShowCreateLeagueModal(false)}  selectedBadge={selectedBadge} />}
-      {showJoinLeagueModal && <JoinLeagueModal onClose={() => setShowJoinLeagueModal(false)} />}
+      {showBadgeModal && <LeagueBadgeModal onClose={() => setShowBadgeModal(false)} onSelectBadge={handleSelectBadge} />}
+      {showCreateLeagueModal && <CreateLeagueModal onClose={handleCreateLeagueModalClose} selectedBadge={selectedBadge} />}
+      {showJoinLeagueModal && <JoinLeagueModal onClose={handleJoinLeagueModalClose} />}
       <div className="main-leader">
         <div className="leader-heading">
           <h1 className="leaderboard-heading">Prediction Leagues</h1>
         </div>
         <div className='league-buttons'>
-          {privateLeagues.length > 0 && (
+        {privateLeagues.length > 0 && (
             <>
-              <button onClick={() => setShowBadgeModal(true)}>Create new league</button>
-              <button onClick={() => setShowJoinLeagueModal(true)}>Join league</button>
+              {maxLeagues && (
+                <>
+                  <button onClick={() => setShowBadgeModal(true)}>Create new league</button>
+                  <button onClick={() => setShowJoinLeagueModal(true)}>Join league</button>
+                </>
+              )}
             </>
           )}
         </div>       
@@ -199,28 +236,18 @@ const Leaderboard = () => {
                   <tr>
                     <th>Rank</th>
                     <th>Team</th>
-                    <th>Squad</th>
                     <th>Points</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {displayItems.map((team, index) => (
-                    <tr key={team.emptyRow ? team.id : team.userId} className={team.rank <= 1 ? 'highlighted' : ''}>
-                      <td>{team.rank}</td>
-                      <td>{team.teamName}</td>
-                      <td>
-                        {team.emptyRow ? (
-                          <button disabled>View Squad</button>
-                        ) : (
-                          <button onClick={() => handleViewSquadClick(team.userId)}>
-                            View
-                          </button>
-                        )}
-                      </td>
-                      <td>{team.totalPrice}</td>
-                    </tr>
-                  ))}
-                </tbody>
+                {displayItems.map((team, index) => (
+                  <tr key= {index} className={team.rank <= 1 ? 'highlighted' : ''}>
+                    <td>{team.rank}</td>
+                    <td>{team.teamName}</td>
+                    <td>{team.leaguePoints}</td>
+                  </tr>
+                ))}
+              </tbody>
               </table>
             </div>
           </div>
@@ -252,4 +279,4 @@ const Leaderboard = () => {
     </>
   );
 };
-export default Leaderboard;
+export default PredictionLeague;

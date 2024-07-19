@@ -8,9 +8,9 @@ import { useDispatch } from 'react-redux';
 import { setViewId } from '../redux/viewSlice.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import CreateLeagueModal from '../components/league/CreateLeagueModal.jsx'
-import JoinLeagueModal from '../components/league/JoinLeagueModal.jsx'
-import LeagueBadgeModal from '../components/league/LeagueBadgeModal.jsx'; // Import LeagueBadgeModal directly
+import CreateLeagueModal from '../components/leagues/PredictionLeague/CreatePredictionLeagueModal.jsx'
+import JoinLeagueModal from '../components/leagues/PredictionLeague/JoinPredictionLeagueModal.jsx'
+import LeagueBadgeModal from '../components/leagues/PredictionLeague/LeagueBadgeModal.jsx'; // Import LeagueBadgeModal directly
 import Badges from '../images/badges/exportBadges.js'; // Adjust the path as per your project structure
 import Navbar from '../components/Navbar.jsx'
 
@@ -37,12 +37,12 @@ const Leaderboard = () => {
     const fetchLeaderboardData = async () => {
       try {
         // Fetch JWT token from session storage
-        const token = sessionStorage.getItem('authToken');
+       const token = sessionStorage.getItem('authToken');
 
         // Make a GET request to fetch leaderboard data with authorization header
         const response = await axios.get('http://localhost:3000/api/alldataleaderboard', {
           headers: {
-            'Authorization': `Bearer ${token}` // Pass the token in the Authorization header
+            'Authorization': `Bearer ${token}` // Pass the t oken in the Authorization header
           }
         });
 

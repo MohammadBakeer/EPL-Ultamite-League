@@ -8,7 +8,8 @@ import fieldRouter from'./routes/fieldRoutes.js'
 import tableRouter from './routes/tableRoutes.js'
 import leaderboardRouter from './routes/leaderboardRoutes.js'
 import pagesRouter from './routes/pagesRoutes.js'
-import predictions from './routes/predictionRoutes.js'
+import privatePredictions from './routes/privatePredictionRoutes.js'
+import globalPredictions from './routes/globalPredictionRoutes.js'
 import tokenRouter from './routes/tokenRoutes.js';
 import bodyParser from 'body-parser';
 import { synchronizeData } from './services/cron.js'
@@ -50,8 +51,10 @@ app.use('/api', fieldRouter);
 app.use('/api', tableRouter)
 app.use('/api', leaderboardRouter)
 app.use('/api', pagesRouter)
-app.use('/api', predictions)
+app.use('/api', privatePredictions)
+app.use('/api', globalPredictions);
 app.use('/api', tokenRouter);
+
 
 
 

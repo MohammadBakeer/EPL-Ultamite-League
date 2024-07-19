@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from './GlobalCards.jsx';
 import axios from 'axios';
-import '../styles/roundBars.css';
+import '../../../styles/roundBars.css'
 
 function Rounds({ number, defaultExpanded, roundbarText }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);

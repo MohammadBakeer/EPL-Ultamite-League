@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
-import PrivateRounds from '../components/PrivateRounds.jsx';
+import PrivateRounds from '../components/leagues/PredictionLeague/PrivateRounds.jsx';
 import { decodeJWT } from '../jwtUtils.js';
 import { setLeagueId } from '../redux/leagueSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronLeft, faChevronRight, faTrash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/FantasyLeague.css';
 import '../styles/PrivatePredictionLeague.css';
 import '../styles/pagination.css';
@@ -24,6 +25,9 @@ const PrivatePredictionLeague = () => {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [anyPrivateGames, setAnyPrivateGames] = useState(false) 
   const [starClicked, setStarClicked] = useState(false)
+  const [leagueCode, setLeagueCode] = useState("");
+
+  const navigate = useNavigate();
 
   const itemsPerPage = 5;
  
@@ -34,6 +38,31 @@ const PrivatePredictionLeague = () => {
     }
     setLoading(false);
   }, [dispatch]);
+
+  const fetchLeagueCode = async () => {
+   
+    if (!leagueId) {
+      console.warn('League ID is not available.');
+      return;
+    }
+
+    const token = sessionStorage.getItem('authToken');
+
+    try {
+      const response = await axios.get(`http://localhost:3000/api/fetchLeagueCode/${leagueId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const leagueCode = response.data.leagueCode
+      setLeagueCode(leagueCode)
+
+    } catch (error) {
+      console.error('Error fetching league code:', error);
+    }
+  };
 
   const handleFetchPredictionData = async () => {
     if (!leagueId) {
@@ -150,11 +179,12 @@ const PrivatePredictionLeague = () => {
       });
   
       setSelectedPredictionOption(response.data.prediction_type);
-      console.log("type: ", response.data.prediction_type);
+
     } catch (error) {
       console.error('Error fetching prediction option type:', error);
     }
   };
+
   
   useEffect(() => {
     const fetchData = async () => {
@@ -174,6 +204,8 @@ const PrivatePredictionLeague = () => {
 
             // Fetch prediction option type
             await fetchPredictionOptionType();
+
+            await fetchLeagueCode();
 
             // Fetch submit status
             const roundNum = 2
@@ -254,6 +286,32 @@ useEffect(()=>{
     setStarClicked
   }
 
+  const handleDeleteLeague = async () => {
+
+    const token = sessionStorage.getItem('authToken'); // Adjust based on how you store the token
+    console.log(leagueId);
+    try {
+      const response = await axios.delete(`http://localhost:3000/api/deletePrivatePredictionLeague/${leagueId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        alert('League deleted successfully.');
+        navigate('/predictionleague')
+ 
+      } else {
+        alert('Failed to delete the league.');
+      }
+    } catch (error) {
+      console.error('Error deleting the league:', error);
+      alert('An error occurred while deleting the league.');
+    }
+  };
+  
+
   return (
     <div>
       <Navbar />
@@ -332,6 +390,16 @@ useEffect(()=>{
         isSubmitted={isSubmitted}
 
       />
+      <div className="bottom-bar-container">
+      <div className="bottom-bar">
+        <span className="league-code">League Code: {leagueCode}</span>
+        {isOwner && (
+           <button className="delete-league-button" onClick={handleDeleteLeague}>
+            <FontAwesomeIcon icon={faTrash} /> Delete League
+           </button>
+        )}
+      </div>
+    </div>
     </div>
   ); 
 };

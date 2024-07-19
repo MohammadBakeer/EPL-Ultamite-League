@@ -1,14 +1,12 @@
 
 import express from 'express';
 import authMiddleware from '../middlewares/authMiddleware.js';
-import { getGamesByRoundNumber, storeGlobalPredictions, getRoundPredictions, deleteGlobalPrediciton, privateLeaguePoints, storePrivatePredictions, deletePrivatePredictions, getPrivateRoundPredictions, checkIfOwner, storePrivatePredictionOption, fetchOptionType, storeChooseCard, fetchChosenGames, removeChosenGame, saveSubmitStatus, fetchSubmitStatus, getAllPrivateRoundPredictions } from '../controllers/predictionController.js'
+import { getGamesByRoundNumber, getRoundPredictions, privateLeaguePoints, storePrivatePredictions, deletePrivatePredictions, getPrivateRoundPredictions, checkIfOwner, storePrivatePredictionOption, fetchOptionType, storeChooseCard, fetchChosenGames, removeChosenGame, saveSubmitStatus, fetchSubmitStatus, getAllPrivateRoundPredictions, fetchLeagueCode, deletePrivatePredictionLeague } from '../controllers/privatePredictionController.js'
 
 const router = express.Router();
 
 router.get('/getRoundGames/:roundNum', authMiddleware, getGamesByRoundNumber);
-router.post('/storeGlobalPredictions', authMiddleware, storeGlobalPredictions)
 router.get('/getRoundPredictions/:roundNum', authMiddleware, getRoundPredictions)
-router.delete('/deleteGlobalPrediction/:gameId', authMiddleware, deleteGlobalPrediciton)
 router.post('/privateleaguepoints', authMiddleware, privateLeaguePoints)
 router.post('/storePrivatePredictions', authMiddleware, storePrivatePredictions)
 router.delete('/deletePrivatePrediction/:gameId/:leagueId', authMiddleware, deletePrivatePredictions)
@@ -22,9 +20,8 @@ router.delete('/removeChosenGame/:gameId/:leagueId/:roundNum', authMiddleware, r
 router.post('/saveSubmitStatus', authMiddleware, saveSubmitStatus);
 router.get('/fetchSubmitStatus/:roundNum/:leagueId', authMiddleware, fetchSubmitStatus);
 router.get('/getAllPrivateRoundPredictions/:roundNum/:leagueId', authMiddleware, getAllPrivateRoundPredictions)
-
-
-
+router.get('/fetchLeagueCode/:leagueId', authMiddleware, fetchLeagueCode);
+router.delete('/deletePrivatePredictionLeague/:leagueId', authMiddleware, deletePrivatePredictionLeague);
 
 
 export default router;

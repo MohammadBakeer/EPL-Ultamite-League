@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-import { decodeJWT } from '../../jwtUtils/';
-import '../../styles/FantasyLeague.css'
+import { decodeJWT } from '../../../jwtUtils/';
+import '../../../styles/FantasyLeague.css'
 
 const JoinLeagueModal = ({ onClose }) => {
   const [leagueCode, setLeagueCode] = useState('');
@@ -31,7 +31,7 @@ const JoinLeagueModal = ({ onClose }) => {
       );
 
       console.log(response.data.message);
-      onClose();
+      onClose(true); 
     } catch (error) {
       console.error('Error joining league:', error.message);
     }
