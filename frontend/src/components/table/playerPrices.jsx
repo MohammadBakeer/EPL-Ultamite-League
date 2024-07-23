@@ -1,22 +1,15 @@
 import axios from 'axios'
 
+//Save this somewhere for later use. Change this after points calculation is made to give price changes based off points
 export const calculatePlayerPrice = (table) => {
 
-    const filteredPlayers = table.filter(player => (
-        player.goalsConceded !== 0 ||
-        player.yellowCards !== 0 ||
-        player.redCards !== 0 ||
-        player.saves !== 0 ||
-        player.minutes !== 0
-    ));      
-
-    filteredPlayers.forEach((player) => {
+    table.forEach((player) => {
         let price = 0;
 
         switch (player.position) {
             case 'FWD':
-                price += player.goalsScored * 1.2;
-                price += player.assists * 0.5;
+                price += player.goalsScored * 1.3;
+                price += player.assists * 0.7;
                 price += player.cleanSheets * 0.1;
                 price += player.goalsConceded * -0.1;
                 price += player.yellowCards * -0.2;
@@ -30,7 +23,7 @@ export const calculatePlayerPrice = (table) => {
                 price += player.goalsConceded * -0.2;
                 price += player.yellowCards * -0.1;
                 price += player.redCards * -0.4;
-                price += Math.floor(player.minutes / 90) * 0.1;
+                price += Math.floor(player.minutes / 90) * 0.2;
                 break;
             case 'DEF':
                 price += player.goalsScored * 0.7;
@@ -76,6 +69,9 @@ export const calculatePlayerPrice = (table) => {
             else if (player.club === 'Man Utd'){
                 player.price += 1
             }
+            else if(player.lastName === 'Onana' && player.firstName === 'Amadou'){
+                player.price += 6
+            }
              
             if(player.position ==='GK'){
                 player.price = player.price - 1
@@ -94,17 +90,21 @@ export const calculatePlayerPrice = (table) => {
             if (player.lastName === 'Trossard'){
                 player.price = player.price -1
             }
+            if (player.lastName === 'Haaland'){
+                player.price = player.price +2
+            }
             
     });
 
 
     return {
-        table: filteredPlayers,
+        table: table,
     };
 }
 
-
+// Add a get request at the beginning so I don't have to calculate total price every time.
 export const updatePlayerPrices = async (playerData) => {
+
       const token = sessionStorage.getItem('authToken');
       const response = await fetch('http://localhost:3000/api/playerPrices', {
         method: 'POST',

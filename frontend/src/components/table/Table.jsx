@@ -23,10 +23,10 @@ const Table = ({ onPlayerSelect }) => {
   useEffect(() => {
     const fetchData = async () => {
         try {
-            // Fetch JWT token from session storage
+
             const token = sessionStorage.getItem('authToken');
           
-            // Fetch player data from the endpoint
+           
             const playerResponse = await fetch('http://localhost:3000/api/playerNames', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -34,7 +34,6 @@ const Table = ({ onPlayerSelect }) => {
             });
             const playerData = await playerResponse.json();
 
-            // Fetch team data from the endpoint
             const teamResponse = await fetch('http://localhost:3000/api/teams', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -42,7 +41,6 @@ const Table = ({ onPlayerSelect }) => {
             });
             const teamData = await teamResponse.json();
 
-            // Map player data to include club names and positions
             const updatedTable = playerData.playerNames.map((player) => {
                 const { firstName, lastName, teamId, positionId, ...stats } = player;
                 const matchingTeam = teamData.team.find((team) => team.id === teamId);
@@ -55,6 +53,7 @@ const Table = ({ onPlayerSelect }) => {
                         position: mapPosition(positionId),
                         price: '',
                         points: '',
+                        roundPoints: 0, 
                         ...stats,
                     };
                 } else {
@@ -66,11 +65,13 @@ const Table = ({ onPlayerSelect }) => {
             // Calculate points and price for each player and sort by price
             const { table: newTable } = calculatePlayerPrice(updatedTable);
             
+            calculatePoints(updatedTable)
+            
             const orderedTable = newTable.sort((a, b) => b.price - a.price);
             
             updatePlayerPrices(orderedTable)
 
-            setTable(orderedTable);
+            setTable(orderedTable); 
 
             // Extract unique club names for the filter dropdown
             const eplClubsList = Array.from(new Set(teamData.team.map((team) => team.club)));

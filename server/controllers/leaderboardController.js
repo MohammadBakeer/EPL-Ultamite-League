@@ -89,7 +89,7 @@ export const createLeague = async (req, res) => {
 
     await db.query(
       'INSERT INTO private_prediction_options (league_id, round_num, prediction_type) VALUES ($1, $2, $3)',
-      [league_id, roundNum, 'allow_any'] // Default option for round 1
+      [league_id, roundNum, 'allow_any'] 
     );
 
     // Send a response indicating success

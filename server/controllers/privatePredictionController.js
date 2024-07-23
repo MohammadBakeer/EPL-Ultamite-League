@@ -7,8 +7,6 @@ import jwt from 'jsonwebtoken';
 export const getGamesByRoundNumber = async (req, res) => {
 
   const { roundNum } = req.params; // Extract round number from URL params
-
-
   try {
     // Example SQL query to fetch games where round_num matches
     const query = `SELECT * FROM games WHERE round_num = $1`;
@@ -130,6 +128,16 @@ export const storePrivatePredictions = async (req, res) => {
   const userId = decoded.userId;
   
   try {
+    // Check if the league_id exists in private_prediction_leagues
+    const leagueQuery = `
+      SELECT * FROM private_prediction_leagues WHERE league_id = $1
+    `;
+    const leagueResult = await db.query(leagueQuery, [leagueId]);
+
+    if (leagueResult.rows.length === 0) {
+      return res.status(404).json({ error: 'League not available' });
+    }
+
     const countQuery = `
       SELECT COUNT(*) FROM private_predictions WHERE league_id = $1 AND round_num = $2
     `;
@@ -484,29 +492,42 @@ export const getAllPrivateRoundPredictions = async (req, res) => {
 
 export const fetchLeagueCode = async (req, res) => {
   const { leagueId } = req.params;
-  const token = req.headers.authorization?.split(' ')[1]; 
+  const token = req.headers.authorization?.split(' ')[1];
+  console.log("league id from league code: ", leagueId);
 
   if (!token) {
     return res.status(401).json({ error: 'Token not provided' });
   }
 
   try {
-  
     const decoded = jwt.verify(token, config.jwtSecret);
     const userId = decoded.userId;
 
-    const query = `
-      SELECT league_code 
+    // Check ownership in private_prediction_leagues table
+    const ownershipQuery = `
+      SELECT owner_id 
       FROM private_prediction_leagues 
       WHERE league_id = $1 AND owner_id = $2
     `;
-    const result = await db.query(query, [leagueId, userId]);
+    const ownershipResult = await db.query(ownershipQuery, [leagueId, userId]);
+
+    if (ownershipResult.rows.length === 0) {
+      return res.status(200).json({ message: 'User is not the owner' });
+    }
+
+    // Fetch league code from private_prediction_leagues table
+    const query = `
+      SELECT league_code 
+      FROM private_prediction_leagues 
+      WHERE league_id = $1
+    `;
+    const result = await db.query(query, [leagueId]);
 
     if (result.rows.length > 0) {
       const leagueCode = result.rows[0].league_code;
       res.status(200).json({ leagueCode: leagueCode.toString() });
     } else {
-      res.status(404).json({ message: 'League code not found or user is not the owner' });
+      res.status(404).json({ message: 'League code not found' });
     }
   } catch (error) {
     console.error('Error fetching league code:', error.message);
@@ -516,10 +537,10 @@ export const fetchLeagueCode = async (req, res) => {
 
 
 export const deletePrivatePredictionLeague = async (req, res) => {
-  console.log("hi");
+
   const { leagueId } = req.params;
   const token = req.headers.authorization?.split(' ')[1]; 
-  console.log(leagueId);
+ 
   if (!token) {
     return res.status(401).json({ error: 'Token not provided' });
   }
@@ -528,7 +549,7 @@ export const deletePrivatePredictionLeague = async (req, res) => {
     // Verify the JWT token
     const decoded = jwt.verify(token, config.jwtSecret);
     const userId = decoded.userId;
-    console.log(userId);
+   
     // Check if the user is the owner of the league
     const leagueCheckQuery = `
       SELECT owner_id 

@@ -56,8 +56,6 @@ export const getTeamsData = async (req, res) => {
     }
 };
 
-
-
 export const storePlayerPrices = async (req, res) => {
   const { table } = req.body;
 
@@ -67,9 +65,12 @@ export const storePlayerPrices = async (req, res) => {
       const { firstName, lastName, price } = player;
 
       // Example SQL query to insert data into the 'players' table
+      // If a conflict occurs (same first_name and last_name), update the price
       const query = `
-        INSERT INTO players (first_name, last_name, price)
-        VALUES ($1, $2, $3);
+        INSERT INTO players (first_name, last_name, price, total_points)
+        VALUES ($1, $2, $3, 0)
+        ON CONFLICT (first_name, last_name)
+        DO UPDATE SET price = EXCLUDED.price;
       `;
 
       // Execute the query with sanitized values using db.query
@@ -82,3 +83,87 @@ export const storePlayerPrices = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+export const getPrevTotal = async (req, res) => {
+  try {
+    // Query to get first_name, last_name, and total_points from the players table
+    const result = await db.query('SELECT first_name, last_name, total_points FROM players');
+
+    // Structure the data as an array of objects with firstName, lastName, and totalPoints
+    const prevTotals = result.rows.map(row => ({
+      firstName: row.first_name,
+      lastName: row.last_name,
+      totalPoints: row.total_points,
+    }));
+
+    // Send the response
+    res.status(200).json(prevTotals);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching previous total points', error: error.message });
+  }
+};
+
+
+export const storeRoundPoints = async (req, res) => {
+  const { roundPoints, roundNum } = req.body;
+
+  try {
+    // Loop over each player in the roundPoints array
+    for (const player of roundPoints) {
+      const { firstName, lastName, roundPoints } = player;
+    
+      // Check if the player-round combination already exists in the database
+      const result = await db.query(
+        `SELECT * FROM player_rounds WHERE first_name = $1 AND last_name = $2 AND round_num = $3`,
+        [firstName, lastName, roundNum]
+      );
+
+      if (result.rows.length > 0) {
+        // If it exists, update the existing record by adding the new roundPoints
+        await db.query(
+          `UPDATE player_rounds SET round_points = round_points + $1 WHERE first_name = $2 AND last_name = $3 AND round_num = $4`,
+          [roundPoints, firstName, lastName, roundNum]
+        );
+
+      } else {
+        // If it does not exist, insert a new record
+        await db.query(
+          `INSERT INTO player_rounds (first_name, last_name, round_num, round_points) VALUES ($1, $2, $3, $4)`,
+          [firstName, lastName, roundNum, roundPoints]
+        );
+        console.log(`Inserted new round points for ${firstName} ${lastName}`);
+      }
+    }
+
+    res.status(200).json({ message: 'Round points stored successfully' });
+  } catch (error) {
+    console.error('Error storing round points:', error);
+    res.status(500).json({ message: 'Error storing round points', error: error.message });
+  }
+};
+
+
+
+export const storeTotalPoints = async (req, res) => {
+  const { table } = req.body;
+
+  try {
+    // Loop through each player in the table
+    for (const player of table) {
+      const { firstName, lastName, points } = player;
+
+      // Update the total_points in the players table for the matching player
+      await db.query(
+        `UPDATE players SET total_points = $1 WHERE first_name = $2 AND last_name = $3`,
+        [points, firstName, lastName]
+      );
+
+    }
+
+    res.status(200).json({ message: 'Total points stored successfully' });
+  } catch (error) {
+    console.error('Error storing total points:', error);
+    res.status(500).json({ message: 'Error storing total points', error: error.message });
+  }
+};
+

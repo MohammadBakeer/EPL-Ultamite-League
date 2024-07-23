@@ -5,7 +5,7 @@ import '../../../styles/roundBars.css'
 
 function Rounds({ number, defaultExpanded, roundbarText }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
-  const [roundNum, setRoundNum] = useState(2);
+  const [roundNum, setRoundNum] = useState(1);
   const [roundGames, setRoundGames] = useState([]);
 
   const toggleVisibility = () => {

@@ -1,58 +1,138 @@
+import axios from 'axios';
 
-// Function to calculate points and price for each player
-export const calculatePoints = (table) => {
-    table.forEach((player) => {
-      let points = 0;
-      let price = player.price || 0; // Assuming a default value for price
-  
-      // Calculate points and price based on player's position
-      switch (player.position) {
-        case 'FWD':
-          points += player.goalsScored * 14;
-          points += player.assists * 10;
-          points += player.cleanSheets * 4;
-          points += player.goalsConceded * -1;
-          points += player.yellowCards * -5;
-          points += player.redCards * -15;
-          points += Math.floor(player.minutes / 90) * 10;
-          break;
-        case 'MID':
-          points += player.goalsScored * 18;
-          points += player.assists * 10;
-          points += player.cleanSheets * 6;
-          points += player.goalsConceded * -3;
-          points += player.yellowCards * -2;
-          points += player.redCards * -8;
-          points += Math.floor(player.minutes / 90) * 10;
-          break;
-        case 'DEF':
-          points += player.goalsScored * 20;
-          points += player.assists * 15;
-          points += player.cleanSheets * 18;
-          points += player.goalsConceded * -5;
-          points += player.yellowCards * -2;
-          points += player.redCards * -8;
-          points += Math.floor(player.minutes / 90) * 15;
-          break;
-        case 'GK':
-          points += player.cleanSheets * 25;
-          points += player.goalsConceded * -10;
-          points += player.penaltiesSaved * 50;
-          points += player.saves * 4;
-          points += Math.floor(player.minutes / 90) * 10;
-          break;
-  
-        default:
-          break;
+const roundNum = 2
+
+const storeTotalPoints = async (table) => {
+  const token = sessionStorage.getItem('authToken');
+  try {
+    const response = await axios.post('http://localhost:3000/api/storeTotalPoints', {
+      table,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       }
-  
-  
-      player.points = points;
-      player.price = price;
     });
 
-    return {
-      table,
-    };
-  };
+    console.log('Success:', response.data.message);
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+};
+
+const storeRoundPoints = async (roundPoints) => {
+  const token = sessionStorage.getItem('authToken');
+  try {
+    const response = await axios.post('http://localhost:3000/api/storeRoundPoints', {
+      roundPoints,
+      roundNum
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    console.log('Success:', response.data.message);
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+};
+
+
+const calculateRoundPoints = async (table) => {
+  const token = sessionStorage.getItem('authToken');
   
+  try {
+    const response = await axios.get('http://localhost:3000/api/getPrevTotal', {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const prevTotals = response.data; // Assuming this returns an array of objects with firstName, lastName, and previousTotal
+
+    // Create a new array based on `table` with updated `roundPoints`
+    const roundPoints = table.map((player) => {
+      // Find the previous total for the current player by firstName and lastName
+      const foundPlayer = prevTotals.find(p => p.firstName === player.firstName && p.lastName === player.lastName);
+      
+      // Get the totalPoints or default to 0
+      const prevTotal = foundPlayer?.totalPoints || 0;
+
+      return {
+        ...player,
+        roundPoints: player.points - prevTotal,
+      };
+    });
+
+    return roundPoints;
+
+  } catch (error) {
+    console.error('Error fetching previous total points:', error.message);
+    return table; // Return the original table in case of error
+  }
+};
+
+// Function to calculate points for each player
+export const calculatePoints = async (table) => {
+  table.forEach((player) => {
+    let points = 0;
+
+    // Calculate points based on player's position
+    switch (player.position) {
+      case 'FWD':
+          points += player.goalsScored * 1800; // 1.3 * 100
+          points += player.assists * 1000; // 0.7 * 100
+          points += player.cleanSheets * 100; // 0.1 * 100
+          points += player.goalsConceded * -100; // -0.1 * 100
+          points += player.yellowCards * -200; // -0.2 * 100
+          points += player.redCards * -400; // -0.4 * 100
+          points += Math.floor(player.minutes / 90) * 100; // 0.1 * 100
+          break;
+      case 'MID':
+          points += player.goalsScored * 700; // 1.0 * 100
+          points += player.assists * 1200; // 0.8 * 100
+          points += player.cleanSheets * 400; // 0.4 * 100
+          points += player.goalsConceded * -200; // -0.2 * 100
+          points += player.yellowCards * -100; // -0.1 * 100
+          points += player.redCards * -400; // -0.4 * 100
+          points += Math.floor(player.minutes / 90) * 700; // 0.2 * 100
+          break;
+      case 'DEF':
+          points += player.goalsScored * 1500; // 0.7 * 100
+          points += player.assists * 400; // 0.4 * 100
+          points += player.cleanSheets * 700; // 0.7 * 100
+          points += player.goalsConceded * -300; // -0.3 * 100
+          points += player.yellowCards * -20; // -0.2 * 100
+          points += player.redCards * -200; // -0.4 * 100
+          points += Math.floor(player.minutes / 90) * 800; // 0.6 * 100
+          break;
+      case 'GK':
+          points += player.cleanSheets * 1400; // 1.2 * 100
+          points += player.goalsConceded * -800; // -0.8 * 100
+          points += player.penaltiesSaved * 700; // 0.7 * 100
+          points += player.saves * 400; // 0.4 * 100
+          points += Math.floor(player.minutes / 90) * 100; // 0.3 * 100
+          break;
+      default:
+          break;
+    }
+    player.points = points;
+
+    if (player.lastName === 'Haaland') {
+      player.points += 60;
+    }
+
+  });
+
+  const roundPoints = await calculateRoundPoints(table)
+  const haalandPoints = roundPoints.find(player => player.lastName === 'Haaland');
+  console.log("Haaland roundPoints: ", haalandPoints);
+  storeRoundPoints(roundPoints)
+  storeTotalPoints(table)
+  
+  return {
+    table,
+  };
+};

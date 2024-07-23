@@ -14,7 +14,7 @@ const CreateLeagueModal = ({ onClose, selectedBadge }) => {
   const userId = decodedToken.userId;
 
   const handleCreateLeague = async (e) => {
-    const roundNum = 2
+    const roundNum = 1
     e.preventDefault();
     try {
       const token = sessionStorage.getItem('authToken');
