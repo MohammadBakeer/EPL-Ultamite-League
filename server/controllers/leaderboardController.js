@@ -19,7 +19,7 @@ export const getLeaderboardDataForAllUsers = async (req, res) => {
       return {
         userId: user.user_id,
         teamName: user.team_name,
-        totalBudget: teamStats ? teamStats.total_budget : 0
+        totalBudget: teamStats ? teamStats.total_budget : 0,
    
       };
     });
@@ -69,13 +69,13 @@ export const joinLeague = async (req, res) => {
 
 export const createLeague = async (req, res) => {
   try {
-    const { leagueName, ownerId, startRound, leagueBadge, roundNum } = req.body;
+    const { leagueName, ownerId, leagueBadge, roundNum } = req.body;
 
    
     // Perform database insert operation for private_league table
     const leagueResult = await db.query(
-      'INSERT INTO private_prediction_leagues (league_name, owner_id, start_round, league_badge) VALUES ($1, $2, $3, $4) RETURNING league_id, league_code',
-      [leagueName, ownerId, startRound, leagueBadge]
+      'INSERT INTO private_prediction_leagues (league_name, owner_id, league_badge) VALUES ($1, $2, $3) RETURNING league_id, league_code',
+      [leagueName, ownerId, leagueBadge]
     );
 
     // Get the newly created league_id
@@ -95,7 +95,7 @@ export const createLeague = async (req, res) => {
     // Send a response indicating success
     res.status(201).json({
       message: 'League created successfully',
-      league: { league_id, league_code, league_name: leagueName, owner_id: ownerId, start_round: startRound }
+      league: { league_id, league_code, league_name: leagueName, owner_id: ownerId }
     });
   } catch (error) {
     console.error('Error during league creation:', error.message);
@@ -125,7 +125,7 @@ export const getPrivateTeamLeagues = async (req, res) => {
 
     // Query to get the league details from private_leagues table
     const leaguesQuery = `
-      SELECT league_id, league_name, start_round, league_badge
+      SELECT league_id, league_name, league_badge
       FROM private_prediction_leagues
       WHERE league_id = ANY($1::int[])
     `;
@@ -135,7 +135,6 @@ export const getPrivateTeamLeagues = async (req, res) => {
     const leagueData = leaguesResult.rows.map(row => ({
       leagueId: row.league_id,
       leagues: [row.league_name],
-      startRound: row.start_round,
       leagueBadge: row.league_badge
     }));
 

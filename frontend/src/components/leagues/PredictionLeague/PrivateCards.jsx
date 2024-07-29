@@ -5,10 +5,11 @@ import Badges from '../../../images/badges/exportBadges.js'; // Adjust the path 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import '../../../styles/cards.css'
 
 
-function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name, choose_cards, isOwner, notAllowStarClick, setChosenGames, onStarStatusChange, setAnyPrivateGames, predictionOption, setStarClicked, isSubmitted }) {
+function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name, choose_cards, isOwner, notAllowStarClick, setChosenGames, onStarStatusChange, setAnyPrivateGames, predictionOption, setStarClicked, isSubmitted, blockChanges }) {
   const leagueId = useSelector((state) => state.leagueId.leagueId); 
   const [isPredicted, setIsPredicted] = useState(false);
   const [team1Score, setTeam1Score] = useState('');
@@ -25,6 +26,10 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 
   // Function to handle the prediction button click
   const handlePredictionClick = () => {
+    if(blockChanges){
+      toast.error(`Round ${roundNum} Predictions Window Closed `);
+      return
+    }
     setIsPredicted(true);
   };
 
@@ -103,6 +108,10 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 
   // Function to handle cancel prediction
   const handleCancelPrediction = async () => {
+    if(blockChanges){
+      toast.error(`Round ${roundNum} Predictions Window Closed `);
+      return
+    }
     try {
       if (isPredicted) {
         const response = await axios.delete(`http://localhost:3000/api/deletePrivatePrediction/${gameId}/${leagueId}`, {
@@ -139,6 +148,11 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 
   // Function to handle save prediction
   const handleSavePrediction = async () => {
+
+    if(blockChanges){
+      toast.error(`Round ${roundNum} Predictions Window Closed `);
+      return
+    }
 
     const score1 = parseInt(team1Score);
     const score2 = parseInt(team2Score);
@@ -239,7 +253,6 @@ useEffect(()=>{
     }
   
     const token = sessionStorage.getItem('authToken');
-    const roundNum = 1; // Adjust as needed
   
     try {
       const response = await axios.get(`http://localhost:3000/api/fetchOptionType/${leagueId}/${roundNum}`, {
@@ -359,7 +372,7 @@ useEffect(() => {
 }
 
 
-function Card({ gamePairs, choose_cards, isOwner, setChosenGames, notAllowStarClick, isExpanded, setAnyPrivateGames, predictionOption, setStarClicked, isSubmitted }) {
+function Card({ gamePairs, choose_cards, isOwner, setChosenGames, notAllowStarClick, isExpanded, setAnyPrivateGames, predictionOption, setStarClicked, isSubmitted, blockChanges }) {
   const [starredGameIds, setStarredGameIds] = useState([]);
   const [filteredGamePairs, setFilteredGamePairs] = useState(gamePairs);
 
@@ -401,6 +414,8 @@ function Card({ gamePairs, choose_cards, isOwner, setChosenGames, notAllowStarCl
             predictionOption={predictionOption}
             setStarClicked={setStarClicked}
             isSubmitted={isSubmitted}
+            blockChanges={blockChanges}
+
           />
         ))}
       </div>

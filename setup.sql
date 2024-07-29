@@ -73,7 +73,6 @@ CREATE TABLE private_prediction_leagues (
     league_name VARCHAR(20) NOT NULL,
     league_code NUMERIC(5, 0) UNIQUE NOT NULL,
     owner_id INT NOT NULL,
-    start_round INT CHECK (start_round BETWEEN 1 AND 38),
     FOREIGN KEY (owner_id) REFERENCES users(user_id)
 );
 
