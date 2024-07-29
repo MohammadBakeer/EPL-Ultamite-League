@@ -239,7 +239,7 @@ useEffect(()=>{
     }
   
     const token = sessionStorage.getItem('authToken');
-    const roundNum = 2; // Adjust as needed
+    const roundNum = 1; // Adjust as needed
   
     try {
       const response = await axios.get(`http://localhost:3000/api/fetchOptionType/${leagueId}/${roundNum}`, {
@@ -257,7 +257,7 @@ useEffect(()=>{
 
     } catch (error) {
       console.error('Error fetching prediction option type:', error);
-      navigate('/predictionleague')
+
     }
   };
 

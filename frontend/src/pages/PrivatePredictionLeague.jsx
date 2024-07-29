@@ -40,14 +40,13 @@ const PrivatePredictionLeague = () => {
   }, [dispatch]);
 
   const fetchLeagueCode = async () => {
-   
     if (!leagueId) {
       console.warn('League ID is not available.');
       return;
     }
-
+  
     const token = sessionStorage.getItem('authToken');
-
+  
     try {
       const response = await axios.get(`http://localhost:3000/api/fetchLeagueCode/${leagueId}`, {
         headers: {
@@ -55,14 +54,22 @@ const PrivatePredictionLeague = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      const leagueCode = response.data.leagueCode
-      setLeagueCode(leagueCode)
-
+  
+      const { leagueCode, message } = response.data;
+  
+      if (message === 'User is not the owner') {
+        console.warn(message);
+        // Handle the case where the user is not the owner (e.g., show a warning message)
+      } else if (leagueCode) {
+        setLeagueCode(leagueCode);
+      } else {
+        console.warn('League code not found.');
+      }
     } catch (error) {
       console.error('Error fetching league code:', error);
     }
   };
+  
 
   const handleFetchPredictionData = async () => {
     if (!leagueId) {
@@ -146,7 +153,7 @@ const PrivatePredictionLeague = () => {
     try {
       await axios.post('http://localhost:3000/api/storePrivatePredictionOption', {
         leagueId,
-        roundNum: 2,  // Adjust this if you have dynamic round numbers
+        roundNum: 1,  // Adjust this if you have dynamic round numbers
         predictionType: newPredictionOption
       }, {
         headers: {
@@ -168,7 +175,7 @@ const PrivatePredictionLeague = () => {
     }
   
     const token = sessionStorage.getItem('authToken');
-    const roundNum = 2; // Adjust as needed
+    const roundNum = 1; // Adjust as needed
   
     try {
       const response = await axios.get(`http://localhost:3000/api/fetchOptionType/${leagueId}/${roundNum}`, {
@@ -208,7 +215,7 @@ const PrivatePredictionLeague = () => {
             await fetchLeagueCode();
 
             // Fetch submit status
-            const roundNum = 2
+            const roundNum = 1
 
             const response = await axios.get(
                 `http://localhost:3000/api/fetchSubmitStatus/${roundNum}/${leagueId}`,
@@ -263,7 +270,7 @@ const PrivatePredictionLeague = () => {
       setNotAllowStarClick(true);
       setIsSubmitted(true);
       // Call saveSubmitStatus function
-      const roundNum = 2; // Adjust as needed
+      const roundNum = 1; // Adjust as needed
       saveSubmitStatus(leagueId, roundNum, true);
     }
   };
@@ -271,7 +278,7 @@ const PrivatePredictionLeague = () => {
 useEffect(()=>{
   if(anyPrivateGames === true && isSubmitted === false && selectedPredictionOption === "allow_any"){
     setIsSubmitted(true)
-    const roundNum = 2; // Adjust as needed
+    const roundNum = 1; 
     saveSubmitStatus(leagueId, roundNum, isSubmitted)
   }
 })
@@ -311,7 +318,6 @@ useEffect(()=>{
     }
   };
   
-
   return (
     <div>
       <Navbar />
@@ -390,16 +396,17 @@ useEffect(()=>{
         isSubmitted={isSubmitted}
 
       />
+        {isOwner && (
       <div className="bottom-bar-container">
       <div className="bottom-bar">
         <span className="league-code">League Code: {leagueCode}</span>
-        {isOwner && (
+\
            <button className="delete-league-button" onClick={handleDeleteLeague}>
             <FontAwesomeIcon icon={faTrash} /> Delete League
            </button>
-        )}
       </div>
     </div>
+     )}
     </div>
   ); 
 };

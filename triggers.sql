@@ -132,3 +132,28 @@ EXECUTE FUNCTION add_to_global_prediction_members();
 
 
 
+CREATE OR REPLACE FUNCTION update_fantasy_points()
+RETURNS TRIGGER AS $$
+DECLARE
+    total_points INTEGER;
+BEGIN
+    -- Calculate the total points for the user
+    SELECT SUM(points)
+    INTO total_points
+    FROM teams
+    WHERE user_id = NEW.user_id;
+
+    -- Insert or update the fantasy_points table with the total points
+    INSERT INTO fantasy_points (user_id, points)
+    VALUES (NEW.user_id, total_points)
+    ON CONFLICT (user_id) 
+    DO UPDATE SET points = EXCLUDED.points;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_fantasy_points
+AFTER INSERT OR UPDATE ON teams
+FOR EACH ROW
+EXECUTE FUNCTION update_fantasy_points();

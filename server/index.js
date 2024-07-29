@@ -12,7 +12,8 @@ import privatePredictions from './routes/privatePredictionRoutes.js'
 import globalPredictions from './routes/globalPredictionRoutes.js'
 import tokenRouter from './routes/tokenRoutes.js';
 import bodyParser from 'body-parser';
-import { synchronizeData } from './services/cron.js'
+import {  buildPlayerData } from './services/cron.js'
+import { fetchRoundStatus } from './services/CronFunctions/roundTracker.js'
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,8 +23,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.json());
 
-// Schedule the synchronization task
-cron.schedule('0 * * * *', synchronizeData);
+/* Schedule the synchronization task */
+cron.schedule('*/10 * * * * *', buildPlayerData);
+cron.schedule('*/10 * * * * *', fetchRoundStatus); 
 
 app.post('/api/update-token', (req, res) => {
   const { viewId, leagueId } = req.body;

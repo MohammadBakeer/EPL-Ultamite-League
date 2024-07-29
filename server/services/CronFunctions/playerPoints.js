@@ -1,27 +1,27 @@
+
 import axios from 'axios';
 
 const roundNum = 2
 
 const storeTotalPoints = async (table) => {
-  const token = sessionStorage.getItem('authToken');
+
   try {
     const response = await axios.post('http://localhost:3000/api/storeTotalPoints', {
       table,
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
       }
     });
 
-    console.log('Success:', response.data.message);
+
   } catch (error) {
     console.error('Error:', error.message);
   }
 };
 
 const storeRoundPoints = async (roundPoints) => {
-  const token = sessionStorage.getItem('authToken');
+
   try {
     const response = await axios.post('http://localhost:3000/api/storeRoundPoints', {
       roundPoints,
@@ -29,11 +29,10 @@ const storeRoundPoints = async (roundPoints) => {
     }, {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
       }
     });
 
-    console.log('Success:', response.data.message);
+    
   } catch (error) {
     console.error('Error:', error.message);
   }
@@ -41,17 +40,15 @@ const storeRoundPoints = async (roundPoints) => {
 
 
 const calculateRoundPoints = async (table) => {
-  const token = sessionStorage.getItem('authToken');
+
   
   try {
     const response = await axios.get('http://localhost:3000/api/getPrevTotal', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
+     
     });
 
     const prevTotals = response.data; // Assuming this returns an array of objects with firstName, lastName, and previousTotal
-
+  
     // Create a new array based on `table` with updated `roundPoints`
     const roundPoints = table.map((player) => {
       // Find the previous total for the current player by firstName and lastName
@@ -65,7 +62,7 @@ const calculateRoundPoints = async (table) => {
         roundPoints: player.points - prevTotal,
       };
     });
-
+   
     return roundPoints;
 
   } catch (error) {
@@ -76,6 +73,7 @@ const calculateRoundPoints = async (table) => {
 
 // Function to calculate points for each player
 export const calculatePoints = async (table) => {
+ 
   table.forEach((player) => {
     let points = 0;
 
@@ -118,17 +116,14 @@ export const calculatePoints = async (table) => {
       default:
           break;
     }
+
+    points += 200;
+
     player.points = points;
-
-    if (player.lastName === 'Haaland') {
-      player.points += 60;
-    }
-
   });
 
+
   const roundPoints = await calculateRoundPoints(table)
-  const haalandPoints = roundPoints.find(player => player.lastName === 'Haaland');
-  console.log("Haaland roundPoints: ", haalandPoints);
   storeRoundPoints(roundPoints)
   storeTotalPoints(table)
   
@@ -136,3 +131,4 @@ export const calculatePoints = async (table) => {
     table,
   };
 };
+

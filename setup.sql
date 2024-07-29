@@ -15,7 +15,10 @@ CREATE TABLE teams (
     formation JSONB NOT NULL,
     player_lineup JSONB NOT NULL,
     total_budget INTEGER NOT NULL,
-    total_points INTEGER NOT NULL
+    round_num INTEGER NOT NULL,  
+    points INTEGER NOT NULL DEFAULT 0,
+    delete_count INTEGER NOT NULL DEFAULT 0,
+    change_count INTEGER NOT NULL DEFAULT 0
 );
 
 
@@ -37,23 +40,30 @@ CREATE TABLE fantasy_private_leagues (
     FOREIGN KEY (owner_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE game_round_points (
-    user_id INTEGER NOT NULL,          
-    round_num INTEGER NOT NULL,        
+CREATE TABLE fantasy_points (
+    user_id INTEGER NOT NULL,                
     points INTEGER NOT NULL,      
-    PRIMARY KEY (user_id, round_num),  
+    PRIMARY KEY (user_id),  
     FOREIGN KEY (user_id) REFERENCES users(user_id) 
 );
 
-CREATE TABLE player_round_points (
-    player_id SERIAL PRIMARY KEY,  
-    first_name VARCHAR(50) NOT NULL,  
+CREATE TABLE player_rounds (
+    first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
-    round_num INTEGER NOT NULL,  
-    round_points INTEGER NOT NULL, 
-    CONSTRAINT unique_player_round UNIQUE (player_id, round_num)  
+    round_num INTEGER NOT NULL,
+    round_points INTEGER NOT NULL DEFAULT 0,
+    round_price INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (first_name, last_name, round_num)
 );
 
+CREATE TABLE players (
+    player_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    total_points INTEGER NOT NULL DEFAULT 0,
+    CONSTRAINT unique_player_name UNIQUE (first_name, last_name)
+);
 
 
 ------------ Prediction Leagues ----------------
@@ -155,20 +165,13 @@ CREATE TABLE private_prediction_choose_cards ( -- For the starred games
 );
 
 
------------------------
+---------------- Rounds ------------------
 
-CREATE TABLE players (
-    player_id SERIAL PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    price DECIMAL(10, 2) NOT NULL
-);
-
-CREATE TABLE player_stats (
-    stat_id SERIAL PRIMARY KEY,
-    player_id INT NOT NULL REFERENCES players(player_id),
-    matches_played INT NOT NULL,
-    goals INT NOT NULL,
-    assists INT NOT NULL,
-    // Other stats columns
+CREATE TABLE round_status (
+    round_num INTEGER NOT NULL,
+    finished BOOLEAN NOT NULL DEFAULT FALSE,
+    is_current BOOLEAN NOT NULL DEFAULT FALSE,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    CONSTRAINT unique_round_num UNIQUE (round_num)
 );
