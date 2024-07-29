@@ -167,3 +167,40 @@ export const storeTotalPoints = async (req, res) => {
   }
 };
 
+export const fetchPlayerRounds = async (req, res) => {
+  try {
+    // Extract currentRound from URL parameters
+    const { currentRound } = req.params;
+
+    // Query to get rows where round_num matches currentRound
+    const query = `
+      SELECT first_name, last_name, round_points, round_price
+      FROM player_rounds
+      WHERE round_num = $1
+    `;
+
+    // Execute the query
+    const result = await db.query(query, [currentRound]);
+
+    // Check if any rows were returned
+    if (result.rows.length > 0) {
+      // Map the rows to the desired format
+      const formattedRows = result.rows.map(row => ({
+        firstName: row.first_name,
+        lastName: row.last_name,
+        roundPoints: row.round_points,
+        roundPrice: row.round_price
+      }));
+
+      // Send the mapped rows back as an array of objects
+      res.status(200).json(formattedRows);
+    } else {
+      // No rows found for the given round number
+      res.status(404).json({ message: 'No player rounds found for the specified round number' });
+    }
+  } catch (error) {
+    // Log and handle any errors
+    console.error('Error fetching player rounds:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

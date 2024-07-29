@@ -10,7 +10,7 @@ export const getLeaderboardDataForAllUsers = async (req, res) => {
     const teamNameData = teamNameQuery.rows;
 
     // Fetch total budget and total price from the teams table
-    const teamStatsQuery = await db.query('SELECT user_id, total_budget, total_points FROM teams');
+    const teamStatsQuery = await db.query('SELECT user_id, total_budget, points FROM teams');
     const teamStatsData = teamStatsQuery.rows;
 
     // Combine data from both queries based on user_id
@@ -19,8 +19,8 @@ export const getLeaderboardDataForAllUsers = async (req, res) => {
       return {
         userId: user.user_id,
         teamName: user.team_name,
-        totalBudget: teamStats ? teamStats.total_budget : 0,
-        totalPrice: teamStats ? teamStats.total_points : 0,
+        totalBudget: teamStats ? teamStats.total_budget : 0
+   
       };
     });
 

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/Table.css';
-import { calculatePoints} from './playerPoints'; // Adjust the path as necessary
 import { calculatePlayerPrice, updatePlayerPrices  } from './playerPrices'
 
 
@@ -64,8 +63,6 @@ const Table = ({ onPlayerSelect }) => {
 
             // Calculate points and price for each player and sort by price
             const { table: newTable } = calculatePlayerPrice(updatedTable);
-            
-            calculatePoints(updatedTable)
             
             const orderedTable = newTable.sort((a, b) => b.price - a.price);
             

@@ -493,7 +493,7 @@ export const getAllPrivateRoundPredictions = async (req, res) => {
 export const fetchLeagueCode = async (req, res) => {
   const { leagueId } = req.params;
   const token = req.headers.authorization?.split(' ')[1];
-  console.log("league id from league code: ", leagueId);
+  
 
   if (!token) {
     return res.status(401).json({ error: 'Token not provided' });
@@ -563,7 +563,7 @@ export const deletePrivatePredictionLeague = async (req, res) => {
     }
 
     const leagueOwnerId = leagueCheckResult.rows[0].owner_id;
-    console.log(leagueOwnerId);
+
     if (leagueOwnerId !== userId) {
       return res.status(403).json({ error: 'User does not have permission to delete this league' });
     }

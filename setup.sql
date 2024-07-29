@@ -15,7 +15,10 @@ CREATE TABLE teams (
     formation JSONB NOT NULL,
     player_lineup JSONB NOT NULL,
     total_budget INTEGER NOT NULL,
-    total_points INTEGER NOT NULL
+    round_num INTEGER NOT NULL,  
+    points INTEGER NOT NULL DEFAULT 0,
+    delete_count INTEGER NOT NULL DEFAULT 0,
+    change_count INTEGER NOT NULL DEFAULT 0
 );
 
 
@@ -37,11 +40,10 @@ CREATE TABLE fantasy_private_leagues (
     FOREIGN KEY (owner_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE fantasy_round_points (
-    user_id INTEGER NOT NULL,          
-    round_num INTEGER NOT NULL,        
+CREATE TABLE fantasy_points (
+    user_id INTEGER NOT NULL,                
     points INTEGER NOT NULL,      
-    PRIMARY KEY (user_id, round_num),  
+    PRIMARY KEY (user_id),  
     FOREIGN KEY (user_id) REFERENCES users(user_id) 
 );
 
@@ -163,5 +165,13 @@ CREATE TABLE private_prediction_choose_cards ( -- For the starred games
 );
 
 
------------------------
+---------------- Rounds ------------------
 
+CREATE TABLE round_status (
+    round_num INTEGER NOT NULL,
+    finished BOOLEAN NOT NULL DEFAULT FALSE,
+    is_current BOOLEAN NOT NULL DEFAULT FALSE,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    CONSTRAINT unique_round_num UNIQUE (round_num)
+);

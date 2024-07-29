@@ -14,9 +14,17 @@ const DefaultShirt = () => {
 };
 
 // PlayerShirt Component
-const PlayerShirt = ({ player, onRemove, isHomePage }) => {
+const PlayerShirt = ({ player, onRemove, isHomePage, blockChanges, deleteCount, changeCount }) => {
+
   const handleRemove = () => {
+
+    if ((deleteCount === 1 && changeCount === 1) || (changeCount >= 2 || deleteCount >= 2)) {
+      return;
+    }
+
+    if(!blockChanges){
     onRemove(player);
+    }
   };
 
   const playerName = player.lastName.length > 16 ? player.firstName : player.lastName;

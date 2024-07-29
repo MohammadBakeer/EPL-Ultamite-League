@@ -36,3 +36,11 @@ UPDATE games
 SET team_1_result = 1, team_2_result = 1
 WHERE game_id IN (14, 15);
 
+
+UPDATE round_status
+SET finished = TRUE
+WHERE round_num = 1;
+
+UPDATE round_status
+SET is_current = TRUE
+WHERE round_num = 2;
