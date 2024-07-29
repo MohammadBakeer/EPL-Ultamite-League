@@ -1,9 +1,13 @@
 // cron.js
 
 import axios from 'axios';
-import cron from 'node-cron';
 import db from '../config/db.js';
+import { calculatePoints } from './CronFunctions/playerPoints.js';
+import { teamRoundPoints } from './CronFunctions/matchingRoundPoints.js'
 
+
+const currentRound = 2
+/*
 // Function to fetch player stats from the API
 async function fetchPlayerStats() {
   const playerResponse = await axios.get('https://fantasy.premierleague.com/api/bootstrap-static/');
@@ -124,6 +128,72 @@ async function synchronizeData() {
     console.error('Error synchronizing data:', error);
   }
 }
+*/
+
+const mapPosition = (positionId) => {
+  switch (positionId) {
+    case 1:
+      return 'GK';
+    case 2:
+      return 'DEF';
+    case 3:
+      return 'MID';
+    case 4:
+      return 'FWD';
+    default:
+      return 'Unknown';
+  }
+};
+
+async function buildPlayerData(){
+
+  const fetchData = async () => {
+    try {
+       
+        const playerResponse = await fetch('http://localhost:3000/api/playerNames', {
+          
+        });
+        const playerData = await playerResponse.json();
+       
+        const teamResponse = await fetch('http://localhost:3000/api/teams', {
+            
+        });
+        const teamData = await teamResponse.json();
+
+        const updatedTable = playerData.playerNames.map((player) => {
+            const { firstName, lastName, teamId, positionId, ...stats } = player;
+            const matchingTeam = teamData.team.find((team) => team.id === teamId);
+               
+            if (matchingTeam) {
+                return {
+                    firstName,
+                    lastName,
+                    club: matchingTeam.club,
+                    position: mapPosition(positionId),
+                    price: '',
+                    points: '',
+                    roundPoints: 0, 
+                    ...stats,
+                };
+            } else {
+                console.warn(`No matching team found for player with teamId ${teamId}`);
+                return null;
+            }
+        });
+
+        calculatePoints(updatedTable)
+
+    } catch (error) {
+        console.error('Error fetching data:', error.message);
+    }
+};
 
 
-export { synchronizeData };
+fetchData();
+teamRoundPoints(currentRound)
+}
+
+
+
+export { buildPlayerData };
+

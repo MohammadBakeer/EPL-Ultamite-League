@@ -1,8 +1,32 @@
 import db from '../config/db.js';
 import jwt from 'jsonwebtoken';
 import config from '../config/config.js';
+import { current } from '@reduxjs/toolkit';
 
 const { sign } = jwt;
+
+const fetchRoundDBStatus = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+      method: 'GET',
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+  
+    const finishedRounds = data
+      .filter(round => round.finished) // Filter objects with finished as true
+      .map(round => round.round_num); // Map to round_num
+
+    // Find the maximum round_num
+    const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
+    const currentRound = maxRoundNum + 1; // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
+
+    return currentRound;
+  } catch (error) {
+    console.error('Error fetching round status from the database:', error.message);
+  }
+};
 
 export const register = async (req, res) => {
   try {
@@ -21,8 +45,13 @@ export const register = async (req, res) => {
 
     const userId = userResult.rows[0].user_id;
 
-    // Perform database insert operation for teams tabl
-    await db.query('INSERT INTO teams (user_id, formation, player_lineup, total_budget, total_points) VALUES ($1, $2, $3, $4, $5)', [userId, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 100, 0]);
+    const currentRoundNum = await fetchRoundDBStatus()
+    
+    await db.query(
+      'INSERT INTO teams (user_id, formation, player_lineup, total_budget, round_num, points) VALUES ($1, $2, $3, $4, $5, $6)',
+      [userId, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 100, currentRoundNum, 0]
+    );
+
 
     // Sign JWT token and send it back to the client upon successful user creation
     const token = sign({ userId }, config.jwtSecret, { expiresIn: '1h' });

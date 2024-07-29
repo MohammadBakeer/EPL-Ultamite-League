@@ -11,6 +11,9 @@ const SquadView = () => {
   const viewId = useSelector((state) => state.viewId.value); 
   const dispatch = useDispatch();
   const [teamName, setTeamName] = useState('');
+  const [roundNum, setRoundNum] = useState(null)
+  const [blockChanges, setBlockChanges] = useState(false)
+
   const navigate = useNavigate();
 
   const decodedToken = decodeJWT();
@@ -23,6 +26,54 @@ const SquadView = () => {
     }
   
   }, [dispatch]);
+
+
+  const fetchRoundStatus = async () => {
+  
+    const token = sessionStorage.getItem('authToken');
+    const response = await fetch('http://localhost:3000/api/getRoundStatus', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+  
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+    
+    const currentDate = new Date();
+   
+    const finishedRounds = data
+      .filter(round => round.finished) // Filter objects with finished as true
+      .map(round => round.round_num); // Map to round_num
+  
+      // Find the maximum round_num
+      const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
+      const currentRound = maxRoundNum + 1
+      // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
+      setRoundNum(maxRoundNum > 0 ? maxRoundNum + 1 : 1);
+
+      const currentRoundObject = data.find(round => round.round_num === currentRound);
+
+      if (currentRoundObject) {
+        const { is_current, start_date, finished } = currentRoundObject;
+        const startDate = new Date(start_date);
+        
+        if (is_current || (startDate <= currentDate && !finished)) {
+          setBlockChanges(true)
+
+        } else {
+          setBlockChanges(false)
+        }
+      }
+
+      return currentRound
+  };
+  
+ 
+useEffect(() => {
+  fetchRoundStatus();
+}, []);
 
 useEffect(() => {
   const fetchTeamName = async () => {
@@ -57,7 +108,7 @@ useEffect(() => {
       <div className="home-field-container">
         <div className="home-field">
             <h1 className="home-team">{teamName}</h1>
-            <Field viewId={viewId} isHomePage={false} />
+            <Field viewId={viewId} isHomePage={false} roundNum = {roundNum} blockChanges = {blockChanges} />
             <button className="Edit-team" onClick={() => navigate(-1)}>Exit View</button>
         </div>
       </div>

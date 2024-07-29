@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../components/table/Table.jsx'
-import CreateField from '../components/field/createField.jsx';
+import Field from '../components/field/Field.jsx';
 import { useNavigate } from 'react-router-dom';
 import { decodeJWT } from '../jwtUtils.js';
 import axios from 'axios'; 
 import '../styles/Edit-Team.css'
-
-
 
 const Edit = () => {
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [teamName, setTeamName] = useState(''); // State to store team name
   const [isClearTeamRequested, setIsClearTeamRequested] = useState(false);
   const [roundNum, setRoundNum] = useState(null)
-  const [blockChanges, setBlockChanges] = useState(false) // this state is needed since it will be always false
-  const [deleteCount, setDeleteCount] = useState(0) // always be 0
-  const [changeCount, setChangeCount] = useState(0) // always be 0 
+  const [blockChanges, setBlockChanges] = useState(false)
+  const [deleteCount, setDeleteCount] = useState(0)
+  const [changeCount, setChangeCount] = useState(0)
 
   const navigate = useNavigate();
-
 
   const decodedToken = decodeJWT();
   const userId = decodedToken.userId;
@@ -61,11 +58,65 @@ const Edit = () => {
           setBlockChanges(false)
         }
       }
+
+      return currentRound
   };
 
+  const storeChangeStatus = async () => {
+    const token = sessionStorage.getItem('authToken');
+    try {
+      await axios.post(
+        'http://localhost:3000/api/storeChangeStatus',
+        {
+          deleteCount,
+          changeCount,
+          roundNum
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    } catch (error) {
+      console.error('Error storing change status:', error.message);
+    }
+  };
+
+  const fetchChangeStatus = async (currentRoundNum) => {
+    const token = sessionStorage.getItem('authToken');
+    try {
+      const response = await axios.get(`http://localhost:3000/api/fetchChangeStatus/${currentRoundNum}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const { delete_count, change_count } = response.data;
+
+      setDeleteCount(delete_count);
+      setChangeCount(change_count);
+
+    } catch (error) {
+      console.error('Error fetching change status:', error.message);
+    }
+  };
+  
+ 
   useEffect(() => {
-    fetchRoundStatus();
+    const initialize = async () => {
+      const currentRoundNum = await fetchRoundStatus(); // Wait for this to finish
+      fetchChangeStatus(currentRoundNum); // Now call fetchChangeStatus
+    };
+
+    initialize();
   }, []);
+
+useEffect(() => {
+  storeChangeStatus();
+}, [deleteCount, changeCount]);
+
 
   const handleConfirmTeam = () => { 
     // Perform any logic needed before confirming the team
@@ -75,9 +126,6 @@ const Edit = () => {
   };
 
 
-  const handleClearTeam = () => {
-    setIsClearTeamRequested(true);
-  };
 
   // Callback function to reset isClearTeamRequested
   const onClearTeam = () => {
@@ -86,7 +134,9 @@ const Edit = () => {
 
 
   const handlePlayerSelection = (player) => {
+    if(!blockChanges){
     setSelectedPlayer(player);
+    }
   };
 
   useEffect(() => {
@@ -116,16 +166,15 @@ const Edit = () => {
   return (
     <div>
       {/* Navbar */}
-      <nav className="navbar">
+      <nav className="edit-nav">
         <button className="confirm-button" onClick={handleConfirmTeam}>Confirm Team</button>
         <h2>{teamName}</h2>
-        <button className="clear-button" onClick={handleClearTeam}>Clear Team</button>
       </nav>
 
       {/* Main content */}
       <div className="app-container">
         <Table onPlayerSelect={handlePlayerSelection} />
-        <CreateField selectedPlayer={selectedPlayer} userId={userId} isClearTeamRequested={isClearTeamRequested} onClearTeam={onClearTeam} isHomePage = {true} roundNum = {roundNum} blockChanges = {blockChanges} />
+        <Field selectedPlayer={selectedPlayer} userId={userId} isClearTeamRequested={isClearTeamRequested} onClearTeam={onClearTeam} isHomePage = {true} roundNum = {roundNum} blockChanges = {blockChanges} deleteCount = {deleteCount}  changeCount = {changeCount} setDeleteCount = {setDeleteCount} setChangeCount = {setChangeCount}/>
       </div>
     </div>
   );
