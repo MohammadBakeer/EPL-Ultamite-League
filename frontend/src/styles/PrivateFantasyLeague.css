@@ -1,0 +1,126 @@
+.private-fantasy-league {
+  padding: 20px;
+  text-align: center;
+}
+
+.stylish-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stylish-table th,
+.stylish-table td {
+  padding: 15px;
+  border: 1px solid #dddddd;
+  text-align: left;
+}
+
+.stylish-table th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+}
+
+.stylish-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.stylish-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.private-fantasy-league-title {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  justify-content: space-evenly;
+}
+
+.fantasy-league-badge {
+  width: 100px;  /* Adjust width as needed */
+  height: 100px; /* Adjust height as needed */
+  object-fit: contain; /* Maintain aspect ratio */
+  margin: 10px; /* Optional: add some margin */
+}
+
+/* New pagination styling */
+.fantasy-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.fantasy-pagination-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.fantasy-pagination-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.fantasy-pagination-button:not(:disabled):hover {
+  background-color: #0056b3;
+}
+
+.fantasy-pagination-span {
+  font-size: 16px;
+  margin: 0 10px;
+}
+
+/* Additional styles for the Team View column */
+.team-view-column {
+  width: 150px; /* Adjust this width to your preference */
+  text-align: center; /* Center-align the content */
+}
+
+@media (max-width: 600px) {
+  .fantasy-pagination {
+    flex-direction: column;
+  }
+
+  .fantasy-pagination-button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+.stylish-table th,
+.stylish-table td {
+  padding: 15px;
+  border: 1px solid #dddddd;
+  vertical-align: middle; /* Center-align the content vertically */
+}
+
+.stylish-table th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+}
+
+.stylish-table tr td:first-child,
+.stylish-table tr th:first-child {
+  text-align: left; /* Align first column to the left */
+}
+
+.stylish-table tr td:nth-child(2),
+.stylish-table tr th:nth-child(2) {
+  text-align: left; /* Align second column to the left */
+}
+
+.stylish-table tr td:last-child,
+.stylish-table tr th:last-child {
+  text-align: center; /* Center-align the last column */
+}

@@ -14,7 +14,6 @@ function Rounds({ defaultExpanded, roundbarText, predictionOption, isOwner, notA
     setIsExpanded(prevState => !prevState);
   };
 
-  console.log(roundNum);
 
     const fetchRoundGames = async (roundNum) => {
 
@@ -28,7 +27,7 @@ function Rounds({ defaultExpanded, roundbarText, predictionOption, isOwner, notA
         });
    
         setRoundGames(response.data)
-        console.log(response.data);
+
       } catch (error) {
         console.error('Error fetching round games:', error.message);
       }

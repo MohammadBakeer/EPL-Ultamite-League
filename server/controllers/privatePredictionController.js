@@ -464,7 +464,7 @@ export const fetchSubmitStatus = async (req, res) => {
 export const getAllPrivateRoundPredictions = async (req, res) => {
   const { roundNum, leagueId } = req.params; // Get leagueId from params
   const token = req.headers.authorization?.split(' ')[1];
-
+  
   if (!token) {
     return res.status(401).json({ error: 'Token not provided' });
   }
@@ -616,5 +616,35 @@ export const deletePrivatePredictionLeague = async (req, res) => {
     await db.query('ROLLBACK');
     console.error('Error deleting league:', error.message);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export const leavePredictionLeague = async (req, res) => {
+  try {
+      // Get leagueId from URL parameters
+      const { leagueId } = req.params;
+
+      const token = req.headers.authorization?.split(' ')[1];
+  
+      if (!token) {
+        return res.status(401).json({ error: 'Token not provided' });
+      }
+
+      const decoded = jwt.verify(token, config.jwtSecret);
+      const userId = decoded.userId;
+      
+      // Delete rows from private_prediction_members table
+      await db.query('DELETE FROM private_prediction_members WHERE user_id = $1 AND league_id = $2', [userId, leagueId]);
+
+      // Delete rows from private_prediction_round_points table
+      await db.query('DELETE FROM private_prediction_round_points WHERE user_id = $1 AND league_id = $2', [userId, leagueId]);
+
+      // Delete rows from private_predictions table
+      await db.query('DELETE FROM private_predictions WHERE user_id = $1 AND league_id = $2', [userId, leagueId]);
+
+      return res.status(200).json({ message: 'Successfully left the prediction league.' });
+  } catch (error) {
+      console.error('Error leaving prediction league:', error);
+      return res.status(500).json({ message: 'An error occurred while leaving the prediction league.' });
   }
 };

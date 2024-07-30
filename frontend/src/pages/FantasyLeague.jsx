@@ -5,11 +5,12 @@ import axios from 'axios';
 import '../styles/FantasyLeague.css'; // Ensure the correct path to your CSS file
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { setLeagueId } from '../redux/leagueSlice.js'; 
 import { setViewId } from '../redux/viewSlice.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import CreateLeagueModal from '../components/leagues/PredictionLeague/CreatePredictionLeagueModal.jsx'
-import JoinLeagueModal from '../components/leagues/PredictionLeague/JoinPredictionLeagueModal.jsx'
+import CreateLeagueModal from '../components/leagues/FantasyLeague/CreateFantasyLeagueModal.jsx'
+import JoinLeagueModal from '../components/leagues/FantasyLeague/JoinFantasyLeagueModal.jsx'
 import LeagueBadgeModal from '../components/leagues/PredictionLeague/LeagueBadgeModal.jsx'; // Import LeagueBadgeModal directly
 import Badges from '../images/badges/exportBadges.js'; // Adjust the path as per your project structure
 import Navbar from '../components/Navbar.jsx'
@@ -27,87 +28,93 @@ const Leaderboard = () => {
   const [showJoinLeagueModal, setShowJoinLeagueModal] = useState(false);
   const [showBadgeModal, setShowBadgeModal] = useState(false); // State for badge selection modal
   const [selectedBadge, setSelectedBadge] = useState(null); // State to hold selected badge
+  const [blockLeague, setBlockLeague] = useState(false)
   const itemsPerPage = 10;
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
+  const updatePrivateLeagues = (newLeague) => {
+    setPrivateLeagues((prevLeagues) => [...prevLeagues, newLeague]);
+  };
+
 
   useEffect(() => {
-    const fetchLeaderboardData = async () => {
+    const fetchGlobalPoints = async () => {
       try {
         // Fetch JWT token from session storage
        const token = sessionStorage.getItem('authToken');
 
         // Make a GET request to fetch leaderboard data with authorization header
-        const response = await axios.get('http://localhost:3000/api/alldataleaderboard', {
+        const response = await axios.get('http://localhost:3000/api/fetchglobalpoints', {
           headers: {
             'Authorization': `Bearer ${token}` // Pass the t oken in the Authorization header
           }
         });
 
         setLeaderboardData(response.data);
-
+    
       } catch (error) {
         console.error('Error fetching leaderboard data:', error.message);
       }
     };
 
-    fetchLeaderboardData();
+    fetchGlobalPoints();
   }, []); 
 
-  useEffect(() => {
-    const fetchPrivateLeagues = async () => {
-      try {
-        const token = sessionStorage.getItem('authToken');
+  const fetchPrivateLeagues = async () => {
+    try {
+      const token = sessionStorage.getItem('authToken');
   
-        const response = await axios.get('http://localhost:3000/api/privateteamleagues', {
-          headers: {
-            'Authorization': `Bearer ${token}` 
-          }
-        });
-        
-        if (response.data.message === 'No leagues found for this user.') {
-        
-          console.log('No leagues found for this user.');
-
-          setPrivateLeagues([]); // Set empty array or handle as needed
-        } else {
-          setPrivateLeagues(response.data);
+      const response = await axios.get('http://localhost:3000/api/myfantasyleagues', {
+        headers: {
+          'Authorization': `Bearer ${token}` 
         }
+      });
+      
+      if (response.data.message === 'No leagues found for this user.') {
+        console.log('No leagues found for this user.');
+        setPrivateLeagues([]); // Set empty array or handle as needed
+       
+      } else {
+        setPrivateLeagues(response.data);
   
-      } catch (error) {
-        console.error('Error fetching league data:', error.message);
+        // Check the number of leagues and set blockLeague accordingly
+        if (response.data.length >= 4) {
+          setBlockLeague(true);
+        } else {
+          setBlockLeague(false); // Set to false if fewer than 4 leagues
+        }
       }
-    };
+    } catch (error) {
+      console.error('Error fetching league data:', error.message);
+    }
+  };
   
+
+  useEffect(() => {
     fetchPrivateLeagues();
+
   }, []);
   
   
 
-  const sortedData = [...leaderboardData].sort((a, b) => b.totalPrice - a.totalPrice);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
+ // Sort leaderboard data by points before pagination
+ const sortedData = [...leaderboardData].sort((a, b) => b.points - a.points);
+ const totalPages = Math.ceil(sortedData.length / itemsPerPage);
+ const indexOfLastItem = currentPage * itemsPerPage;
+ const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+ const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
 
-  const remainingBlankRows = itemsPerPage - currentItems.length;
-  const displayItems = [
-    ...currentItems,
-    ...Array.from({ length: remainingBlankRows }, (_, index) => ({ emptyRow: true, id: `empty-${index}` })),
-  ].map((team, index) => ({
-    ...team,
-    teamName: team.emptyRow ? 'NONE' : team.teamName,
-    totalBudget: team.emptyRow ? 'NONE' : team.totalBudget,
-    totalPrice: team.emptyRow ? 'NONE' : team.totalPrice,
-    rank: index + 1 + indexOfFirstItem,
-  }));
+ // Assign ranks based on sorted data
+ const displayItems = currentItems.map((team, index) => ({
+   ...team,
+   rank: index + 1 + indexOfFirstItem, // Rank based on current page index
+ }));
 
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage);
-
-  const onPageChange = (page) => {
-    setCurrentPage(page);
-  };
+ const onPageChange = (page) => {
+   setCurrentPage(page);
+ };
 
   const currentToken = sessionStorage.getItem('authToken');
 
@@ -179,13 +186,24 @@ const Leaderboard = () => {
   );
 
 
+  const handleViewLeagueClick = async (newLeagueId) => {
+
+    const newToken = await handleTokenUpdate({ leagueId: newLeagueId });
+    if (newToken) {
+      dispatch(setLeagueId(newLeagueId));
+      navigate('/privatefantasyleague');
+    }
+  };
+
+
+
    return (
     <>
     < Navbar/>
     <div className="leaderboard-page">
        {showBadgeModal && <LeagueBadgeModal onClose={() => setShowBadgeModal(false)} onSelectBadge={handleSelectBadge} />}
-      {showCreateLeagueModal && <CreateLeagueModal onClose={() => setShowCreateLeagueModal(false)}  selectedBadge={selectedBadge} />}
-      {showJoinLeagueModal && <JoinLeagueModal onClose={() => setShowJoinLeagueModal(false)} />}
+      {showCreateLeagueModal && <CreateLeagueModal onClose={() => setShowCreateLeagueModal(false)}  selectedBadge={selectedBadge}  onUpdateLeagues={updatePrivateLeagues} />}
+      {showJoinLeagueModal && <JoinLeagueModal onClose={() => setShowJoinLeagueModal(false)}  onUpdateLeagues={updatePrivateLeagues} />}
       <div className="main-leader">
         <div className="leader-heading">
           <h1 className="leaderboard-heading">Fantasy Leagues</h1>
@@ -193,8 +211,8 @@ const Leaderboard = () => {
         <div className='league-buttons'>
           {privateLeagues.length > 0 && (
             <>
-              <button onClick={() => setShowBadgeModal(true)}>Create new league</button>
-              <button onClick={() => setShowJoinLeagueModal(true)}>Join league</button>
+              <button disabled={blockLeague} onClick={() => setShowBadgeModal(true)}>Create new league</button>
+              <button disabled={blockLeague} onClick={() => setShowJoinLeagueModal(true)}>Join league</button>
             </>
           )}
         </div>       
@@ -216,7 +234,9 @@ const Leaderboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {displayItems.map((team, index) => (
+                {displayItems
+                  .sort((a, b) => b.points - a.points) // Sort by points descending
+                  .map((team, index) => (
                     <tr key={team.emptyRow ? team.id : team.userId} className={team.rank <= 1 ? 'highlighted' : ''}>
                       <td>{team.rank}</td>
                       <td>{team.teamName}</td>
@@ -229,10 +249,11 @@ const Leaderboard = () => {
                           </button>
                         )}
                       </td>
-                      <td>{team.totalPrice}</td>
+                      <td>{team.points}</td>
                     </tr>
                   ))}
-                </tbody>
+              </tbody>
+
               </table>
             </div>
           </div>
@@ -246,7 +267,7 @@ const Leaderboard = () => {
                   <div key={league.leagueId || `fake-${index}`} className="private-league-row">
                      <img src={Badges[league.leagueBadge]} alt="League Badge" className="league-badge" />
                     <span className="league-name">{league.leagues}</span>
-                    <button className="view-league-button" onClick={() => handleViewLeagueClick(league.id)}>View League</button>
+                    <button className="view-league-button" onClick={() => handleViewLeagueClick(league.leagueId)}>View League</button>
                   </div>
                 ))
               )}

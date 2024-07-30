@@ -22,14 +22,14 @@ CREATE TABLE teams (
 );
 
 
-CREATE TABLE league_members (
+CREATE TABLE fantasy_league_members (
     user_id INT NOT NULL,
-    league_id INT NOT NULL,  -- For Global league every use will deposited once they make a team the league_id will be a 0. 
-	league_points INT DEFAULT 0,
+    league_id INT NOT NULL,  
     PRIMARY KEY (user_id, league_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (league_id) REFERENCES private_leagues(league_id)
+    FOREIGN KEY (league_id) REFERENCES fantasy_private_leagues(league_id)
 );
+
 
 CREATE TABLE fantasy_private_leagues (
     league_id SERIAL PRIMARY KEY,
@@ -37,8 +37,11 @@ CREATE TABLE fantasy_private_leagues (
     league_code NUMERIC(5, 0) UNIQUE NOT NULL,
     owner_id INT NOT NULL,
     start_round INT CHECK (start_round BETWEEN 1 AND 38),
+    league_badge VARCHAR(255) DEFAULT 'default'::character varying,
     FOREIGN KEY (owner_id) REFERENCES users(user_id)
 );
+
+
 
 CREATE TABLE fantasy_points (
     user_id INTEGER NOT NULL,                
@@ -73,6 +76,7 @@ CREATE TABLE private_prediction_leagues (
     league_name VARCHAR(20) NOT NULL,
     league_code NUMERIC(5, 0) UNIQUE NOT NULL,
     owner_id INT NOT NULL,
+    league_badge VARCHAR(255) DEFAULT 'default'::character varying,
     FOREIGN KEY (owner_id) REFERENCES users(user_id)
 );
 

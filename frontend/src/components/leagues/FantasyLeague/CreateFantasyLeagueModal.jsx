@@ -6,27 +6,28 @@ import { decodeJWT } from '../../../jwtUtils/';
 import '../../../styles/FantasyLeague.css'
 
 
-const CreateLeagueModal = ({ onClose, selectedBadge }) => {
+const CreateLeagueModal = ({ onClose, selectedBadge, onUpdateLeagues }) => {
   const [leagueName, setLeagueName] = useState('');
   const [startRound, setStartRound] = useState(1);
 
   const decodedToken = decodeJWT();
   const userId = decodedToken.userId;
 
+
+
   const handleCreateLeague = async (e) => {
-    const roundNum = 1
+
     e.preventDefault();
     try {
       const token = sessionStorage.getItem('authToken');
 
       const response = await axios.post(
-        'http://localhost:3000/api/createleague',
+        'http://localhost:3000/api/createfantasyleague',
         {
           leagueName,
           ownerId: userId,
           startRound,
           leagueBadge: selectedBadge,
-          roundNum
         },
         {
           headers: {
@@ -36,6 +37,7 @@ const CreateLeagueModal = ({ onClose, selectedBadge }) => {
         }
       );
 
+      onUpdateLeagues(response.data);
       onClose(true); 
       console.log(response.data.message);
     

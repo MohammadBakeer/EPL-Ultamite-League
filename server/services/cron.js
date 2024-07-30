@@ -6,7 +6,119 @@ import { calculatePoints } from './CronFunctions/playerPoints.js';
 import { teamRoundPoints } from './CronFunctions/matchingRoundPoints.js'
 
 
-const currentRound = 2
+const fetchRoundDBStatus = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+      method: 'GET',
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+  
+    const finishedRounds = data
+      .filter(round => round.finished) // Filter objects with finished as true
+      .map(round => round.round_num); // Map to round_num
+
+    // Find the maximum round_num
+    const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
+    const currentRound = maxRoundNum + 1; // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
+
+    return currentRound;
+  } catch (error) {
+    console.error('Error fetching round status from the database:', error.message);
+  }
+};
+
+
+const mapPosition = (positionId) => {
+  switch (positionId) {
+    case 1:
+      return 'GK';
+    case 2:
+      return 'DEF';
+    case 3:
+      return 'MID';
+    case 4:
+      return 'FWD';
+    default:
+      return 'Unknown';
+  }
+};
+
+async function buildPlayerData(){
+
+  const fetchData = async () => {
+    try {
+       
+        const playerResponse = await fetch('http://localhost:3000/api/playerNames', {
+          
+        });
+        const playerData = await playerResponse.json();
+       
+        const teamResponse = await fetch('http://localhost:3000/api/teams', {
+            
+        });
+        const teamData = await teamResponse.json();
+
+        const updatedTable = playerData.playerNames.map((player) => {
+            const { firstName, lastName, teamId, positionId, ...stats } = player;
+            const matchingTeam = teamData.team.find((team) => team.id === teamId);
+               
+            if (matchingTeam) {
+                return {
+                    firstName,
+                    lastName,
+                    club: matchingTeam.club,
+                    position: mapPosition(positionId),
+                    price: '',
+                    points: '',
+                    roundPoints: 0, 
+                    ...stats,
+                };
+            } else {
+                console.warn(`No matching team found for player with teamId ${teamId}`);
+                return null;
+            }
+        });
+
+        calculatePoints(updatedTable)
+
+    } catch (error) {
+        console.error('Error fetching data:', error.message);
+    }
+};
+
+
+fetchData();
+const currentRound = await fetchRoundDBStatus()
+teamRoundPoints(currentRound)
+}
+
+
+
+export { buildPlayerData };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 // Function to fetch player stats from the API
 async function fetchPlayerStats() {
@@ -129,71 +241,3 @@ async function synchronizeData() {
   }
 }
 */
-
-const mapPosition = (positionId) => {
-  switch (positionId) {
-    case 1:
-      return 'GK';
-    case 2:
-      return 'DEF';
-    case 3:
-      return 'MID';
-    case 4:
-      return 'FWD';
-    default:
-      return 'Unknown';
-  }
-};
-
-async function buildPlayerData(){
-
-  const fetchData = async () => {
-    try {
-       
-        const playerResponse = await fetch('http://localhost:3000/api/playerNames', {
-          
-        });
-        const playerData = await playerResponse.json();
-       
-        const teamResponse = await fetch('http://localhost:3000/api/teams', {
-            
-        });
-        const teamData = await teamResponse.json();
-
-        const updatedTable = playerData.playerNames.map((player) => {
-            const { firstName, lastName, teamId, positionId, ...stats } = player;
-            const matchingTeam = teamData.team.find((team) => team.id === teamId);
-               
-            if (matchingTeam) {
-                return {
-                    firstName,
-                    lastName,
-                    club: matchingTeam.club,
-                    position: mapPosition(positionId),
-                    price: '',
-                    points: '',
-                    roundPoints: 0, 
-                    ...stats,
-                };
-            } else {
-                console.warn(`No matching team found for player with teamId ${teamId}`);
-                return null;
-            }
-        });
-
-        calculatePoints(updatedTable)
-
-    } catch (error) {
-        console.error('Error fetching data:', error.message);
-    }
-};
-
-
-fetchData();
-teamRoundPoints(currentRound)
-}
-
-
-
-export { buildPlayerData };
-

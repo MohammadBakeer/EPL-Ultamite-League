@@ -3,18 +3,19 @@ import Card from './GlobalCards.jsx';
 import axios from 'axios';
 import '../../../styles/roundBars.css'
 
-function Rounds({ number, defaultExpanded, roundbarText }) {
+function Rounds({ defaultExpanded, roundbarText }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
-  const [roundNum, setRoundNum] = useState(1);
+  const [roundNum, setRoundNum] = useState(null);
   const [roundGames, setRoundGames] = useState([]);
+  const [blockChanges, setBlockChanges] = useState(false)
 
   const toggleVisibility = () => {
     setIsExpanded(prevState => !prevState);
   };
 
 
-  useEffect(() => {
-    const fetchRoundGames = async () => {
+
+    const fetchRoundGames = async (roundNum) => {
       try {
         const token = sessionStorage.getItem('authToken'); // Fetch JWT token from session storage
         // Make a GET request to fetch round games data with authorization header
@@ -22,11 +23,7 @@ function Rounds({ number, defaultExpanded, roundbarText }) {
           headers: {
             'Authorization': `Bearer ${token}`
           }
-        });
-  
-  
-    
-     
+        });     
         setRoundGames(response.data)
 
       } catch (error) {
@@ -34,8 +31,61 @@ function Rounds({ number, defaultExpanded, roundbarText }) {
       }
     };
 
-    fetchRoundGames();
+
+    const fetchRoundStatus = async () => {
+
+      const token = sessionStorage.getItem('authToken');
+      const response = await fetch('http://localhost:3000/api/getRoundStatus', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+    
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const data = await response.json();
+      
+      const currentDate = new Date();
+    
+      const finishedRounds = data
+        .filter(round => round.finished) // Filter objects with finished as true
+        .map(round => round.round_num); // Map to round_num
+    
+        // Find the maximum round_num
+        const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
+        const currentRound = maxRoundNum + 1
+        // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
+        setRoundNum(maxRoundNum > 0 ? maxRoundNum + 1 : 1);
+  
+        const currentRoundObject = data.find(round => round.round_num === currentRound);
+  
+        if (currentRoundObject) {
+          const { is_current, start_date, finished } = currentRoundObject;
+          const startDate = new Date(start_date);
+          
+          if (is_current || (startDate <= currentDate && !finished)) {
+            setBlockChanges(true)
+  
+          } else {
+            setBlockChanges(false)
+          }
+        }
+        return currentRound
+    };
+
+
+  useEffect(() => {
+    const initialize = async () => {
+      const currentRoundNum = await fetchRoundStatus(); 
+      fetchRoundGames(currentRoundNum)
+    };
+
+    initialize();
   }, []);
+
+
+
+
 
   const splitGamesIntoPairs = (games) => {
     let pairs = [];
@@ -49,7 +99,7 @@ function Rounds({ number, defaultExpanded, roundbarText }) {
 
   const renderedCards = [];
   gamePairs.forEach((pair, index) => {
-    renderedCards.push(<Card key={index} gamePairs={pair} />);
+    renderedCards.push(<Card key={index} gamePairs={pair} blockChanges={blockChanges} />);
   });
 
 
@@ -59,7 +109,7 @@ function Rounds({ number, defaultExpanded, roundbarText }) {
            style={{ backgroundColor: isExpanded ? '#007bff' : '#fff', transition: '.3s' }}>
        
         <div className="rounds" style={{ color: isExpanded ? '#fff' : '#000', transition: '.3s' }}>
-          Round {number}
+          Round {roundNum}
         </div>
         
         <div className="completed-arrow" onClick={toggleVisibility}>

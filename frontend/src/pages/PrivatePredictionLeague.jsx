@@ -6,6 +6,7 @@ import PrivateRounds from '../components/leagues/PredictionLeague/PrivateRounds.
 import { decodeJWT } from '../jwtUtils.js';
 import { setLeagueId } from '../redux/leagueSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { toast } from 'react-toastify';
 import { faChevronLeft, faChevronRight, faTrash } from '@fortawesome/free-solid-svg-icons';
 import '../styles/FantasyLeague.css';
 import '../styles/PrivatePredictionLeague.css';
@@ -32,8 +33,6 @@ const PrivatePredictionLeague = () => {
   const navigate = useNavigate();
 
   const itemsPerPage = 5;
-
-  console.log(blockChanges);
 
   const fetchRoundStatus = async () => {
   
@@ -77,7 +76,9 @@ const PrivatePredictionLeague = () => {
   };
 
   const fetchSubmitStatus = async (roundNum) => {
-   
+    if(!isOwner){
+      return
+    }
     if (!leagueId || !roundNum) {
         console.warn('League ID or Round Number is not available.');
         return;
@@ -103,6 +104,9 @@ const PrivatePredictionLeague = () => {
 };
 
 const fetchPredictionOptionType = async (roundNum) => {
+  if(!isOwner){
+    return
+  }
   if (!leagueId) {
     console.warn('League ID is not available.');
     return;
@@ -154,8 +158,7 @@ const fetchPredictionOptionType = async (roundNum) => {
       const { leagueCode, message } = response.data;
   
       if (message === 'User is not the owner') {
-        console.warn(message);
-        // Handle the case where the user is not the owner (e.g., show a warning message)
+
       } else if (leagueCode) {
         setLeagueCode(leagueCode);
       } else {
@@ -354,7 +357,10 @@ useEffect(()=>{
   }
 
   const handleDeleteLeague = async () => {
-
+    const confirmLeave = window.confirm("Are you sure you want to leave the league?");
+    if (!confirmLeave) {
+      return; // Exit if the user cancels
+    }
     const token = sessionStorage.getItem('authToken'); // Adjust based on how you store the token
 
     try {
@@ -366,7 +372,7 @@ useEffect(()=>{
         }
       );
       if (response.status === 200) {
-        alert('League deleted successfully.');
+        toast.success(`League deleted successfully`);
         navigate('/predictionleague')
  
       } else {
@@ -377,6 +383,35 @@ useEffect(()=>{
       alert('An error occurred while deleting the league.');
     }
   };
+
+  const handleLeaveLeague = async () => {
+    // Confirmation popup
+    const confirmLeave = window.confirm("Are you sure you want to leave the league?");
+    if (!confirmLeave) {
+      return; // Exit if the user cancels
+    }
+  
+    const token = sessionStorage.getItem('authToken'); // Get the token from session storage
+  
+    try {
+      const response = await axios.delete(`http://localhost:3000/api/leavepredictionleague/${leagueId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.status === 200) {
+        toast.success(`Successfully left the league!`);
+        navigate('/predictionleague'); // Redirect to the fantasy league page or any other page
+      } else {
+        alert('Failed to leave the league.');
+      }
+    } catch (error) {
+      console.error('Error leaving the league:', error);
+      alert('An error occurred while leaving the league.');
+    }
+  };
+  
   
   return (
     <div>
@@ -464,6 +499,15 @@ useEffect(()=>{
            </button>
       </div>
     </div>
+     )}
+       {!isOwner && (
+         <div className="bottom-bar-container">
+         <div className="bottom-bar">
+              <button className="delete-league-button" onClick={handleLeaveLeague}>
+                <FontAwesomeIcon icon={faTrash} /> Leave League
+              </button>
+         </div>
+       </div>
      )}
     </div>
   ); 

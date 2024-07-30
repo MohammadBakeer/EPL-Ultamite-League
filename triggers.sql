@@ -1,7 +1,7 @@
 
 --- Trigger for generating a league code
 
-DROP TRIGGER IF EXISTS generate_league_code_trigger ON private_leagues;
+DROP TRIGGER IF EXISTS generate_league_code_trigger ON private_prediction_leagues;
 
 CREATE OR REPLACE FUNCTION generate_league_code()
 RETURNS TRIGGER AS $$
@@ -13,12 +13,25 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER generate_league_code_trigger
-BEFORE INSERT ON private_leagues
+BEFORE INSERT ON private_prediction_leagues
 FOR EACH ROW
 EXECUTE FUNCTION generate_league_code();
 
+-----------------------------------------------------------------------------------------------
+
+DROP TRIGGER IF EXISTS generate_league_code_trigger ON fantasy_private_leagues;
+
+CREATE OR REPLACE FUNCTION generate_league_code()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Generate a random 5-digit number
+    NEW.league_code := LPAD(FLOOR(RANDOM() * 90000 + 10000)::TEXT, 5, '0');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE TRIGGER generate_league_code_trigger
-BEFORE INSERT ON private_leagues
+BEFORE INSERT ON fantasy_private_leagues
 FOR EACH ROW
 EXECUTE FUNCTION generate_league_code();
 

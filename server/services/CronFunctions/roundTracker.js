@@ -2,8 +2,6 @@ import axios from 'axios';
 import db from '../../config/db.js';
 
 
-
-
 export const fetchRoundStatus = async () => {
   const url = 'https://api.sportmonks.com/v3/football/rounds/seasons/23614?api_token=D21slCxRSvhnGAtf67pIuf2bF59ceCnEIa0P6xQEq4sNTGaBYpyIz86YPDkL';
 
@@ -25,8 +23,7 @@ export const fetchRoundStatus = async () => {
    
     await insertTeam(currentRoundNum);
 
-
-   // await storeRoundStatus(sortedData);
+    await storeRoundStatus(sortedData);
 
   } catch (error) {
     console.error('Error fetching data from the Fantasy Premier League API:', error.message);

@@ -36,6 +36,7 @@ const PredictionLeague = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     const fetchGlobalPredictions = async () => {
       try {
@@ -273,7 +274,7 @@ const PredictionLeague = () => {
             Global League Predictions
           </h3>
         </div>
-        <GlobalRounds number={2} defaultExpanded={true} roundbarText="Make 3 predictions per round" />
+        <GlobalRounds  defaultExpanded={true} roundbarText="Make 3 predictions per round" />
       </div>
     </div>
     </>
