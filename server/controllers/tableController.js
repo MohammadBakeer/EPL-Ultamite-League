@@ -181,7 +181,7 @@ export const fetchPlayerRounds = async (req, res) => {
 
     // Execute the query
     const result = await db.query(query, [currentRound]);
-
+ 
     // Check if any rows were returned
     if (result.rows.length > 0) {
       // Map the rows to the desired format

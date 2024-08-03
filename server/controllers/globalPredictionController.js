@@ -69,7 +69,7 @@ export const storeGlobalPredictions = async (req, res) => {
   };
   
 
-export const deleteGlobalPrediciton = async (req, res) => {
+export const deleteGlobalPrediction = async (req, res) => {
 
     const { gameId } = req.params;
      

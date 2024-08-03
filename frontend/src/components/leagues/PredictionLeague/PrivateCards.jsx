@@ -5,10 +5,11 @@ import Badges from '../../../images/badges/exportBadges.js'; // Adjust the path 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import '../../../styles/cards.css'
 
 
-function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name, choose_cards, isOwner, notAllowStarClick, setChosenGames, onStarStatusChange, setAnyPrivateGames, predictionOption, setStarClicked, isSubmitted }) {
+function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name, choose_cards, isOwner, notAllowStarClick, setChosenGames, onStarStatusChange, setAnyPrivateGames, predictionOption, setStarClicked, isSubmitted, blockChanges }) {
   const leagueId = useSelector((state) => state.leagueId.leagueId); 
   const [isPredicted, setIsPredicted] = useState(false);
   const [team1Score, setTeam1Score] = useState('');
@@ -18,13 +19,17 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
   const [matchedPrediction, setMatchedPrediction] = useState([]);
   const [leagueMemberStar, setLeagueMemberStar] = useState(false)
 
-
+ 
   const navigate = useNavigate();
 
   const token = sessionStorage.getItem('authToken'); 
 
   // Function to handle the prediction button click
   const handlePredictionClick = () => {
+    if(blockChanges){
+      toast.error(`Round ${roundNum} Predictions Window Closed `);
+      return
+    }
     setIsPredicted(true);
   };
 
@@ -103,6 +108,10 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 
   // Function to handle cancel prediction
   const handleCancelPrediction = async () => {
+    if(blockChanges){
+      toast.error(`Round ${roundNum} Predictions Window Closed `);
+      return
+    }
     try {
       if (isPredicted) {
         const response = await axios.delete(`http://localhost:3000/api/deletePrivatePrediction/${gameId}/${leagueId}`, {
@@ -140,16 +149,21 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
   // Function to handle save prediction
   const handleSavePrediction = async () => {
 
+    if(blockChanges){
+      toast.error(`Round ${roundNum} Predictions Window Closed `);
+      return
+    }
+
     const score1 = parseInt(team1Score);
     const score2 = parseInt(team2Score);
   
     if (isNaN(score1) && isNaN(score2)) {
-      console.warn('Please enter at least one score for the teams.');
+      toast.error('Please enter at least one score for the teams.');
       return;
     }
   
     if (isNaN(score1) || isNaN(score2) || score1 < 0 || score2 < 0) {
-      console.warn('Scores must be valid non-negative numbers.');
+      toast.error('Scores must be valid non-negative numbers.');
       return;
     }
   
@@ -178,7 +192,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
       }
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data.error === 'Cannot save prediction: maximum number of predictions reached for this league and round.') {
-        console.warn('Cannot save prediction: maximum number of predictions reached for this league and round.');
+        toast.error('Only 4 predictions per round');
       } else {
         console.error('Error saving prediction:', error);
       }
@@ -239,7 +253,6 @@ useEffect(()=>{
     }
   
     const token = sessionStorage.getItem('authToken');
-    const roundNum = 1; // Adjust as needed
   
     try {
       const response = await axios.get(`http://localhost:3000/api/fetchOptionType/${leagueId}/${roundNum}`, {
@@ -293,7 +306,7 @@ useEffect(() => {
     <div className="teams-card">
       <div className="card-header">
         {/* Assuming leagueName is static, you can make it dynamic if needed */}
-        <img src="https://assets.codepen.io/285131/pl-logo.svg" alt="league" />
+        <img src="/epl-badge.png" alt="league" />
         <p>English Premier League</p>
         {choose_cards && (
           <div className={`star ${isStarred ? 'filled' : ''}`} 
@@ -359,7 +372,7 @@ useEffect(() => {
 }
 
 
-function Card({ gamePairs, choose_cards, isOwner, setChosenGames, notAllowStarClick, isExpanded, setAnyPrivateGames, predictionOption, setStarClicked, isSubmitted }) {
+function Card({ gamePairs, choose_cards, isOwner, setChosenGames, notAllowStarClick, isExpanded, setAnyPrivateGames, predictionOption, setStarClicked, isSubmitted, blockChanges }) {
   const [starredGameIds, setStarredGameIds] = useState([]);
   const [filteredGamePairs, setFilteredGamePairs] = useState(gamePairs);
 
@@ -381,14 +394,13 @@ function Card({ gamePairs, choose_cards, isOwner, setChosenGames, notAllowStarCl
 
 
   return (
-    <div className="container">
       <div className="teams-card-container">
         {filteredGamePairs.map(pair => (
           <TeamCard
             key={pair.game_id} // Ensure unique keys
             team1Name={pair.team_1}
             matchDate={new Date(pair.game_date).toLocaleDateString()}
-            matchTime={new Date(pair.game_date).toLocaleTimeString()}
+            matchTime={pair.game_time}
             team2Name={pair.team_2}
             roundNum={pair.round_num} 
             gameId={pair.game_id}
@@ -401,10 +413,11 @@ function Card({ gamePairs, choose_cards, isOwner, setChosenGames, notAllowStarCl
             predictionOption={predictionOption}
             setStarClicked={setStarClicked}
             isSubmitted={isSubmitted}
+            blockChanges={blockChanges}
+
           />
         ))}
       </div>
-    </div>
   );
 }
 

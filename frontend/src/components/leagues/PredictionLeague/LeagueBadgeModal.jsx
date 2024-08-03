@@ -1,6 +1,6 @@
 import React from 'react';
 import Badges from '../../../images/badges/exportBadges.js'; // Adjust the path as per your project structure
-import '../../../styles/FantasyLeague.css';
+import '../../../styles/League.css';
 
 const LeagueBadgeModal = ({ onClose, onSelectBadge }) => {
   return (

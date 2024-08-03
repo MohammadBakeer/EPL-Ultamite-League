@@ -69,8 +69,6 @@ const Edit = () => {
 
   const handleConfirmTeam = () => { 
     // Perform any logic needed before confirming the team
-
-    // After confirming the team, navigate to the home page with the specific user ID
     navigate(`/home`);
   };
 
@@ -104,6 +102,7 @@ const Edit = () => {
             }
           }
         );
+   console.log(response.data);
         setTeamName(response.data.teamName);
       } catch (error) {
         console.error('Error fetching team name:', error.message);
@@ -124,7 +123,7 @@ const Edit = () => {
 
       {/* Main content */}
       <div className="app-container">
-        <Table onPlayerSelect={handlePlayerSelection} />
+        <Table onPlayerSelect={handlePlayerSelection} blockChanges={blockChanges} roundNum={roundNum} />
         <CreateField selectedPlayer={selectedPlayer} userId={userId} isClearTeamRequested={isClearTeamRequested} onClearTeam={onClearTeam} isHomePage = {true} roundNum = {roundNum} blockChanges = {blockChanges} />
       </div>
     </div>

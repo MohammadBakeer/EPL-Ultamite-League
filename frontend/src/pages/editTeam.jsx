@@ -15,6 +15,8 @@ const Edit = () => {
   const [deleteCount, setDeleteCount] = useState(0)
   const [changeCount, setChangeCount] = useState(0)
 
+  console.log(changeCount);
+  
   const navigate = useNavigate();
 
   const decodedToken = decodeJWT();
@@ -165,15 +167,15 @@ useEffect(() => {
 
   return (
     <div>
-      {/* Navbar */}
       <nav className="edit-nav">
         <button className="confirm-button" onClick={handleConfirmTeam}>Confirm Team</button>
-        <h2>{teamName}</h2>
+           <h2 className="edit-field-h2">{teamName}</h2>
+            <h3>{changeCount}/2 changes for round {roundNum}</h3>
       </nav>
 
-      {/* Main content */}
+    
       <div className="app-container">
-        <Table onPlayerSelect={handlePlayerSelection} />
+        <Table onPlayerSelect={handlePlayerSelection}  blockChanges={blockChanges} roundNum={roundNum}/>
         <Field selectedPlayer={selectedPlayer} userId={userId} isClearTeamRequested={isClearTeamRequested} onClearTeam={onClearTeam} isHomePage = {true} roundNum = {roundNum} blockChanges = {blockChanges} deleteCount = {deleteCount}  changeCount = {changeCount} setDeleteCount = {setDeleteCount} setChangeCount = {setChangeCount}/>
       </div>
     </div>

@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import { decodeJWT } from '../jwtUtils.js';
 import Field from '../components/field/Field.jsx';  // Update the path accordingly
 import Navbar from '../components/Navbar.jsx'
+import Footer from '../components/Footer.jsx'
+import LargeCard from '../components/LargeCard.jsx';
+import SmallCard from '../components/SmallCard.jsx';
+import ScheduleRounds from '../components/ScheduleRounds.jsx'
 import '../styles/Home.css';
 
 const Home = () => {
@@ -98,7 +102,15 @@ useEffect(() => {
                 <button className="Edit-team">View Squad</button>
             </Link>
         </div>
-    </div>
+      </div>
+       <div className="smallCard">
+      < SmallCard/>
+        </div>  
+        <div className="largeCard">
+      < LargeCard/>
+        </div>
+        <ScheduleRounds />
+    <Footer />
     </div>
   );
 };

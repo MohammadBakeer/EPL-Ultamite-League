@@ -1,95 +1,254 @@
 import db from '../config/db.js';
 import jwt from 'jsonwebtoken';
 import config from '../config/config.js';
-import { current } from '@reduxjs/toolkit';
+import nodemailer from 'nodemailer';
+import bcrypt from 'bcrypt'
 
 const { sign } = jwt;
 
-const fetchRoundDBStatus = async () => {
+export const checkIfVerified = async (req, res) => {
+  const verificationToken = req.headers['authorization']?.split(' ')[1]; // Extract the token from the Authorization header
+
+  if (!verificationToken) {
+    return res.status(400).json({ error: 'No token provided' });
+  }
+
   try {
-    const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
-      method: 'GET',
-    });
+    // Verify the token
+    const decoded = jwt.verify(verificationToken, config.jwtSecret);
+    const { email, teamName } = decoded;
 
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-    const data = await response.json();
-  
-    const finishedRounds = data
-      .filter(round => round.finished) // Filter objects with finished as true
-      .map(round => round.round_num); // Map to round_num
+    // Query the database for the user's email verification status and password
+    const result = await db.query('SELECT user_id, email_verified, password FROM users WHERE email = $1', [email]);
 
-    // Find the maximum round_num
-    const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
-    const currentRound = maxRoundNum + 1; // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-    return currentRound;
+    const { email_verified, password, user_id } = result.rows[0];
+    console.log(user_id);
+    // Log email verification status
+
+
+    if (email_verified) {
+      // Check if password exists
+      if (!password) {
+        return res.status(400).json({ error: 'Password not found for user' });
+      }
+
+      // Fetch current round number from database
+      const currentRoundNum = await fetchRoundDBStatus();
+
+
+      // Insert initial team setup into the database
+      await db.query(
+        'INSERT INTO teams (user_id, formation, player_lineup, total_budget, round_num, points) VALUES ($1, $2, $3, $4, $5, $6)',
+        [user_id, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 100, currentRoundNum, 0]
+      );
+
+      // Generate JWT token
+      const token = sign({ userId: user_id }, config.jwtSecret, { expiresIn: '1h' });
+
+      return res.status(200).json({ verified: true, token });
+    } else {
+      // User is not verified
+      return res.status(200).json({ verified: false });
+    }
   } catch (error) {
-    console.error('Error fetching round status from the database:', error.message);
+    console.error('Error checking verification status:', error.message);
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
 
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+// Configure nodemailer
+const transporter = nodemailer.createTransport({
+  service: 'Gmail',
+  auth: {
+    user: 'ultamitefpleague@gmail.com',
+    pass: 'hwml ewlo iwgw rmcp',
+  },
+});
+
+
+
+const sendVerificationEmail = async (email, verificationToken) => {
+  const mailOptions = {
+    from: 'ultamitefpleague@gmail.com',
+    to: email,
+    subject: 'Email Verification',
+    html: `
+      <p>Please verify your email by clicking the button below:</p>
+      <a href="http://localhost:3000/verify-email.html?token=${verificationToken}" 
+         style="display: inline-block; 
+                padding: 10px 20px; 
+                font-size: 16px; 
+                color: white; 
+                background-color: #4CAF50; 
+                text-decoration: none; 
+                border-radius: 5px;">
+        Verify Email
+      </a>
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Verification email sent to:', email);
+    return `Verification email sent to: ${email}. Check your SPAM`;
+  } catch (error) {
+    console.error('Error sending verification email:', error.message);
+    throw new Error('Failed to send verification email');
+  }
+};
+
+
+
 export const register = async (req, res) => {
+
   try {
     const { email, password, teamName } = req.body;
 
-    // Check if the email already exists in the database
-    const emailExistsResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-
-    if (emailExistsResult.rows.length > 0) {
-      // If email already exists, return an error response
-      return res.status(400).json({ error: 'Email already exists. Please choose another email.' });
+    // Validate email format
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
     }
 
-    // Perform database insert operation for users table
-    const userResult = await db.query('INSERT INTO users (email, password, team_name) VALUES ($1, $2, $3) RETURNING user_id', [email, password, teamName]);
+    const emailResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
 
-    const userId = userResult.rows[0].user_id;
+    if (emailResult.rows.length > 0) {
+      const userData = emailResult.rows[0];
 
-    const currentRoundNum = await fetchRoundDBStatus()
+      if (userData.email_verified) {
+        // If the email is verified, return an error
+        return res.status(400).json({ error: 'Email already has an account.' });
+      } else {
+        // Email exists but is not verified, proceed with registration
+        console.log('Email exists but is not verified. Proceeding with registration.');
+      }
+    }
+
+    // Check if the team name is taken by other users
+    const teamNameResult = await db.query('SELECT * FROM users WHERE team_name = $1 AND email != $2', [teamName, email]);
+
+    if (teamNameResult.rows.length > 0) {
+      // If team name already exists, return an error
+      return res.status(400).json({ error: 'Team name is taken.' });
+    }
+
+
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const verificationAttemptsResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     
-    await db.query(
-      'INSERT INTO teams (user_id, formation, player_lineup, total_budget, round_num, points) VALUES ($1, $2, $3, $4, $5, $6)',
-      [userId, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 100, currentRoundNum, 0]
-    );
+    const currentTime = new Date();
 
+    if (verificationAttemptsResult.rows.length === 0) {
+      console.log(teamName);
 
-    // Sign JWT token and send it back to the client upon successful user creation
-    const token = sign({ userId }, config.jwtSecret, { expiresIn: '1h' });
+      await db.query(
+        'INSERT INTO users (email, team_name, attempt_count, attempt_time, password) VALUES ($1, $2, $3, $4, $5)',
+        [email, teamName, 1, currentTime, hashedPassword]
+      );
+    } else {
+      const attemptData = verificationAttemptsResult.rows[0];
+      const attemptCount = attemptData.attempt_count;
+      const attemptTime = new Date(attemptData.attempt_time);
 
-    // Send a response indicating success along with the token
+      if (attemptCount % 2 !== 0) {
+        // If attempt_count is odd, update the attempt_time to the current time and increment attempt_count
+          await db.query(
+            'UPDATE users SET attempt_count = $1, attempt_time = $2, password = $3, team_name = $4 WHERE email = $5',
+            [attemptCount + 1, currentTime , hashedPassword, teamName, email]
+          );
+      } else {
+        const hoursPassed = (currentTime - attemptTime) / (1000 * 60 * 60); // Calculate hours passed
+
+        if (hoursPassed < 24) {
+          return res.status(400).json({ error: 'You can only make 2 attempts per 24 hours. Please try again later.' });
+        } else {
+          // Update attempt_count and set attempt_time to the current time
+          await db.query(
+            'UPDATE users SET attempt_count = $1, attempt_time = $2, password = $3, team_name =$4 WHERE email = $5',
+            [attemptCount + 1, currentTime, hashedPassword, teamName, email]
+          );
+        }
+      }
+    }
+
+    const verificationToken = sign({ email, teamName }, config.jwtSecret, { expiresIn: '5m' });
+
+    // Send verification email
+    const emailSentMessage = await sendVerificationEmail(email, verificationToken);
+
     res.status(201).json({
-      token,
-      message: 'User signed up successfully',
-      user: { user_id: userId, email, team_name: teamName }
+      verificationToken,
+      message: emailSentMessage,
+     
     });
   } catch (error) {
-    console.error('Error during signup:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error during registration:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
 export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Query the database for the user with the provided email
+    const result = await db.query('SELECT user_id, password FROM users WHERE email = $1', [email]);
+
+    if (result.rows.length === 0) {
+      // If no user found with that email, return false match
+      return res.json({ match: false });
+    }
+
+    const { user_id, password: hashedPassword } = result.rows[0];
+    
+    // Compare the provided password with the stored hashed password
+    const match = await bcrypt.compare(password, hashedPassword);
+    console.log(match);
+    if (match) {
+      // Passwords match, generate a JWT token
+      const token = sign({ userId: user_id }, config.jwtSecret, { expiresIn: '1h' });
+
+      // Send response with match status, userId, and token
+      return res.json({ match: true, userId: user_id, token });
+    } else {
+      // Passwords do not match
+      return res.json({ match: false });
+    }
+  } catch (error) {
+    console.error('Error during login:', error.message);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+  const fetchRoundDBStatus = async () => {
     try {
-      const { email, password } = req.body;
+      const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+        method: 'GET',
+      });
   
-      // Perform the database query to check if the email and password match
-      const result = await db.query('SELECT * FROM users WHERE email = $1 AND password = $2', [email, password]);
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const data = await response.json();
+    
+      const finishedRounds = data
+        .filter(round => round.finished) // Filter objects with finished as true
+        .map(round => round.round_num); // Map to round_num
   
-      // Check if there is a match
-      const match = result.rows.length > 0;
-
-      // If there is a match, send the user_id in the response
-      if (match) {
-        const userId = result.rows[0].user_id;
-
-        const token = sign({ userId }, config.jwtSecret, { expiresIn: '1h' });
-        
-        res.json({ match, userId, token });
-      } else {
-        res.json({ match });
-      }
+      // Find the maximum round_num
+      const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
+      const currentRound = maxRoundNum + 1; // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
+  
+      return currentRound;
     } catch (error) {
-      console.error('Error during login:', error.message);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error('Error fetching round status from the database:', error.message);
     }
   };

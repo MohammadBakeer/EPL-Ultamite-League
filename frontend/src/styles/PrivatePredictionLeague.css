@@ -172,3 +172,15 @@
 .delete-league-button .fa-trash {
   margin-right: 8px;
 }
+
+/* Targeting all labels inside prediction-options */
+.prediction-options label {
+  font-size: 16px; /* Adjust font size as needed */
+  color: #333; /* Change text color if needed */
+  font-weight: 1000; /* Adjust weight if needed */
+}
+
+/* Additional styling for radio buttons */
+.prediction-options input[type="radio"] {
+  margin-right: 10px; /* Space between radio button and text */
+}

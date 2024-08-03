@@ -1,38 +1,55 @@
-.teams-card-container{
+.teams-card-container {
   width: 85%;
   display: flex;
- 
 }
 
-.teams-card{
+.teams-card {
   width: 50%;
   height: 300px;
   border: 1px solid #6c757d;
   margin: 10px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 0px 3px .2px;
+  box-shadow: 0px 0px 3px 0.2px;
+  position: relative; /* Make sure position is relative */
 }
 
-.card-header{
+.card-header {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 15px;
+  position: relative; /* Make sure position is relative */
 }
 
-.teams-card .card-header img{
-  width: 50px;
+.teams-card .card-header img {
+  width: 40px;
   height: 50px;
 }
 
-.teams-card .card-header p{
+.teams-card .card-header p {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
   font-weight: 600;
 }
 
-.card-contents{
+.live-minute {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  text-align: center;
+  color: #80CA94;
+}
+
+.live-minute p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
+
+.card-contents {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -42,33 +59,32 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.card-contents img{
+.card-contents img {
   width: 100px;
   height: 100px;
 }
 
 .column-first-team, .column-match-result, .column-second-team {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 200px; 
+  width: 200px;
 }
 
-.first-second-column-teams-card{
+.first-second-column-teams-card {
   display: flex;
   width: 100%;
 }
 
-/* Second column in the card match score */
-.match-score{
+.match-score {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.match-score span{
-  font-size: 45px; /* Smaller font size for colon */
+.match-score span {
+  font-size: 45px;
   font-weight: 1000;
 }
 
@@ -83,16 +99,12 @@
   -webkit-appearance: none;
   appearance: none;
   text-align: center;
-  width: 40px; /* Smaller width for input boxes */
-  height: 55px; /* Smaller height for input boxes */
-  font-size: 24px; /* Smaller font size for input text */
+  width: 40px;
+  height: 55px;
+  font-size: 24px;
   border: 1px solid #6c757d;
   border-radius: 4px;
 }
-
-/* Add these styles to your existing cards.css or adjust as needed */
-
-/* Add/Edit these styles in your existing cards.css */
 
 .prediction-btn {
   width: 150px;
@@ -103,7 +115,7 @@
   font-weight: 400;
   border: none;
   cursor: pointer;
-  margin-bottom: 10px; /* Space below the button */
+  margin-bottom: 10px;
 }
 
 .cancel-btn,
@@ -111,30 +123,28 @@
 .edit-prediction-btn {
   width: 100px;
   height: 40px;
-  background-color: #dc3545; /* Red color for cancel */
+  background-color: #dc3545;
   color: #fff;
   font-size: 16px;
   font-weight: 400;
   border: none;
   cursor: pointer;
-  margin-right: 10px; /* Space between buttons */
+  margin-right: 10px;
 }
 
 .save-btn {
-  background-color: #28a745; /* Green color for save */
+  background-color: #28a745;
 }
 
 .edit-prediction-btn {
-  background-color: #ffc107; /* Yellow color for edit prediction */
+  background-color: #ffc107;
 }
 
 .prediction-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px; /* Space above the buttons */
+  margin-top: 10px;
 }
-
-/* Add these styles to your existing cards.css */
 
 .star {
   font-size: 24px;
@@ -152,12 +162,106 @@
   color: gold;
 }
 
-/* Adjust the card-header to have relative positioning */
 .card-header {
   position: relative;
 }
 
-.star.filled {
-  color: gold;
+.column-first-team p,
+.column-second-team p {
+  font-size: 16px;
+  font-weight: 500;
 }
 
+.match-date p {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.schedule-minute-card {
+  font-size: 16px;
+}
+
+.live-dash {
+  animation: dash-animation 1s infinite;
+}
+
+@keyframes dash-animation {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(10px); /* Move to the right quickly */
+    animation-timing-function: linear; /* Constant speed */
+  }
+  50% {
+    transform: translateX(0); /* Return to the center quickly */
+    animation-timing-function: linear; /* Constant speed */
+  }
+  75% {
+    transform: translateX(-10px); /* Move to the left quickly */
+    animation-timing-function: linear; /* Constant speed */
+  }
+  100% {
+    transform: translateX(0); /* Return to the center */
+  }
+}
+
+/* Add easing for the far ends */
+@keyframes dash-ease {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(10px); /* Move to the right */
+    animation-timing-function: ease-out; /* Slow down */
+  }
+  40% {
+    transform: translateX(0); /* Center */
+  }
+  60% {
+    transform: translateX(0); /* Center hold */
+  }
+  80% {
+    transform: translateX(-10px); /* Move to the left */
+    animation-timing-function: ease-out; /* Slow down */
+  }
+  100% {
+    transform: translateX(0); /* Return to the center */
+  }
+}
+
+
+.live-dash {
+  position: relative; /* Change to relative if not already */
+  top: -15px; /* Adjust this value to position the dash line higher */
+  animation: dash-animation 2s infinite;
+}
+
+.live-status {
+  position: absolute; /* Position it absolutely within card-header */
+  top: 30px; /* Adjust this value to move it down */
+  left: 30px; /* Adjust this value to move it right */
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space between the dot and the text */
+  font-family: Arial, Helvetica, sans-serif; /* Use the same font as other texts */
+  font-weight: 600;
+  color: red;
+}
+
+.live-dot {
+  width: 10px; /* Dot size */
+  height: 10px; /* Dot size */
+  background-color: red; /* Dot color */
+  border-radius: 50%; /* Make it a circle */
+  animation: pop 1s infinite; /* Animation for popping effect */
+}
+
+@keyframes pop {
+  0%, 100% {
+    transform: scale(1); /* Original size */
+  }
+  50% {
+    transform: scale(1.5); /* Scale up to 1.5 times */
+  }
+}

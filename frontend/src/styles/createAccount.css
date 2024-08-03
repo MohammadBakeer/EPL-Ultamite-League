@@ -1,0 +1,113 @@
+
+
+.container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 100vh;
+}
+
+.create-account-card{
+    width: 80%;
+    height: 48rem;
+    background-image:url('login2.png') ;
+    background-repeat: no repeat;
+    background-size: cover;
+    background-color: antiquewhite;
+    position:relative; 
+}
+
+.create-account-form{ 
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:15px;
+    position: absolute;
+    margin-top: 330px;
+    color: #fff;
+    width: 35%;
+   
+}
+
+.create-label-password{
+    color: #87fa90;
+    font-size: 18px;
+    margin-right: 220px;
+}
+
+.create-label-confirmpaswword{
+    margin-right: 130px; 
+    font-size: 18px; 
+}
+
+.create-label-email{
+    margin-right: 250px;
+    font-size: 18px;
+}
+
+.create-label-username{
+    margin-right: 230px;
+    font-size: 18px;
+}
+
+
+#email, #userName, #password, #con-pasw{
+    width: 20rem;
+    padding: 6px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #3d3d3d;
+    font-size: 16px;
+    /*background-color: #38003d;*/
+}
+
+.create-account-btn{
+    width: 21rem;
+    padding: 8px;
+    background-color: #87fa90;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+   
+
+}
+
+.create-account-btn:hover{
+    cursor: pointer;
+    background-color:  rgb(127, 245, 80);
+    
+}
+
+.create-account-form span{
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-transform: capitalize;
+    margin-top: 3px;
+
+}
+
+.create-account-form span a{
+    color: rgb(127, 245, 80);;
+}
+
+@media screen and(max-width: 768px){
+    .create-account-card{
+        width: 90%;
+    }
+}
+
+
+.create-account-form span a {
+    color: #fff;
+    transition: color 0.3s ease; /* Smooth transition for the color change */
+}
+
+.create-account-form span a:hover {
+    color: rgb(127, 245, 80);
+}
