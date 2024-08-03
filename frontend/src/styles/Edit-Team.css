@@ -76,11 +76,10 @@ body {
   display: flex;
   justify-content: space-around; /* Align items horizontally with space between */
   align-items: center; /* Center items vertically */
+  height: 8%;
 }
 
-.edit-nav h2 {
-  margin: 0;
-}
+
 
 .edit-nav button {
   padding: 0.5rem 1rem;

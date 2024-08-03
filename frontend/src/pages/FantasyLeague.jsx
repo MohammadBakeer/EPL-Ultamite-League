@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/FantasyLeague.css'; // Ensure the correct path to your CSS file
+import '../styles/League.css'; // Ensure the correct path to your CSS file
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setLeagueId } from '../redux/leagueSlice.js'; 
@@ -14,7 +14,7 @@ import JoinLeagueModal from '../components/leagues/FantasyLeague/JoinFantasyLeag
 import LeagueBadgeModal from '../components/leagues/PredictionLeague/LeagueBadgeModal.jsx'; // Import LeagueBadgeModal directly
 import Badges from '../images/badges/exportBadges.js'; // Adjust the path as per your project structure
 import Navbar from '../components/Navbar.jsx'
-
+import Footer from '../components/Footer.jsx'
 
 
 
@@ -275,6 +275,7 @@ const Leaderboard = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
     </>
   );

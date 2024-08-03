@@ -44,3 +44,8 @@ WHERE round_num = 1;
 UPDATE round_status
 SET is_current = TRUE
 WHERE round_num = 2;
+
+delete from users where user_id = 374
+delete from fantasy_points where user_id = 374
+
+

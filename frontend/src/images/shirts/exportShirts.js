@@ -13,10 +13,13 @@ import Liverpool from './Liverpool.png';
 import ManchesterCity from './Man City.png';
 import ManchesterUnited from './Man Utd.png';
 import NewcastleUnited from './Newcastle.png';
-import NottinghamForest from './Nottingham Forest.png';
+import NottinghamForest from './NottinghamForest.png';
 import TottenhamHotspur from './Spurs.png';
 import WestHamUnited from './West Ham.png';
 import Wolves from './Wolves.png';
+import Leicester from './Leicester.png'
+import Ipswich from './Ipswich.png'
+import Southampton from './Southampton.png'
 
 export default {
   'Arsenal': Arsenal,
@@ -32,8 +35,11 @@ export default {
   'Man City': ManchesterCity,
   'Man Utd': ManchesterUnited,
   'Newcastle': NewcastleUnited,
-  "Nott'm Forest'": NottinghamForest,
+  "Nott'm Forest": NottinghamForest,
   'Spurs': TottenhamHotspur,
   'West Ham': WestHamUnited,
   'Wolves': Wolves,
+  'Leicester': Leicester,
+  'Ipswich': Ipswich,
+  'Southampton': Southampton
 };

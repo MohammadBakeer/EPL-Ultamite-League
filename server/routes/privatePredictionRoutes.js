@@ -1,7 +1,7 @@
 
 import express from 'express';
 import authMiddleware from '../middlewares/authMiddleware.js';
-import { getGamesByRoundNumber, getRoundPredictions, privateLeaguePoints, storePrivatePredictions, deletePrivatePredictions, getPrivateRoundPredictions, checkIfOwner, storePrivatePredictionOption, fetchOptionType, storeChooseCard, fetchChosenGames, removeChosenGame, saveSubmitStatus, fetchSubmitStatus, getAllPrivateRoundPredictions, fetchLeagueCode, deletePrivatePredictionLeague, leavePredictionLeague } from '../controllers/privatePredictionController.js'
+import { getGamesByRoundNumber, getRoundPredictions, privateLeaguePoints, storePrivatePredictions, deletePrivatePredictions, getPrivateRoundPredictions, checkIfOwner, storePrivatePredictionOption, fetchOptionType, storeChooseCard, fetchChosenGames, removeChosenGame, saveSubmitStatus, fetchSubmitStatus, getAllPrivateRoundPredictions, fetchLeagueCode, deletePrivatePredictionLeague, leavePredictionLeague, getAllGames } from '../controllers/privatePredictionController.js'
 
 const router = express.Router();
 
@@ -23,6 +23,6 @@ router.get('/getAllPrivateRoundPredictions/:roundNum/:leagueId', authMiddleware,
 router.get('/fetchLeagueCode/:leagueId', authMiddleware, fetchLeagueCode);
 router.delete('/deletePrivatePredictionLeague/:leagueId', authMiddleware, deletePrivatePredictionLeague);
 router.delete('/leavepredictionleague/:leagueId', authMiddleware, leavePredictionLeague);
-
+router.get('/getAllRoundGames', authMiddleware, getAllGames);
 
 export default router;

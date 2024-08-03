@@ -1,0 +1,17 @@
+/* ToastStyles.css */
+.Toastify__toast {
+    font-size: 16px; /* Adjusted for better readability */
+    line-height: 1.5; /* Improved line spacing */
+    padding: 10px 15px; /* Add padding for better touch targets */
+    border-radius: 5px; /* Rounded corners for a modern look */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+  }
+  
+  
+  /* Toast hover effect */
+  .Toastify__toast:hover {
+    transform: scale(1.02); /* Slightly enlarge on hover */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+  }
+  

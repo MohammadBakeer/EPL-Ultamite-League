@@ -1,12 +1,12 @@
 
 import express from 'express';
 import authMiddleware from '../middlewares/authMiddleware.js';
-import { storeGlobalPredictions, deleteGlobalPrediciton, fetchAllGlobalPredictions } from '../controllers/globalPredictionController.js'
+import { storeGlobalPredictions, deleteGlobalPrediction, fetchAllGlobalPredictions } from '../controllers/globalPredictionController.js'
 
 const router = express.Router();
 
 router.post('/storeGlobalPredictions', authMiddleware, storeGlobalPredictions)
-router.delete('/deleteGlobalPrediction/:gameId', authMiddleware, deleteGlobalPrediciton)
+router.delete('/deleteGlobalPredictions/:gameId', authMiddleware, deleteGlobalPrediction)
 router.get('/fetchallglobalpredictions', authMiddleware, fetchAllGlobalPredictions)
 
 

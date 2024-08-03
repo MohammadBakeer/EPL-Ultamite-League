@@ -1,0 +1,116 @@
+/*rgb(0,254,130),
+
+rgb(0, 190, 27)
+#00be1b;
+
+rgb(61 25 91)
+#3d195b
+
+premier league color palette
+Color	Hex	RGB
+#04f5ff	(4,245,255)
+#e90052	(233,0,82)
+#ffffff	(255,255,255)
+#00ff85	(0,255,133)
+#38003c	(56,0,60)
+
+*/
+
+
+
+.logincard-container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 100vh;
+}
+
+.login-card{
+    width: 75%;
+    height: 45rem;
+    background-image:url('/login2.png') ;
+    background-repeat: no repeat;
+    background-size: cover;
+    background-color: antiquewhite;
+    position:relative;
+
+}
+
+.login-form{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap:30px;
+  position: absolute;
+  color: #fff;
+  bottom:30px;
+  width: 20%;
+  
+}
+
+.create-forgot{
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+    gap: 100px;
+    
+}
+
+.create, .forgot{
+    font-family: monospace;
+    font-size: 12px;
+    text-transform:capitalize ;
+    color: #fff;
+}
+
+.create a,.forgot a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.create a:hover, .forgot a:hover{
+    color: #87fa90;
+    
+}
+
+label{
+    font-family: monospace;
+    font-size: 16px;
+    margin-right: 250px;
+    margin-top: 3px;
+    color:#87fa90;
+}
+
+.email-label{
+    margin-right: 280px;
+}
+
+.email, .password{
+   /* background-color: #38003d;*/
+    width: 19rem;
+    border:none;
+    border-bottom: 2px solid #3d3d3d;
+    padding: 5px 10px;
+    outline: none;
+    color: #000;
+    font-size:18px;
+}
+
+.start-btn{
+  width: 20rem;
+  padding: 15px 25px;
+  background-color: #87fa90;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+
+.start-btn:hover{
+    cursor: pointer;
+    background-color: rgb(127, 245, 80);
+}
+

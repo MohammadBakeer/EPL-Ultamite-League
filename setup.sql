@@ -1,10 +1,16 @@
-
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    team_name VARCHAR(50) NOT NULL
+    team_name VARCHAR(50) NOT NULL,
+    attempt_count INT DEFAULT 0,
+    attempt_time TIMESTAMP,
+    email_verified BOOLEAN DEFAULT false,
+    address VARCHAR(255),
+    phone_number VARCHAR(20)
 );
+
+
 
 
 ----------- Game Leagues ----------------
@@ -112,15 +118,23 @@ CREATE TABLE global_prediction_round_points (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+
+
+
 CREATE TABLE games (
-    game_id SERIAL PRIMARY KEY,
+    game_id INT PRIMARY KEY,
     game_date DATE NOT NULL,
+    game_time TIME,
     team_1 VARCHAR(100) NOT NULL,
     team_2 VARCHAR(100) NOT NULL,
-    team_1_result INT DEFAULT 30,
-    team_2_result INT DEFAULT 30,
-    round_num INT NOT NULL
+    team_1_result INT DEFAULT 0,
+    team_2_result INT DEFAULT 0,
+    round_num INT NOT NULL,
+    minute INT,
+    live BOOLEAN DEFAULT FALSE,
+    finished BOOLEAN DEFAULT FALSE
 );
+
 
 
 CREATE TABLE private_predictions (
@@ -178,3 +192,5 @@ CREATE TABLE round_status (
     end_date DATE NOT NULL,
     CONSTRAINT unique_round_num UNIQUE (round_num)
 );
+
+

@@ -8,4 +8,5 @@ const router = express.Router();
 
 router.post('/updatetoken', authMiddleware, updateToken);
 
+
 export default router;

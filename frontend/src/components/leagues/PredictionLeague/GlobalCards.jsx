@@ -23,7 +23,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
       });
       
       const predictions = response.data;
-      console.log(predictions.length);
+
       if(predictions.length >= 3){
       
 
@@ -68,7 +68,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
     }
     try {
       if (isPredicted) {
-        const response = await axios.delete(`http://localhost:3000/api/deleteGlobalPrediction/${gameId}`, {
+        const response = await axios.delete(`http://localhost:3000/api/deleteGlobalPredictions/${gameId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -159,7 +159,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
     <div className="teams-card">
       <div className="card-header">
         {/* Assuming leagueName is static, you can make it dynamic if needed */}
-        <img src="https://assets.codepen.io/285131/pl-logo.svg" alt="league" />
+        <img src="/epl-badge.png" alt="league" />
         <p>English Premier League</p>
       </div>
 
@@ -218,7 +218,6 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 
 function Card({ gamePairs, blockChanges }) {
   return (
-    <div className="container">
       <div className="teams-card-container">
         {gamePairs.map((pair) => {
        
@@ -227,7 +226,7 @@ function Card({ gamePairs, blockChanges }) {
               key={pair.game_id} // Add a unique key to each card
               team1Name={pair.team_1}
               matchDate={new Date(pair.game_date).toLocaleDateString()}
-              matchTime={new Date(pair.game_date).toLocaleTimeString()}
+              matchTime={pair.game_time}
               team2Name={pair.team_2}
               roundNum={pair.round_num} 
               gameId={pair.game_id}
@@ -237,7 +236,6 @@ function Card({ gamePairs, blockChanges }) {
           );
         })}
       </div>
-    </div>
   );
 }
 

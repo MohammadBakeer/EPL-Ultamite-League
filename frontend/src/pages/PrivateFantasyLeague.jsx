@@ -4,6 +4,7 @@ import { decodeJWT } from '../jwtUtils.js';
 import { setLeagueId } from '../redux/leagueSlice';
 import Badges from '../images/badges/exportBadges.js'; // Adjust the path as per your project structure
 import Navbar from '../components/Navbar.jsx';
+import Footer from '../components/Footer.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { setViewId } from '../redux/viewSlice.js';
@@ -307,7 +308,7 @@ const PrivateFantasyLeague = () => {
        </div>
      )}
       </div>
-      
+      <Footer />
     </>
   );
 };

@@ -1,95 +1,81 @@
-
-.auth-background{
-  height: 100vh; 
-  background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat; 
+/* Ensure the background of the entire page is white */
+.auth-background {
+  height: 100vh;
+  background-color: #fff; /* Set background color to white */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding-top: 6em;
 }
 
-.signup-container {
-    width: 100%;
-    max-width: 30rem; 
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 0 auto; 
-    padding-bottom: 30px;
-    height: 60%;
-    width: 20%;
-
+.signup-page {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
 }
 
-.signup-header-container {
-    display: flex;
+/* Container for the signup content */
+.signup-container {
+  display: flex;
+  width: 100%;
+  gap: 100px;
+  max-width: 1200px;
+  background-color: #fff; /* Set background color to white */
+  border: none; /* Remove border */
+  border-radius: 8px;
+  box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the CreateAccountCard */
+.signup-container > div:first-child {
+  width: 50%; /* Adjust the width as needed */
+  padding: 20px;
+  border-right: none; /* Remove border */
+  background-color: #fff; /* Set background color to white */
+}
+
+/* Flex container for the signup card */
+.signupcard {
+  width: 50%; /* Adjust the width as needed */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff; /* Set background color to white */
+}
+
+/* Styles for the header container */
+.signin-h1-EPL-container,
+.signin-h3-EPL-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sign-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-img img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .signup-container {
     flex-direction: column;
-    align-items: center;
-    gap: 5px;
     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
   }
 
-  .signup-header {
-    font-size: 22px;
-    font-weight: bold;
-    color: #333;
+  .signup-container > div:first-child,
+  .signupcard {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
   }
-  
- .signup-underline {
-    width: 12rem;
-    height: 3px;
-    background-color: #646cff;
-    margin: 8px 0;
-  }
-
-  .signup-inputs{
-    display: flex;
-    flex-direction: column;
-    gap: 3em;
-  }
-
-  .input {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .signup-form label  {
-    font-size: 14px;
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 5px;
-  }
-
-  .signup-form input
-   {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: #f9f9f9;
-    color: #333;
-    resize: none;
-    width: 50%;
-  }
-
-  .signup-form{
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  
-  .signup-submit-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 1em; 
-  }
-
-  
+}

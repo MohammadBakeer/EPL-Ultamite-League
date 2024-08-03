@@ -3,6 +3,7 @@ import db from '../../config/db.js';
 
 
 export const fetchRoundStatus = async () => {
+  console.log("hi from round status");
   const url = 'https://api.sportmonks.com/v3/football/rounds/seasons/23614?api_token=D21slCxRSvhnGAtf67pIuf2bF59ceCnEIa0P6xQEq4sNTGaBYpyIz86YPDkL';
 
   try {
@@ -52,8 +53,7 @@ const storeRoundStatus = async (rounds) => {
   
         await db.query(query, values);
       }
-  
-      console.log('Data successfully inserted/updated in the database.');
+
     } catch (error) {
       console.error('Error storing data in the database:', error.message);
     }

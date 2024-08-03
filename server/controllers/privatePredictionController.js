@@ -244,13 +244,15 @@ export const getPrivateRoundPredictions = async (req, res) => {
 export const checkIfOwner = async (req, res) => {
   const { leagueId } = req.params;
   const token = req.headers.authorization?.split(' ')[1];
-
+  
+  // Check if token is provided
   if (!token) {
     return res.status(401).json({ error: 'Token not provided' });
   }
 
   let decoded;
   try {
+    // Verify the token
     decoded = jwt.verify(token, config.jwtSecret);
   } catch (error) {
     return res.status(401).json({ error: 'Invalid token' });
@@ -259,23 +261,26 @@ export const checkIfOwner = async (req, res) => {
   const userId = decoded.userId;
 
   try {
+    // Query to check if the user is the owner of the league
     const query = `
       SELECT owner_id 
       FROM private_prediction_leagues 
-      WHERE league_id = $1 AND owner_id = $2
+      WHERE league_id = $1
     `;
-    const result = await db.query(query, [leagueId, userId]);
+    const result = await db.query(query, [leagueId]);
 
-    if (result.rows.length > 0) {
-      res.status(200).json({ isOwner: true });
+    // Check if the owner_id matches the userId
+    if (result.rows.length > 0 && result.rows[0].owner_id === userId) {
+      return res.status(200).json({ isOwner: true });
     } else {
-      res.status(200).json({ isOwner: false });
+      return res.status(200).json({ isOwner: false });
     }
   } catch (error) {
     console.error('Error checking owner:', error.message);
-    res.status(500).json({ error: 'Internal server error' });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 export const storePrivatePredictionOption = async (req, res) => {
   const { leagueId, roundNum, predictionType } = req.body;
@@ -648,3 +653,22 @@ export const leavePredictionLeague = async (req, res) => {
       return res.status(500).json({ message: 'An error occurred while leaving the prediction league.' });
   }
 };
+
+export const getAllGames = async (req, res) => {
+
+  try {
+    // Example SQL query to fetch games where round_num matches
+    const query = `SELECT * FROM games`;
+
+    const results = await db.query(query);
+ 
+    const games = results.rows;
+
+    // Return the fetched games data as JSON response
+    res.status(200).json(games);
+  } catch (error) {
+    console.error('Error fetching games:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+

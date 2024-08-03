@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { decodeJWT } from '../../../jwtUtils/';
-import '../../../styles/FantasyLeague.css'
+import '../../../styles/League.css'
 
 const JoinLeagueModal = ({ onClose }) => {
   const [leagueCode, setLeagueCode] = useState('');

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar.jsx';
+import Footer from '../components/Footer.jsx'
 import PrivateRounds from '../components/leagues/PredictionLeague/PrivateRounds.jsx';
 import { decodeJWT } from '../jwtUtils.js';
 import { setLeagueId } from '../redux/leagueSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast } from 'react-toastify';
 import { faChevronLeft, faChevronRight, faTrash } from '@fortawesome/free-solid-svg-icons';
-import '../styles/FantasyLeague.css';
+import '../styles/League.css';
 import '../styles/PrivatePredictionLeague.css';
 import '../styles/pagination.css';
 import axios from 'axios';
@@ -75,8 +76,8 @@ const PrivatePredictionLeague = () => {
       return currentRound
   };
 
-  const fetchSubmitStatus = async (roundNum) => {
-    if(!isOwner){
+  const fetchSubmitStatus = async (roundNum, owner) => {
+    if(!owner){
       return
     }
     if (!leagueId || !roundNum) {
@@ -103,8 +104,9 @@ const PrivatePredictionLeague = () => {
     }
 };
 
-const fetchPredictionOptionType = async (roundNum) => {
-  if(!isOwner){
+const fetchPredictionOptionType = async (roundNum, owner) => {
+
+  if(!owner){
     return
   }
   if (!leagueId) {
@@ -121,7 +123,7 @@ const fetchPredictionOptionType = async (roundNum) => {
         Authorization: `Bearer ${token}`,
       },
     });
-
+    console.log(response.data.prediction_type);
     setSelectedPredictionOption(response.data.prediction_type);
 
   } catch (error) {
@@ -192,6 +194,7 @@ const fetchPredictionOptionType = async (roundNum) => {
   };
 
   const checkIfOwner = async () => {
+    
     if (!leagueId) {
       console.warn('League ID is not available.');
       return;
@@ -206,6 +209,7 @@ const fetchPredictionOptionType = async (roundNum) => {
       });
 
       setIsOwner(response.data.isOwner);
+      return response.data.isOwner
     } catch (error) {
       console.error('Error checking if owner:', error);
     }
@@ -276,19 +280,18 @@ const fetchPredictionOptionType = async (roundNum) => {
         }
 
         try {
-            // Fetch prediction data
+      
             await handleFetchPredictionData();
 
-            // Check if owner
-            await checkIfOwner();
+            const owner = await checkIfOwner();
 
             await fetchLeagueCode();
 
             const currentRoundNum = await fetchRoundStatus(); 
 
-            fetchSubmitStatus(currentRoundNum)
+            fetchSubmitStatus(currentRoundNum, owner)
 
-            fetchPredictionOptionType(currentRoundNum)
+            fetchPredictionOptionType(currentRoundNum, owner)
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -411,8 +414,7 @@ useEffect(()=>{
       alert('An error occurred while leaving the league.');
     }
   };
-  
-  
+
   return (
     <div>
       <Navbar />
@@ -463,7 +465,7 @@ useEffect(()=>{
                   className="prediction-option-input"
                   disabled={isSubmitted || starClicked || blockChanges} 
                 />
-                Choose the 4 games for members to make predictions on
+                Star up to 4 games for members to make predictions on
               </label>
             </div>
             {selectedPredictionOption !== "allow_any" && (
@@ -509,6 +511,7 @@ useEffect(()=>{
          </div>
        </div>
      )}
+     <Footer />
     </div>
   ); 
 };

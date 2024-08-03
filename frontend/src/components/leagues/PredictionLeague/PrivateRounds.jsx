@@ -34,7 +34,7 @@ function Rounds({ defaultExpanded, roundbarText, predictionOption, isOwner, notA
     };
 
     const fetchRoundStatus = async () => {
-  
+    
       const token = sessionStorage.getItem('authToken');
       const response = await fetch('http://localhost:3000/api/getRoundStatus', {
         method: 'GET',
@@ -99,36 +99,64 @@ function Rounds({ defaultExpanded, roundbarText, predictionOption, isOwner, notA
 
   const gamePairs = splitGamesIntoPairs(roundGames);
 
+  const formatTime = (time) => {
+    // Create a Date object using the input time as UTC
+    const date = new Date(`1970-01-01T${time}Z`); // Treat the time as UTC
+  
+    // Add 1 hour to the date
+    date.setHours(date.getHours() + 1);
+  
+    // Detect the user's time zone
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  
+    // Use Intl.DateTimeFormat to format the time to the user's time zone
+    const options = {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+        timeZone: userTimeZone, // Use the detected time zone
+    };
+  
+    // Format the date and return it as a string
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+};
+
+
 
   const choose_cards =  predictionOption === 'choose_games';
 
   const renderedCards = [];
-    gamePairs.forEach((pair, index) => {
-      renderedCards.push(
-        <Card
-          key={index}
-          gamePairs={pair}
-          choose_cards={choose_cards}
-          isOwner={isOwner}
-          notAllowStarClick={notAllowStarClick}
-          setChosenGames={setChosenGames} 
-          isExpanded={isExpanded} 
-          setAnyPrivateGames={setAnyPrivateGames}
-          predictionOption={predictionOption}
-          setStarClicked={setStarClicked}
-          isSubmitted={isSubmitted}
-          blockChanges={blockChanges}
-         
-        />
-      );
-    });
+  gamePairs.forEach((pair, index) => {
+    renderedCards.push(
+      <Card
+        key={index}
+        gamePairs={pair.map(game => ({
+          ...game,
+          game_time: formatTime(game.game_time), // Format the game_time here
+        }))}
+        choose_cards={choose_cards}
+        isOwner={isOwner}
+        notAllowStarClick={notAllowStarClick}
+        setChosenGames={setChosenGames} 
+        isExpanded={isExpanded} 
+        setAnyPrivateGames={setAnyPrivateGames}
+        predictionOption={predictionOption}
+        setStarClicked={setStarClicked}
+        isSubmitted={isSubmitted}
+        blockChanges={blockChanges}
+      />
+    );
+  });
+  
+
+    
 
     useEffect(()=>{
 
     },[isExpanded])
 
   return (
-    <div className="container">
+    <div className="container-round">
       <div className="round-completed-bar"
            style={{ backgroundColor: isExpanded ? '#007bff' : '#fff', transition: '.3s' }}>
        
@@ -137,9 +165,9 @@ function Rounds({ defaultExpanded, roundbarText, predictionOption, isOwner, notA
         </div>
         
         <div className="completed-arrow" onClick={toggleVisibility}>
-          <span style={{ color: isExpanded ? '#fff' : '#000', transition: '.3s' }}>completed</span>
+          <span style={{ color: isExpanded ? '#fff' : '#000', transition: '.3s' }}>Fixtures</span>
           <img 
-            src={isExpanded ? "images/arrow_drop_up.png" : "images/arrow_drop_down.png"} 
+            src={isExpanded ? "/arrow_drop_up.png" : "/arrow_drop_down.png"} 
             alt="arrow" 
           />
         </div>

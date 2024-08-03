@@ -94,6 +94,15 @@ const calculateRoundPoints = async (table) => {
   }
 };
 
+
+//calculatePrice if a FWD has a price already greater than or equal to 9 they need 3000 points that round to go up .2 in price
+//if a FWD has a price of less than or equal to 8 they need 2000 points that round to go up .2 in price
+// if a FWD with a price that is 9 or over they will go down .2 if they get less than 2000 points
+// if a FWD with a price less than or equal to 8 they will lose .2 in price if they get less than 500 points per round
+
+
+
+
 // Function to calculate points for each player
 export const calculatePoints = async (table) => {
  

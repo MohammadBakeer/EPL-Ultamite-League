@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+</head>
+<body>
+    <h1>Verifying your email...</h1>
+    <div id="message"></div>
+    <script>
+        // Get the token from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');
+
+        if (token) {
+            // Function to verify email
+            const verifyEmail = async () => {
+                try {
+                    const response = await fetch(`http://localhost:3000/verify-email?token=${token}`);
+                    if (!response.ok) {
+                        throw new Error('Verification failed');
+                    }
+                    const data = await response.text(); // or response.json() if you return JSON
+                    document.getElementById('message').innerHTML = `<h1>${data}</h1>`;
+                } catch (error) {
+                    document.getElementById('message').innerHTML = `<h1>${error.message}</h1>`;
+                }
+            };
+
+            verifyEmail(); // Call the verification function
+        } else {
+            document.getElementById('message').innerHTML = '<h1>No token provided!</h1>';
+        }
+    </script>
+</body>
+</html>
