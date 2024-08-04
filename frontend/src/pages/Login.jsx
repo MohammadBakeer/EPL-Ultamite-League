@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
-import { faInstagram, faFacebook, faTiktok, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import LoginCard from '../components/LoginCard';
+import Footer from '../components/Footer'
 import ScheduleRounds from '../components/ScheduleRounds';
 
 import '../styles/LogIn.css';
@@ -30,6 +27,7 @@ const Login = () => {
         </div>
       </div>
       <ScheduleRounds />
+      <Footer />
     </div>
   );
 };

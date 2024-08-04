@@ -436,8 +436,22 @@ export const checkIfFantasyOwner = async (req, res) => {
     // Check if the ownerId matches the userId
     const isOwner = ownerId === userId;
 
-    // Respond with the result
-    res.status(200).json({ ownerId: isOwner });
+    let leagueCode = 0;
+
+    if (isOwner) {
+      // If the user is the owner, get the league_code
+      const leagueCodeQuery = await db.query(
+        'SELECT league_code FROM fantasy_private_leagues WHERE league_id = $1',
+        [leagueId]
+      );
+
+      if (leagueCodeQuery.rows.length > 0) {
+        leagueCode = leagueCodeQuery.rows[0].league_code;
+      }
+    }
+
+    // Respond with the result and league code if owner
+    res.status(200).json({ isOwner, leagueCode });
   } catch (error) {
     console.error('Error checking fantasy league owner:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });

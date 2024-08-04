@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../styles/SignUp.css';
 import CreateAccountCard from '../components/CreateAccount.jsx'
 import ScheduleRounds from '../components/ScheduleRounds.jsx';
+import Footer from '../components/Footer.jsx'
 
 
 const SignUp = () => {
@@ -27,6 +28,7 @@ const SignUp = () => {
         </div>
       </div>
       <ScheduleRounds />
+      <Footer />
     </div>
   );
 };

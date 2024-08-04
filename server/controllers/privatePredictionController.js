@@ -508,7 +508,6 @@ export const fetchLeagueCode = async (req, res) => {
     const decoded = jwt.verify(token, config.jwtSecret);
     const userId = decoded.userId;
 
-    // Check ownership in private_prediction_leagues table
     const ownershipQuery = `
       SELECT owner_id 
       FROM private_prediction_leagues 
@@ -522,16 +521,17 @@ export const fetchLeagueCode = async (req, res) => {
 
     // Fetch league code from private_prediction_leagues table
     const query = `
-      SELECT league_code 
+      SELECT league_code, league_name  
       FROM private_prediction_leagues 
       WHERE league_id = $1
     `;
     const result = await db.query(query, [leagueId]);
 
     if (result.rows.length > 0) {
-      const leagueCode = result.rows[0].league_code;
-      res.status(200).json({ leagueCode: leagueCode.toString() });
-    } else {
+      const { league_code, league_name } = result.rows[0];
+      // Send both league_code and league_name in the response
+      res.status(200).json({ leagueCode: league_code.toString(), leagueName: league_name });
+    }else {
       res.status(404).json({ message: 'League code not found' });
     }
   } catch (error) {

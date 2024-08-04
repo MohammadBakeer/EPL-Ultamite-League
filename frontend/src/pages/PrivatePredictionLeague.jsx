@@ -12,6 +12,7 @@ import { faChevronLeft, faChevronRight, faTrash } from '@fortawesome/free-solid-
 import '../styles/League.css';
 import '../styles/PrivatePredictionLeague.css';
 import '../styles/pagination.css';
+import ConfirmModal from '../components/ConfirmModal';
 import axios from 'axios';
 
 const PrivatePredictionLeague = () => {
@@ -30,6 +31,8 @@ const PrivatePredictionLeague = () => {
   const [leagueCode, setLeagueCode] = useState("");
   const [roundNum, setRoundNum] = useState(null)
   const [blockChanges, setBlockChanges] = useState(false)
+  const [showConfirmModal, setShowConfirmModal] = useState(false); 
+  const [leagueName, setLeagueName] = useState('');
 
   const navigate = useNavigate();
 
@@ -157,12 +160,13 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
         },
       });
   
-      const { leagueCode, message } = response.data;
-  
+      const { leagueCode, leagueName, message } = response.data;
+   
       if (message === 'User is not the owner') {
 
       } else if (leagueCode) {
-        setLeagueCode(leagueCode);
+        setLeagueCode(leagueCode)
+        setLeagueName(leagueName)
       } else {
         console.warn('League code not found.');
       }
@@ -360,10 +364,11 @@ useEffect(()=>{
   }
 
   const handleDeleteLeague = async () => {
-    const confirmLeave = window.confirm("Are you sure you want to leave the league?");
-    if (!confirmLeave) {
-      return; // Exit if the user cancels
-    }
+    setShowConfirmModal(true); // Show the confirmation modal
+  };
+
+  const handleConfirmDelete = async () => {
+  
     const token = sessionStorage.getItem('authToken'); // Adjust based on how you store the token
 
     try {
@@ -385,6 +390,10 @@ useEffect(()=>{
       console.error('Error deleting the league:', error);
       alert('An error occurred while deleting the league.');
     }
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirmModal(false); // Hide the confirmation modal
   };
 
   const handleLeaveLeague = async () => {
@@ -418,7 +427,7 @@ useEffect(()=>{
   return (
     <div>
       <Navbar />
-      <h2>Private Prediction League</h2>
+      <h2>{leagueName}</h2>
       <div className="prediction-table-wrapper">
         <Pagination />
         <table className="prediction-table">
@@ -511,6 +520,13 @@ useEffect(()=>{
          </div>
        </div>
      )}
+           {showConfirmModal && (
+          <ConfirmModal
+            leagueName={leagueName}
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+          />
+        )}
      <Footer />
     </div>
   ); 
