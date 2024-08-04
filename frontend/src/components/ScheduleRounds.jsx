@@ -42,9 +42,7 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
   };
 
   const fetchRoundStatus = async () => {
-    if(onSchedulePage){
-      return
-    }
+  
     const response = await fetch('http://localhost:3000/api/getScheduleRoundStatus', {
       method: 'GET',
     });
@@ -67,7 +65,7 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
     if (currentRoundObject) {
       const { is_current, start_date, finished } = currentRoundObject;
       const startDate = new Date(start_date);
-      
+   
       if (is_current || (startDate <= currentDate && !finished)) {
         setBlockChanges(true);
       } else {

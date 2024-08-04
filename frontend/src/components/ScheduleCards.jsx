@@ -94,10 +94,9 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 function Card({ gamePairs, blockChanges, roundNum }) {
   const [scores, setScores] = useState({});
 
- 
   useEffect(() => {
     if (!blockChanges) return; // if block changes is true we dont want it to return. so change it to !blockChanges when done testing
- 
+   
     const fetchLiveScores = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/fetchLiveScores/${roundNum}`);
@@ -144,7 +143,7 @@ function Card({ gamePairs, blockChanges, roundNum }) {
 
     return () => clearInterval(pollingInterval);
   }, [blockChanges]);
-  console.log(scores);
+
 
   const setTeamScores = (gameId, team, score) => {
     setScores(prevScores => ({

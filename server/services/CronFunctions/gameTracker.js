@@ -1,5 +1,8 @@
 import axios from 'axios';
 import db from '../../config/db.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 
 const fetchRoundDBStatus = async () => {
@@ -26,31 +29,4 @@ const fetchRoundDBStatus = async () => {
   };
 
 
-  export const fetchSchedule = async () => {
-    const url = 'https://api.sportmonks.com/v3/football/schedules/seasons/23614?api_token=D21slCxRSvhnGAtf67pIuf2bF59ceCnEIa0P6xQEq4sNTGaBYpyIz86YPDkL';
-      console.log("hi");
-    try {
-      const response = await axios.get(url);
-      const data = response.data;
-  
-      // Accessing rounds and creating an array of fixtures for each round
-      const roundsArray = data.data.map(round => {
-        return round.rounds.map(roundDetail => {
-          return roundDetail.fixtures.map(fixture => ({
-            name: fixture.name,
-            starting_at: fixture.starting_at,
-            fixture_id: fixture.id,
-            round_num: roundDetail.name
-          }));
-        });
-      });
-  
-      // Flatten the roundsArray to log each fixture's details
-      const flattenedFixtures = roundsArray.flat(2); // Flattens the array to 2 levels deep
-      flattenedFixtures.forEach(fixture => {
-        console.log(`Match: ${fixture.name}, Starts At: ${fixture.starting_at}, Fixture ID: ${fixture.fixture_id}, Round: ${fixture.round_num}`);
-      });
-    } catch (error) {
-      console.error('Error fetching data from the Fantasy Premier League API:', error.message);
-    }
-  };
+//This is where live data will come from sports monks

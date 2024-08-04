@@ -1,10 +1,12 @@
 import axios from 'axios';
 import db from '../../config/db.js';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 export const fetchRoundStatus = async () => {
-  console.log("hi from round status");
-  const url = 'https://api.sportmonks.com/v3/football/rounds/seasons/23614?api_token=D21slCxRSvhnGAtf67pIuf2bF59ceCnEIa0P6xQEq4sNTGaBYpyIz86YPDkL';
+
+  const url = `https://api.sportmonks.com/v3/football/rounds/seasons/23614?api_token=${process.env.API_TOKEN}`;
 
   try {
     const response = await axios.get(url);
@@ -17,7 +19,7 @@ export const fetchRoundStatus = async () => {
       starting_at: new Date(round.starting_at),
       ending_at: new Date(round.ending_at)
     }));
-
+  
     const sortedData = parsedData.sort((a, b) => a.name - b.name);
 
     const currentRoundNum = await fetchRoundDBStatus(); // Await the asynchronous function call
