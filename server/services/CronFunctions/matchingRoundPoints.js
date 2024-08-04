@@ -3,6 +3,7 @@ import axios from 'axios';
 import db from '../../config/db.js';
 
 async function matchRoundPoints(players, teams, currentRound) {
+
   try {
       // Loop over each team
       for (const team of teams) {
@@ -32,6 +33,7 @@ async function matchRoundPoints(players, teams, currentRound) {
 
 
 async function roundTeams(currentRound) {
+
     try {
       // Query to get rows where round_num matches currentRound
       const query = `
@@ -57,7 +59,7 @@ async function roundTeams(currentRound) {
 
 
 export const teamRoundPoints = async (currentRound) => {
-
+  
   try {
   
     // Make a GET request to the fetchPlayerRounds endpoint with currentRound as a query parameter
@@ -72,7 +74,7 @@ export const teamRoundPoints = async (currentRound) => {
     const teams = await roundTeams(currentRound)
 
     matchRoundPoints(players, teams, currentRound)
-
+   
   } catch (error) {
     console.error('Error:', error.message);
   }

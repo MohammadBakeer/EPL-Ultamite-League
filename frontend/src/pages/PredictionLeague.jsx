@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/FantasyLeague.css'; // Ensure the correct path to your CSS file
+import '../styles/League.css'; // Ensure the correct path to your CSS file
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setViewId } from '../redux/viewSlice.js';
@@ -15,6 +15,7 @@ import JoinLeagueModal from '../components/leagues/PredictionLeague/JoinPredicti
 import LeagueBadgeModal from '../components/leagues/PredictionLeague/LeagueBadgeModal.jsx'; // Import LeagueBadgeModal directly
 import Badges from '../images/badges/exportBadges.js'; // Adjust the path as per your project structure
 import Navbar from '../components/Navbar.jsx'
+import Footer from '../components/Footer.jsx'
 import GlobalRounds from '../components/leagues/PredictionLeague/GlobalRounds.jsx'
 
 
@@ -35,6 +36,7 @@ const PredictionLeague = () => {
   const itemsPerPage = 10;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     const fetchGlobalPredictions = async () => {
@@ -201,7 +203,7 @@ const PredictionLeague = () => {
   };
   
    return (
-    <>
+    <div>
     < Navbar/>
     <div className="leaderboard-page">
       {showBadgeModal && <LeagueBadgeModal onClose={() => setShowBadgeModal(false)} onSelectBadge={handleSelectBadge} />}
@@ -225,7 +227,7 @@ const PredictionLeague = () => {
         </div>       
         <div className='cards-container'>
           <div className='league-card'>
-            {/* Pagination component */}
+
             <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={onPageChange} />
             <div className='card-title'>
               <h4>Global league</h4>
@@ -268,15 +270,17 @@ const PredictionLeague = () => {
             </div>
           </div>
         </div>
+        
         <div className="prediction-league-global-header-container">
           <h3 className="prediction-league-global-header">
             Global League Predictions
           </h3>
         </div>
-        <GlobalRounds number={2} defaultExpanded={true} roundbarText="Make 3 predictions per round" />
+        <GlobalRounds  defaultExpanded={true} roundbarText="Make 3 predictions per round" />    
+        <Footer />    
       </div>
     </div>
-    </>
+    </div>
   );
 };
 export default PredictionLeague;

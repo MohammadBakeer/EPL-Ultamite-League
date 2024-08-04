@@ -118,7 +118,7 @@ tr:hover {
   .filter-input,
 .filter-select {
   padding: .5rem;
-  font-size: .7em;
+  font-size: .5em;
   border: 1.5px solid black; /* Gold border */
   border-radius: 3px;
   background-color: gold;
@@ -131,7 +131,7 @@ tr:hover {
 }
   
   .clear-filters-btn {
-    padding: 0.5rem 1rem;
+    padding: 0.2rem 1rem;
     background-color: #ffd700; /* Gold color */
     color: black;
     border: 1.5px solid black; /* Black border */

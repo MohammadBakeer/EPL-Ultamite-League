@@ -1,31 +1,77 @@
-
-.login-container{
-  width: 100%;
-  max-width: 30rem; 
-  padding: 20px;
+.auth-background {
+  height: 100vh;
   background-color: #fff;
-  border: 1px solid #ddd;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-top: 6em;
+}
+
+.login-page {
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+.login-container {
+  display: flex;
+  width: 100%;
+  gap: 100px;
+  max-width: 1200px;
+  background-color: #fff;
+  border: none;
   border-radius: 8px;
   box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  margin: 0 auto; 
-  padding-bottom: 30px;
-  height: 60%;
-  width: 20%;
+  margin-bottom: 20px; /* Add some space below the login container */
 }
 
-.login-inputs{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 35%;
+.login-container > div:first-child {
+  width: 50%;
+  padding: 20px;
+  border-right: none;
+  background-color: #fff;
 }
 
-.login-submit-container {
+.logincard {
+  width: 50%;
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-top: 1em; 
+  background-color: #fff;
+}
+
+.signin-h1-EPL-container,
+.signin-h3-EPL-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sign-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-img img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .login-container > div:first-child,
+  .logincard {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
 }

@@ -18,6 +18,9 @@ const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTe
     const [isInitialRender, setIsInitialRender] = useState(true);
     const formationSelectRef = useRef(null);
 
+
+    console.log(roundNum);
+
     useEffect(() => {
       
       if (isClearTeamRequested && blockChanges == false) {

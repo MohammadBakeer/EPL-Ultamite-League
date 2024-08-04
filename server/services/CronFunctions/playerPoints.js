@@ -1,7 +1,29 @@
 
 import axios from 'axios';
 
-const roundNum = 2
+const fetchRoundDBStatus = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+      method: 'GET',
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+  
+    const finishedRounds = data
+      .filter(round => round.finished) // Filter objects with finished as true
+      .map(round => round.round_num); // Map to round_num
+
+    // Find the maximum round_num
+    const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
+    const currentRound = maxRoundNum + 1; // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
+
+    return currentRound;
+  } catch (error) {
+    console.error('Error fetching round status from the database:', error.message);
+  }
+};
+
 
 const storeTotalPoints = async (table) => {
 
@@ -20,7 +42,7 @@ const storeTotalPoints = async (table) => {
   }
 };
 
-const storeRoundPoints = async (roundPoints) => {
+const storeRoundPoints = async (roundPoints, roundNum) => {
 
   try {
     const response = await axios.post('http://localhost:3000/api/storeRoundPoints', {
@@ -36,6 +58,7 @@ const storeRoundPoints = async (roundPoints) => {
   } catch (error) {
     console.error('Error:', error.message);
   }
+
 };
 
 
@@ -70,6 +93,15 @@ const calculateRoundPoints = async (table) => {
     return table; // Return the original table in case of error
   }
 };
+
+
+//calculatePrice if a FWD has a price already greater than or equal to 9 they need 3000 points that round to go up .2 in price
+//if a FWD has a price of less than or equal to 8 they need 2000 points that round to go up .2 in price
+// if a FWD with a price that is 9 or over they will go down .2 if they get less than 2000 points
+// if a FWD with a price less than or equal to 8 they will lose .2 in price if they get less than 500 points per round
+
+
+
 
 // Function to calculate points for each player
 export const calculatePoints = async (table) => {
@@ -117,14 +149,14 @@ export const calculatePoints = async (table) => {
           break;
     }
 
-    points += 200;
+    points += 4;
 
     player.points = points;
   });
 
-
+  const currentRound = await fetchRoundDBStatus()
   const roundPoints = await calculateRoundPoints(table)
-  storeRoundPoints(roundPoints)
+  storeRoundPoints(roundPoints, currentRound)
   storeTotalPoints(table)
   
   return {

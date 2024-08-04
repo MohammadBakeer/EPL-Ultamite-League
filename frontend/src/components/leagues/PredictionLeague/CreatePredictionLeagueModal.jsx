@@ -1,20 +1,68 @@
 // CreateLeagueModal.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { decodeJWT } from '../../../jwtUtils/';
-import '../../../styles/FantasyLeague.css'
+import '../../../styles/League.css'
 
 
 const CreateLeagueModal = ({ onClose, selectedBadge }) => {
   const [leagueName, setLeagueName] = useState('');
-  const [startRound, setStartRound] = useState(1);
+  const [roundNum, setRoundNum] = useState(null)
+  const [blockChanges, setBlockChanges] = useState(false)
 
+  console.log(roundNum);
+  console.log(blockChanges);
+  
   const decodedToken = decodeJWT();
   const userId = decodedToken.userId;
 
+  const fetchRoundStatus = async () => {
+  
+    const token = sessionStorage.getItem('authToken');
+    const response = await fetch('http://localhost:3000/api/getRoundStatus', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+  
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+    
+    const currentDate = new Date();
+  
+    const finishedRounds = data
+      .filter(round => round.finished) // Filter objects with finished as true
+      .map(round => round.round_num); // Map to round_num
+  
+      // Find the maximum round_num
+      const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
+      const currentRound = maxRoundNum + 1
+      // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
+      setRoundNum(maxRoundNum > 0 ? maxRoundNum + 1 : 1);
+
+      const currentRoundObject = data.find(round => round.round_num === currentRound);
+
+      if (currentRoundObject) {
+        const { is_current, start_date, finished } = currentRoundObject;
+        const startDate = new Date(start_date);
+        
+        if (is_current || (startDate <= currentDate && !finished)) {
+          setBlockChanges(true)
+
+        } else {
+          setBlockChanges(false)
+        }
+      }
+  };
+
+  useEffect(() => {
+    fetchRoundStatus();
+  }, []);
+
   const handleCreateLeague = async (e) => {
-    const roundNum = 1
+    
     e.preventDefault();
     try {
       const token = sessionStorage.getItem('authToken');
@@ -24,7 +72,6 @@ const CreateLeagueModal = ({ onClose, selectedBadge }) => {
         {
           leagueName,
           ownerId: userId,
-          startRound,
           leagueBadge: selectedBadge,
           roundNum
         },
@@ -58,19 +105,6 @@ const CreateLeagueModal = ({ onClose, selectedBadge }) => {
               maxLength={20}
               required
             />
-          </label>
-          <label>
-            Points Start Round:
-            <select
-              value={startRound}
-              onChange={(e) => setStartRound(Number(e.target.value))}
-            >
-              {Array.from({ length: 38 }, (_, index) => (
-                <option key={index} value={index + 1}>
-                  Round {index + 1}
-                </option>
-              ))}
-            </select>
           </label>
           <button type="submit">Create</button>
           <button type="button" onClick={onClose}>

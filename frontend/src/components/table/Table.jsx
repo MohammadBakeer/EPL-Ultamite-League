@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/Table.css';
 import { calculatePlayerPrice, updatePlayerPrices  } from './playerPrices'
+import { toast } from 'react-toastify';
 
 
 // onPlayerSelect is a function that takes in the player object from the table and sends it to the create team page to then pass the player object to the Fiel.jsx component
-const Table = ({ onPlayerSelect }) => {
+const Table = ({ onPlayerSelect, blockChanges, roundNum }) => {
   
   // State variables to hold table data, current page, filters, and auxiliary data
   const [table, setTable] = useState([]);
@@ -63,7 +64,7 @@ const Table = ({ onPlayerSelect }) => {
 
             // Calculate points and price for each player and sort by price
             const { table: newTable } = calculatePlayerPrice(updatedTable);
-            
+              console.log(table);
             const orderedTable = newTable.sort((a, b) => b.price - a.price);
             
             updatePlayerPrices(orderedTable)
@@ -156,6 +157,11 @@ const Table = ({ onPlayerSelect }) => {
     setCurrentPage(1);
   }, [filterName, filterClub, filterPosition]);
 
+  const changesBlocked = () => {
+    toast.error(`Round ${roundNum} is Live. Change Window Closed.`);
+  };
+  
+
   return (
     <div className="table-container">
       {/* Filter Controls */}
@@ -224,7 +230,6 @@ const Table = ({ onPlayerSelect }) => {
           Next
         </button>
       </div>
-
       {/* Player Table */}
       <table>
         <thead>
@@ -240,7 +245,16 @@ const Table = ({ onPlayerSelect }) => {
           {filterTable()
             .slice((currentPage - 1) * playersPerPage, currentPage * playersPerPage)
             .map((player, index) => (
-              <tr key={index} onClick={() => onPlayerSelect(player)}>
+              <tr
+                  key={index}
+                  onClick={() => {
+                    if (blockChanges) {
+                      changesBlocked(); // Call changesBlocked if blockChanges is true
+                    } else {
+                      onPlayerSelect(player); // Call onPlayerSelect if blockChanges is false
+                    }
+                  }}
+                >
                 <td>{player.firstName}</td>
                 <td>{player.lastName}</td>
                 <td>{player.club}</td>

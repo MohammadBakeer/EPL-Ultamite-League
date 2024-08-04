@@ -3,6 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import shirtImages from '../../images/shirts/exportShirts.js';  // Import the images object
 import defaultShirt from '../../images/shirts/default-shirt.png'
+import { toast } from 'react-toastify';
 
 // DefaultShirt Component
 const DefaultShirt = () => {
@@ -14,16 +15,21 @@ const DefaultShirt = () => {
 };
 
 // PlayerShirt Component
-const PlayerShirt = ({ player, onRemove, isHomePage, blockChanges, deleteCount, changeCount }) => {
+const PlayerShirt = ({ player, onRemove, isHomePage, blockChanges, deleteCount, changeCount, roundNum }) => {
 
   const handleRemove = () => {
 
     if ((deleteCount === 1 && changeCount === 1) || (changeCount >= 2 || deleteCount >= 2)) {
+      toast.error('2 Players have already been deleted for the round');
       return;
     }
 
     if(!blockChanges){
     onRemove(player);
+    }
+
+    if(blockChanges){
+      toast.error(`Round Is Live Change Window Closed`)
     }
   };
 
