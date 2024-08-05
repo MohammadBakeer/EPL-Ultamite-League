@@ -79,6 +79,8 @@ function Schedule() {
         fetchRoundStatus();
     }, []);
 
+    console.log(groupedGames);
+
     return (
         <>
             <Navbar />
