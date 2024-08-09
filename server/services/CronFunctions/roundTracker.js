@@ -33,7 +33,7 @@ export const fetchRoundStatus = async () => {
 };
 
 const storeRoundStatus = async (rounds) => {
-  console.log("hi");
+
     try {
       for (const round of rounds) {
         const query = `
