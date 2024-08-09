@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const fetchRoundStatus = async () => {
- 
-  const url = `https://api.sportmonks.com/v3/football/rounds/seasons/23614?api_token=API_TOKEN`;
+  
+  const url = `https://api.sportmonks.com/v3/football/rounds/seasons/23614?api_token=${process.env.API_TOKEN}`;
 
   try {
     const response = await axios.get(url);
@@ -20,11 +20,11 @@ export const fetchRoundStatus = async () => {
     }));
 
     const sortedData = parsedData.sort((a, b) => a.name - b.name);
+     const currentRoundNum = await fetchRoundDBStatus(); // Await the asynchronous function call
 
-    const currentRoundNum = await fetchRoundDBStatus(); // Await the asynchronous function call
-   
     await insertTeam(currentRoundNum);
 
+   
     await storeRoundStatus(sortedData);
 
   } catch (error) {
@@ -33,6 +33,7 @@ export const fetchRoundStatus = async () => {
 };
 
 const storeRoundStatus = async (rounds) => {
+  console.log("hi");
     try {
       for (const round of rounds) {
         const query = `
@@ -54,7 +55,7 @@ const storeRoundStatus = async (rounds) => {
   
         await db.query(query, values);
       }
-
+      
     } catch (error) {
       console.error('Error storing data in the database:', error.message);
     }

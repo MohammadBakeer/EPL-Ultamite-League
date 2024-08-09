@@ -92,7 +92,7 @@ CREATE TABLE private_prediction_members (
     league_points INT DEFAULT 0,
     PRIMARY KEY (user_id, league_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (league_id) REFERENCES private_leagues(league_id)
+    FOREIGN KEY (league_id) REFERENCES private_prediction_leagues(league_id)
 );
 
 CREATE TABLE global_prediction_members (

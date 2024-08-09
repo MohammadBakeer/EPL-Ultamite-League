@@ -12,6 +12,9 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
   const [roundGames, setRoundGames] = useState([]);
   const [blockChanges, setBlockChanges] = useState(false);
 
+  console.log(roundnum);
+  console.log(currentRoundNum);
+
   const toggleVisibility = () => {
     setIsExpanded(prevState => !prevState);
   };
@@ -28,6 +31,8 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
     setRoundGames(games)
     }
   }, [roundnum])
+
+  
 
   const fetchRoundGames = async (roundNum) => {
     if(onSchedulePage){
