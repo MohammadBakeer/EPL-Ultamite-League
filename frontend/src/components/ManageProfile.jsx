@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { toast } from 'react-toastify';
 import '../styles/ManageProfile.css';
 
 const ManageProfile = ({ show, onClose }) => {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [confirmationName, setConfirmationName] = useState(''); // New state for confirmation input
+  const [error, setError] = useState(''); // New state for error messages
   const navigate = useNavigate(); // Initialize useNavigate
 
   const fetchUserProfile = async () => {
@@ -60,7 +64,19 @@ const ManageProfile = ({ show, onClose }) => {
     }
   };
 
-  const deleteAccount = async () => {
+  const confirmDeleteAccount = () => {
+    setShowConfirmation(true); // Show confirmation prompt
+  };
+
+  const handleConfirmDelete = async () => {
+    if (confirmationName !== name) {
+      setError('Team Name does not match. Please try again.'); // Set error message
+      return; // Prevent further execution
+    }
+
+    setError(''); // Clear any previous error messages
+    setShowConfirmation(false); // Hide confirmation prompt
+
     try {
       const token = sessionStorage.getItem('authToken');
       const response = await fetch('http://localhost:3000/api/deleteuserprofile', {
@@ -79,7 +95,8 @@ const ManageProfile = ({ show, onClose }) => {
 
       // Clear the token from session storage
       sessionStorage.removeItem('authToken');
-
+      
+      toast.error('Successfully deleted account')
       // Navigate to login page
       navigate('/login');
 
@@ -88,6 +105,10 @@ const ManageProfile = ({ show, onClose }) => {
     } catch (error) {
       console.error('Error deleting account:', error);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirmation(false); // Hide confirmation prompt
   };
 
   const signUserOut = () => {
@@ -112,48 +133,67 @@ const ManageProfile = ({ show, onClose }) => {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <button className="close-button" onClick={onClose}>X</button>
+        {!showConfirmation && (
+          <button className="close-button" onClick={onClose}>X</button>
+        )}
         <h2>Manage Profile</h2>
-        <form onSubmit={storeSavedChanges}>
-          <div className="form-group">
-            <label htmlFor="name" className="profile-form-label">Name:</label>
+        {showConfirmation ? (
+          <div className="confirmation-prompt">
+            <p>Type and confirm your Team Name to delete your account:</p>
             <input 
               type="text" 
-              id="name" 
-              name="name" 
-              className="form-input" 
-              value={name} 
-              onChange={(e) => setName(e.target.value)} 
+              value={confirmationName} 
+              onChange={(e) => setConfirmationName(e.target.value)} 
+              placeholder="Enter team name" 
             />
+            {error && <p className="error-message">{error}</p>} {/* Display error message */}
+            <div className="confirmation-actions">
+              <button onClick={handleConfirmDelete} className="confirm-btn">Confirm</button>
+              <button onClick={handleCancelDelete} className="cancel-btn">Cancel</button>
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="phone" className="profile-form-label">Phone Number:</label>
-            <input 
-              type="tel" 
-              id="phone" 
-              name="phone" 
-              className="form-input" 
-              value={phone} 
-              onChange={(e) => setPhone(e.target.value)} 
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="address" className="profile-form-label">Mailing Address:</label>
-            <input 
-              type="text" 
-              id="address" 
-              name="address" 
-              className="form-input" 
-              value={address} 
-              onChange={(e) => setAddress(e.target.value)} 
-            />
-          </div>
-          <div className="form-actions">
-            <button type="submit" className="save-changes-btn">Save Changes</button>
-            <button type="button" className="sign-out-btn" onClick={signUserOut}>Sign Out</button>
-            <button type="button" className="delete-account-btn" onClick={deleteAccount}>Delete Account</button>
-          </div>
-        </form>
+        ) : (
+          <form onSubmit={storeSavedChanges}>
+            <div className="form-group">
+              <label htmlFor="name" className="profile-form-label">Team Name:</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                className="form-input" 
+                value={name} 
+                readOnly
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="phone" className="profile-form-label">Phone Number:</label>
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                className="form-input" 
+                value={phone} 
+                onChange={(e) => setPhone(e.target.value)} 
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="address" className="profile-form-label">Mailing Address:</label>
+              <input 
+                type="text" 
+                id="address" 
+                name="address" 
+                className="form-input" 
+                value={address} 
+                onChange={(e) => setAddress(e.target.value)} 
+              />
+            </div>
+            <div className="form-actions">
+              <button type="submit" className="save-changes-btn">Save Changes</button>
+              <button type="button" className="sign-out-btn" onClick={signUserOut}>Sign Out</button>
+              <button type="button" className="delete-account-btn" onClick={confirmDeleteAccount}>Delete Account</button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );
