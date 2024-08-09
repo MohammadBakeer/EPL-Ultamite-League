@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import '../styles/PrivateFantasyLeague.css'; // Import your CSS for styling
+import ConfirmModal from '../components/ConfirmModal';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -31,6 +32,7 @@ const PrivateFantasyLeague = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isOwner, setIsOwner] = useState(false);
   const [leagueCode, setLeagueCode] = useState(0)
+  const [showConfirmModal, setShowConfirmModal] = useState(false); 
 
   useEffect(() => {
     const decodedToken = decodeJWT();
@@ -123,8 +125,14 @@ const PrivateFantasyLeague = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      
-      setIsOwner(response.data.ownerId)
+      const { isOwner, leagueCode } = response.data;
+      console.log(leagueCode);
+      setIsOwner(isOwner);
+    
+      if(isOwner){
+        setLeagueCode(leagueCode)
+      }
+
     } catch (error) {
       console.error('Error checking if owner:', error);
     }
@@ -154,44 +162,45 @@ const PrivateFantasyLeague = () => {
   const currentItems = memberTeams.slice(startIndex, endIndex);
   const totalPages = Math.ceil(memberTeams.length / ITEMS_PER_PAGE);
 
-
   const handleDeleteLeague = async () => {
-    const confirmLeave = window.confirm("Are you sure you want to leave the league?");
-    if (!confirmLeave) {
-      return; // Exit if the user cancels
-    }
-    const token = sessionStorage.getItem('authToken'); // Adjust based on how you store the token
+    setShowConfirmModal(true); // Show the confirmation modal
+  };
+
+  const handleConfirmDelete = async () => {
+    const token = sessionStorage.getItem('authToken');
 
     try {
-      const response = await axios.delete(`http://localhost:3000/api/deleteFantasyLeague/${leagueId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`http://localhost:3000/api/deleteFantasyLeague/${leagueId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       if (response.status === 200) {
-    
         toast.success(`League deleted successfully`);
-        navigate('/fantasyleague')
-        
+        navigate('/fantasyleague');
       } else {
         alert('Failed to delete the league.');
       }
     } catch (error) {
       console.error('Error deleting the league:', error);
       alert('An error occurred while deleting the league.');
+    } finally {
+      setShowConfirmModal(false); // Hide the confirmation modal
     }
   };
 
+  const handleCancelDelete = () => {
+    setShowConfirmModal(false); // Hide the confirmation modal
+  };
+
   const handleLeaveLeague = async () => {
-    // Confirmation popup
     const confirmLeave = window.confirm("Are you sure you want to leave the league?");
     if (!confirmLeave) {
-      return; // Exit if the user cancels
+      return;
     }
   
-    const token = sessionStorage.getItem('authToken'); // Get the token from session storage
+    const token = sessionStorage.getItem('authToken');
   
     try {
       const response = await axios.delete(`http://localhost:3000/api/leavefantasyleague/${leagueId}`, {
@@ -202,7 +211,7 @@ const PrivateFantasyLeague = () => {
   
       if (response.status === 200) {
         toast.success(`Successfully left the league!`);
-        navigate('/fantasyleague'); // Redirect to the fantasy league page or any other page
+        navigate('/fantasyleague');
       } else {
         alert('Failed to leave the league.');
       }
@@ -211,8 +220,6 @@ const PrivateFantasyLeague = () => {
       alert('An error occurred while leaving the league.');
     }
   };
-
-  
 
   const handleTokenUpdate = async (newPayload) => {
     try {
@@ -246,7 +253,7 @@ const PrivateFantasyLeague = () => {
       <Navbar />
       <div className="private-fantasy-league">
         <div className="private-fantasy-league-title">
-          <h1>{leagueName.toUpperCase()}</h1>
+          <h1>{leagueName}</h1>
           {leagueBadge && (
             <img src={Badges[leagueBadge]} alt={`${leagueBadge} Badge`} className="fantasy-league-badge" />
           )}
@@ -289,24 +296,31 @@ const PrivateFantasyLeague = () => {
           </button>
         </div>
         {isOwner && (
-      <div className="bottom-bar-container">
-      <div className="bottom-bar">
-        <span className="league-code">League Code: {leagueCode}</span>
-           <button className="delete-league-button" onClick={handleDeleteLeague}>
-            <FontAwesomeIcon icon={faTrash} /> Delete League
-           </button>
-      </div>
-    </div>
-     )}
-     {!isOwner && (
-         <div className="bottom-bar-container">
-         <div className="bottom-bar">
+          <div className="bottom-bar-container">
+            <div className="bottom-bar">
+              <span className="league-code">League Code: {leagueCode}</span>
+              <button className="delete-league-button" onClick={handleDeleteLeague}>
+                <FontAwesomeIcon icon={faTrash} /> Delete League
+              </button>
+            </div>
+          </div>
+        )}
+        {!isOwner && (
+          <div className="bottom-bar-container">
+            <div className="bottom-bar">
               <button className="delete-league-button" onClick={handleLeaveLeague}>
                 <FontAwesomeIcon icon={faTrash} /> Leave League
               </button>
-         </div>
-       </div>
-     )}
+            </div>
+          </div>
+        )}
+        {showConfirmModal && (
+          <ConfirmModal
+            leagueName={leagueName}
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+          />
+        )}
       </div>
       <Footer />
     </>

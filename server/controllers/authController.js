@@ -109,7 +109,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
 
 
 export const register = async (req, res) => {
-
+console.log("register");
   try {
     const { email, password, teamName } = req.body;
 
@@ -119,7 +119,7 @@ export const register = async (req, res) => {
     }
 
     const emailResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-
+    console.log(emailResult);
     if (emailResult.rows.length > 0) {
       const userData = emailResult.rows[0];
 
@@ -146,8 +146,8 @@ export const register = async (req, res) => {
 
     const verificationAttemptsResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     
-    const currentTime = new Date();
-
+      const currentTime = new Date();
+    console.log(teamName);
     if (verificationAttemptsResult.rows.length === 0) {
       console.log(teamName);
 

@@ -95,71 +95,69 @@ const CreateAccount = () => {
   
 
     
-  const validate = () => {
-    const errors = {};
-    
-    // Trim the values to check for empty spaces
-    const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
-    const trimmedConfirmPassword = confirmPassword.trim();
-  
-    // Check if fields are empty and return if so
-    if (!trimmedEmail) {
-      errors.email = 'Email is required';
-    }
-    if (!userName) {
-      errors.userName = 'Team Name is required';
-    }
-    if (!trimmedPassword) {
-      errors.password = 'Password is required';
-    }
-    if (!trimmedConfirmPassword) {
-      errors.confirmPassword = 'Confirm Password is required';
-    }
-    
-    // Display error messages for required fields
-    Object.values(errors).forEach((error) => {
-      if (error) {
-        toast.error(error);
-      }
-    });
-  
-    // Validate specific field rules if fields are not empty
-    if (trimmedEmail && !trimmedEmail.includes('@')) {
-      errors.email = 'Not a valid email';
-      toast.error(errors.email);
-    }
-    if (trimmedPassword && trimmedPassword.length < 8) {
-      errors.password = 'Password must be at least 8 characters';
-      toast.error(errors.password);
-    }
-    if (trimmedPassword && trimmedPassword !== trimmedConfirmPassword) {
-      errors.confirmPassword = 'Passwords do not match';
-      toast.error(errors.confirmPassword);
-    }
-  
-    // New password validations
-    const letterCount = (trimmedPassword.match(/[a-zA-Z]/g) || []).length;
-    const hasUpperCase = /[A-Z]/.test(trimmedPassword);
-    
-    if (letterCount < 2) {
-      errors.password = 'Password must contain at least 2 letters';
-      toast.error(errors.password);
-    }
-    if (!hasUpperCase) {
-      errors.password = 'Password must contain at least 1 uppercase letter';
-      toast.error(errors.password);
-    }
-    
-    // Validate username with the updated regex
-    if (userName && !/^(?=.*[a-zA-Z])[a-zA-Z]+(?:\s[a-zA-Z]+)?$/.test(userName)) {
-      errors.userName = 'Team Name must be 6-17 letters with at most one space';
-      toast.error(errors.userName);
-    }
-    
-    return errors;
-  };
-  
+const validate = () => {
+  const errors = {};
+
+  // Trim the values to check for empty spaces
+  const trimmedEmail = email.trim();
+  const trimmedPassword = password.trim();
+  const trimmedConfirmPassword = confirmPassword.trim();
+  const trimmedUserName = userName.trim();
+
+  // Check if fields are empty and return if so
+  if (!trimmedEmail) {
+    errors.email = 'Email is required';
+  }
+  if (!trimmedUserName) {
+    errors.userName = 'Team Name is required';
+  }
+  if (!trimmedPassword) {
+    errors.password = 'Password is required';
+  }
+  if (!trimmedConfirmPassword) {
+    errors.confirmPassword = 'Confirm Password is required';
+  }
+
+  // Validate specific field rules if fields are not empty
+  if (trimmedEmail && !trimmedEmail.includes('@')) {
+    errors.email = 'Not a valid email';
+    toast.error(errors.email);
+  }
+  if (trimmedPassword && trimmedPassword.length < 8) {
+    errors.password = 'Password must be at least 8 characters';
+    toast.error(errors.password);
+  }
+  if (trimmedPassword && trimmedPassword !== trimmedConfirmPassword) {
+    errors.confirmPassword = 'Passwords do not match';
+    toast.error(errors.confirmPassword);
+  }
+
+  // New password validations
+  const letterCount = (trimmedPassword.match(/[a-zA-Z]/g) || []).length;
+  const hasUpperCase = /[A-Z]/.test(trimmedPassword);
+
+  if (letterCount < 2) {
+    errors.password = 'Password must contain at least 2 letters';
+    toast.error(errors.password);
+  }
+  if (!hasUpperCase) {
+    errors.password = 'Password must contain at least 1 uppercase letter';
+    toast.error(errors.password);
+  }
+
+  // Validate username with the updated regex
+  const userNameRegex = /^[a-zA-Z]+(?:\s[a-zA-Z]+)?$/;
+  if (trimmedUserName.length < 6 || trimmedUserName.length > 17) {
+    errors.userName = 'Team Name must be between 6 and 17 characters';
+    toast.error(errors.userName);
+  } else if (!userNameRegex.test(trimmedUserName)) {
+    errors.userName = 'Team Name must contain only letters and at most one space';
+    toast.error(errors.userName);
+  }
+
+  return errors;
+};
+
   
   
   const handleSubmit = (e) => {
