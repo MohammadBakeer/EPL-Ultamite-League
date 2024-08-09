@@ -1,67 +1,65 @@
-
-
-
-
-
-.home-l-cards-container{
-    width: 85%;
-    display:flex;
-    justify-content: center;
-    align-items:start;
-    margin:  100px auto;
-    gap:30px;
+.home-l-cards-container {
+  width: 85%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  margin: 100px auto;
+  flex-wrap: wrap;
+  gap: 30px;
 }
 
-.lCard-container{
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    
-    
+.lCard-container {
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  gap: 15px;
 }
 
-.L-card{
-width: 80%;
-display: flex;
-flex-direction: column;
-justify-content:space-between;
-align-items:center;
-gap: 10px;
-border: 1px solid #ccc;
- box-shadow: 0 0 15px 5px #ccc;
- padding: 26px;
- margin-top: 40px;
- font-family: Arial, Helvetica, sans-serif;
+.L-card {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  border-radius: 25px;
+  border: 1px solid transparent;
+  background-color: #fffefe;
+  min-width: 400px;
+  
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  /* border: 1px solid #ccc; */
+  /* box-shadow: 0 0 15px 5px #ccc; */
+  padding: 26px;
+  margin-top: 40px;
+  /* font-family: Arial, Helvetica, sans-serif; */
 }
 
-
-.L-card img{
+.L-card img {
   width: 50%;
   height: 50vh;
   margin-top: 10px;
-  
-  
 }
 
 .L-card p{
-   font-family: Arial, Helvetica, sans-serif;
-   font-size: 28px;
+   /* font-family: Arial, Helvetica, sans-serif; */
+   font-size: 24px;
    text-align: center;
 }
 
-
-
-
 .twitter-sidebar {
-  width: 25%;
+  width: 15%;
+  min-width: 400px;
+  max-height: 1200px;
   margin-top: 40px;
   border: 1px solid #ccc;
-  box-shadow: 0 0 15px 5px #ccc;
-  border-radius: 8px;
-  max-height: 1600px; /* Set a maximum height */
+  /* box-shadow: 0 0 15px 5px #ccc; */
+  background-color: #fffefe;
+  border-radius: 25px;
+  /* max-height: 1600px; Set a maximum height */
   overflow-y: auto; /* Enable vertical scrolling */
 }
-

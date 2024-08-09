@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Rounds from '../components/ScheduleRounds.jsx';
 import Title from '../components/Title.jsx';
@@ -26,7 +26,7 @@ function Schedule() {
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const data = await response.json();
 
-        const currentDate = new Date();
+        // const currentDate = new Date();
 
         const finishedRounds = data
             .filter(round => round.finished)
@@ -91,10 +91,14 @@ function Schedule() {
                     onSchedulePage={onSchedulePage}
                     currentRoundNum={currentRoundNum} // Pass currentRoundNum as a prop
                 />
-            ))}
+
+        ))} 
             <Footer />
+            
         </>
-    );
+    )
 }
 
 export default Schedule;
+
+

@@ -95,7 +95,7 @@ const CreateLeagueModal = ({ onClose, selectedBadge }) => {
     <div className="modal">
       <div className="modal-content">
         <h2>Create New League</h2>
-        <form onSubmit={handleCreateLeague}>
+        <form className='prediction-league-form' onSubmit={handleCreateLeague}>
           <label>
             League Name:
             <input

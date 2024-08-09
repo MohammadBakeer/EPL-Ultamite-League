@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import EditTeam from './pages/editTeam.jsx'
 import CreateTeam from './pages/createTeam.jsx'

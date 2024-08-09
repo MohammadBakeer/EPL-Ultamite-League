@@ -10,6 +10,7 @@ const Login = () => {
 
 
   return (
+    <>
     <div className="login-page">
       <div className="login-container">
         <LoginCard />
@@ -26,9 +27,10 @@ const Login = () => {
           </div>
         </div>
       </div>
+    </div>
       <ScheduleRounds />
       <Footer />
-    </div>
+    </>
   );
 };
 

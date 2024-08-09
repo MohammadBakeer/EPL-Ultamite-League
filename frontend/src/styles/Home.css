@@ -1,15 +1,22 @@
 /* Assuming you have a CSS file (e.g., Home.css) */
-.home-page {
-    height: 100vh; /* 100% of the viewport height */
+ .home-page {
+    height: 100vh;  
     width: 100vw;
   }
   
+  .home-team {
+    font-size: 45px;
+    font-weight: bold;
+    color: #333;
+  }
   .home-field-container {
     width: 100%; /* Adjust as needed */
     height: 90%; /* Adjust as needed */
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    
   }
   
   .home-field{
@@ -27,7 +34,7 @@
     position: static; /* or use 'relative' based on your design */
     top: 0; /* Reset the top property */
     right: 0; /* Reset the right property */
-    height: 70%;
+    height: 95%;
     width: 100%;
   }
 
@@ -52,16 +59,21 @@
   .Edit-team {
     padding: 10px 20px;
     font-size: 16px;
-    background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFCA3A, #FF6B6B, #FF8E53, #FFCA3A); /* Gradient with vibrant colors */
+    background-color: #a000cc;
+    border-radius: 25px;
+    /* background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFCA3A, #FF6B6B, #FF8E53, #FFCA3A); Gradient with vibrant colors */
     color: white;
     border: 2px solid transparent; /* Initial transparent border */
-    border-radius: 5px;
+    transition: all ease-in-out 0.4ms;
+    /* border-radius: 5px; */
     cursor: pointer;
-    animation: moveColors 5s infinite linear, glowBackground 2s infinite alternate; /* Apply color and inner glow animations */
+    /* animation: moveColors 5s infinite linear, glowBackground 2s infinite alternate; Apply color and inner glow animations */
 }
 
 .Edit-team:hover {
-    background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFCA3A); /* Change gradient on hover */
+    background-color: var(--btn-hover);
+    
+    /* background: linear-gradient(45deg, #FF6B6B, #FF8E53, #FFCA3A); Change gradient on hover */
     animation: none; /* Disable color animation on hover */
     border: 2px solid transparent; /* Reset border on hover */
     box-shadow: none; /* Reset box-shadow on hover */
@@ -105,3 +117,8 @@
 }
 
 
+@media only screen and (max-width: 800px) {
+  .home-field {
+    display: none;
+  }
+}

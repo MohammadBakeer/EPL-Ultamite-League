@@ -99,7 +99,7 @@ teamRoundPoints(currentRound)
 
 cron.schedule('*/60 * * * * *', buildPlayerData);
 
-//cron.schedule('*/60 * * * * *', fetchRoundStatus);
+cron.schedule('*/60 * * * * *', fetchRoundStatus);
 
 
 

@@ -1,12 +1,12 @@
-/* Ensure the background of the entire page is white */
+/* Ensure the background of the entire page is white
 .auth-background {
   height: 100vh;
-  background-color: #fff; /* Set background color to white */
+  background-color: #fff; 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   padding-top: 6em;
-}
+} */
 
 .signup-page {
   display: flex;
@@ -14,27 +14,33 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
 /* Container for the signup content */
 .signup-container {
   display: flex;
+  justify-content: center;
   width: 100%;
   gap: 100px;
   max-width: 1200px;
-  background-color: #fff; /* Set background color to white */
+  /* height: 1900px; */
+  /* background-color: #fff; Set background color to white */
   border: none; /* Remove border */
-  border-radius: 8px;
-  box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
+  border-radius: 25px;
+  margin-top: 20px;
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1); */
 }
 
 /* Styles for the CreateAccountCard */
 .signup-container > div:first-child {
-  width: 50%; /* Adjust the width as needed */
+  width: 50%;  
   padding: 20px;
+  min-width: 500px;
   border-right: none; /* Remove border */
-  background-color: #fff; /* Set background color to white */
+  background-color: #fff; 
+  border-radius: 25px;
 }
 
 /* Flex container for the signup card */
@@ -45,7 +51,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fff; /* Set background color to white */
+  border-radius: 25px;
+  /* background-color: #fff; Set background color to white */
 }
 
 /* Styles for the header container */

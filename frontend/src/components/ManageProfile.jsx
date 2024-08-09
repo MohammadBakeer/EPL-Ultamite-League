@@ -188,8 +188,8 @@ const ManageProfile = ({ show, onClose }) => {
               />
             </div>
             <div className="form-actions">
-              <button type="submit" className="save-changes-btn">Save Changes</button>
               <button type="button" className="sign-out-btn" onClick={signUserOut}>Sign Out</button>
+              <button type="submit" className="save-changes-btn">Save Changes</button>
               <button type="button" className="delete-account-btn" onClick={confirmDeleteAccount}>Delete Account</button>
             </div>
           </form>

@@ -5,14 +5,13 @@ body {
 }
 
 .app-container {
+ 
   display: flex;
-  justify-content: space-between;
-  height: 100vh;
-  background-image: url('/flipyellow.png');
-  margin: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  justify-content: space-evenly;
+ align-items: center;
+ flex-direction: column;
+ gap: 50px;
+ 
   /* Your other styles for .app-container */
 }
 
@@ -25,7 +24,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  /* z-index: 1000; */
   display: flex;
   justify-content: space-between; /* Align items horizontally with space between */
   align-items: center; /* Center items vertically */
@@ -45,12 +44,13 @@ body {
 }
 
 .confirm-button {
-  background-color: #28a745; /* Green color */
+  background-color: #009e00; /* Green color */
   color: white;
+  border-radius: 25px !important;
 }
 
 .confirm-button:hover {
-  background-color: #218838; /* Darker green on hover */
+  background-color: var(--btn-hover); /* Darker green on hover */
 }
 
 .clear-button {
@@ -62,29 +62,39 @@ body {
 .clear-button:hover {
   background-color: #c82333; /* Darker red on hover */
 }
-
+.edit-field-h2 {
+  font-weight: bold;
+}
 .edit-nav {
-  background-color: #2596be;
-  color: white;
-  padding: 1rem;
+  
+  background-color: #fffefe;
+    color: black;
   text-align: center;
   width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
+  min-height: 100px;
+  
+  /* z-index: 1000; */
   display: flex;
   justify-content: space-around; /* Align items horizontally with space between */
-  align-items: center; /* Center items vertically */
-  height: 8%;
+  align-items: center;
+  flex-wrap: wrap;
+ 
+  /* height: 100px; */
 }
 
+.edit-team-table{
+  font-size: 17px;
+}
 
-
+.edit-team-table tr th {
+  background: #a000cc;
+  color:white;
+}
 .edit-nav button {
   padding: 0.5rem 1rem;
   font-size: 14px;
   border: none;
+  background-color: #a000cc;
   border-radius: 3px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;

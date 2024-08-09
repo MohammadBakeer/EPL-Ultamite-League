@@ -2,14 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { FaAngleDown } from 'react-icons/fa'; // Example using FontAwesome's angle down icon
 import ManageProfile from './ManageProfile.jsx';
+import { FaHamburger } from "react-icons/fa";
 import '../styles/nav.css';
 
 function Navbar() {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
 
+  const handleToggleNav = () => {
+    document.querySelector('#nav-items').classList.toggle("toggle-navlist")
+  }
+
   const handleManageProfileClick = (event) => {
     event.preventDefault();
+    handleToggleNav()
     setShowProfileModal(true);
   };
 
@@ -36,11 +42,11 @@ function Navbar() {
          <img src="/epl-badge.png" alt="league" />
         </Link>
         </div>
-        <ul className="nav-listItems">
-          <li>
+        <ul className="nav-listItems" id="nav-items">
+          <li onClick={handleToggleNav}>
             <Link to="/home">Home</Link>
           </li>
-          <li className="dropdown" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <li onClick={handleToggleNav} className="dropdown" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <Link to="/fantasyleague">Leagues <FaAngleDown size={12} /></Link> 
             {showDropdown && (
               <div className="dropdown-content">
@@ -49,20 +55,21 @@ function Navbar() {
               </div>
             )}
           </li>
-          <li>
+          <li onClick={handleToggleNav}>
             <Link to="/schedule">Schedule</Link>
           </li>
-          <li>
+          <li onClick={handleToggleNav}>
             <Link to="/prizes">Prizes</Link>
           </li>
-          <li>
+          <li onClick={handleToggleNav}>
             <Link to="/rules">Rules & FAQ</Link>
           </li>
-          <li>
+          <li onClick={handleToggleNav}>
             <Link onClick={handleManageProfileClick}>Manage Profile</Link>
           </li>
         </ul>
       </nav>
+      <button onClick={handleToggleNav} className="nav-burger"><FaHamburger className="nav-burger-icon"/></button>
     </header>
      <ManageProfile show={showProfileModal} onClose={handleCloseModal} />
     </>

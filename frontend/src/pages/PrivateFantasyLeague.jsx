@@ -272,7 +272,7 @@ const PrivateFantasyLeague = () => {
                 <td>{member.team_name}</td>
                 <td>{member.points}</td>
                 <td className="team-view-column">
-                  <button onClick={() => handleViewSquadClick(member.user_id)}>View</button>
+                  <button className='btn-view-table' onClick={() => handleViewSquadClick(member.user_id)}>View</button>
                 </td>
               </tr>
             ))}

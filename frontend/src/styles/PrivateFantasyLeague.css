@@ -1,14 +1,20 @@
 .private-fantasy-league {
-  padding: 20px;
+  padding: 70px;
   text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .private-fantasy-league {
+    padding: 20px;
+  }
 }
 
 .stylish-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
+  margin: 40px 0;
   font-size: 18px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
 }
 
 .stylish-table th,
@@ -18,15 +24,15 @@
   text-align: left;
 }
 
-.stylish-table th {
-  background-color: #f2f2f2;
-  color: #333;
-  font-weight: bold;
+.stylish-table tr th {
+  background-color: #a000cc;
+  color: white;
+ font-size: 17px;
 }
 
-.stylish-table tr:nth-child(even) {
+/* .stylish-table tr:nth-child(even) {
   background-color: #f9f9f9;
-}
+} */
 
 .stylish-table tr:hover {
   background-color: #f1f1f1;
@@ -55,7 +61,7 @@
 }
 
 .fantasy-pagination-button {
-  background-color: #007bff;
+  background-color: #a000cc;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -72,7 +78,7 @@
 }
 
 .fantasy-pagination-button:not(:disabled):hover {
-  background-color: #0056b3;
+  background-color: var(--btn-hover);
 }
 
 .fantasy-pagination-span {
