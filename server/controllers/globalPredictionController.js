@@ -96,47 +96,53 @@ export const deleteGlobalPrediction = async (req, res) => {
 
 
 export const fetchAllGlobalPredictions = async (req, res) => {
-    const token = req.headers.authorization?.split(' ')[1];
-  
-    if (!token) {
-      return res.status(401).json({ error: 'Token not provided' });
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: 'Token not provided' });
+  }
+
+  try {
+    // Verify the token (if needed for authorization)
+    jwt.verify(token, config.jwtSecret);
+
+    // Fetch all records from the global_prediction_members table
+    const query = 'SELECT * FROM global_prediction_members';
+    const result = await db.query(query);
+    
+    // Extract user_ids from the result
+    const userIds = result.rows.map(row => row.user_id);
+
+    if (userIds.length === 0) {
+      return res.status(200).json([]); // No records found
     }
+
+    // Query the users table to get team_names for the extracted user_ids
+    const userQuery = `
+      SELECT user_id, team_name 
+      FROM users 
+      WHERE user_id = ANY($1::int[])
+    `;
+    const userResult = await db.query(userQuery, [userIds]);
+
+    // Create a map of user_id to team_name for quick lookup
+    const userMap = userResult.rows.reduce((map, user) => {
+      map[user.user_id] = user.team_name;
+      return map;
+    }, {});
+
+    // Combine the results
+    const combinedResults = result.rows.map(row => ({
+      user_id: row.user_id,
+      team_name: userMap[row.user_id], 
+      league_points: row.league_points,
+    }));
   
-    try {
-      // Verify the token (if needed for authorization)
-      jwt.verify(token, config.jwtSecret);
-  
-      // Fetch all records from the global_prediction_members table
-      const query = 'SELECT * FROM global_prediction_members';
-      const result = await db.query(query);
-      
-      // Extract user_ids from the result
-      const userIds = result.rows.map(row => row.user_id);
-  
-      // Query the users table to get team_names for the extracted user_ids
-      const userQuery = `
-        SELECT user_id, team_name 
-        FROM users 
-        WHERE user_id = ANY($1::int[])
-      `;
-      const userResult = await db.query(userQuery, [userIds]);
-  
-      // Create a map of user_id to team_name for quick lookup
-      const userMap = userResult.rows.reduce((map, user) => {
-        map[user.user_id] = user.team_name;
-        return map;
-      }, {});
-  
-      // Combine the results
-      const combinedResults = result.rows.map(row => ({
-        team_name: userMap[row.user_id] || 'Unknown', // Use 'Unknown' if team_name is not found
-        league_points: row.league_points,
-      }));
-  
-      // Send the combined result
-      res.status(200).json(combinedResults);
-    } catch (error) {
-      console.error('Error fetching global predictions:', error.message);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  };
+
+    // Send the combined result
+    res.status(200).json(combinedResults);
+  } catch (error) {
+    console.error('Error fetching global predictions:', error.message);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};

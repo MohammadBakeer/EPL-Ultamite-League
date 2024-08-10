@@ -1,18 +1,22 @@
 /* Field.css */
 .field-container {
-    height: 70vh;
-    width: 30em;
+    height: 80vh;
+    width: 65%;
     position: relative;
-    top: 8em;
-    right: 2em;
     display: flex;
     justify-content: center;
     align-items: center;
     background-image: url('/fantasyfield.png');
+    object-fit: cover;
     background-size: cover; 
     background-position: center; 
+    top: 5em;
   }
-  
+  @media only screen and (max-width: 800px) {
+    .field-container {
+      top: 35em;
+    }
+  }
   .field-lines {
     height: 60vh;
     width: 88%;
@@ -51,6 +55,8 @@
 
   .default-shirt-container {
     height: 13vh;
+    min-height: 50px;
+    min-width: 50px;
     width: 8vw;
     display: flex;
     align-items: center;
@@ -115,17 +121,35 @@
 
 .formation-dropdown {
   position: absolute;
-  top: 4em; /* Adjust the top position as needed */
+  top: 8em; /* Adjust the top position as needed */
   right: 5em; /* Adjust the right position as needed */
 }
 
 .team-stats{
   position: absolute;
-  top: 4.5em;
-  right: 10em;
+  top: 8em !important;
+  right: 11em;
   display: flex;
   justify-content: space-between;
+  background-color: #fffefe;
+  color: black;
   width: 18em;
+  border-radius: 25px;
+  padding: 15px 25px;
+  font-size: 15px;
 }
+.team-stats strong {
+  border-radius: 25px;
+  font-weight: bold;
+  display: block;
 
+}
+@media only screen and (max-width: 700px) {
+  .formation-dropdown  {
+    top: 182px !important;
+  }
+  .team-stats {
+    top: 11em !important;
+  }
+}
 

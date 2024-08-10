@@ -1,23 +1,34 @@
 .teams-card-container {
-  width: 85%;
+  width: 95%;
   display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .teams-card {
-  width: 50%;
-  height: 300px;
-  border: 1px solid #6c757d;
+  /* width: 50%; */
+  /* height: 300px; */
+  min-width: 460px;
+  border: 1px solid transparent;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  border-radius: 25px;
+  border: 1px solid transparent;
+  background-color: #fffefe;
+  
   margin: 10px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 0px 3px 0.2px;
+  /* box-shadow: 0px 0px 3px 0.2px; */
   position: relative; /* Make sure position is relative */
+  gap: 15px;
 }
 
 .card-header {
   display: flex;
   justify-content: center;
   align-items: center;
+
   gap: 15px;
   position: relative; /* Make sure position is relative */
 }
@@ -38,7 +49,7 @@
   top: 20px;
   right: 30px;
   text-align: center;
-  color: #80CA94;
+  color: #80ca94;
 }
 
 .live-minute p {
@@ -47,14 +58,15 @@
   font-weight: bold;
 }
 
-
-
 .card-contents {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  /* flex-wrap: wrap; */
   align-items: center;
-  width: 100%;
+  padding: 5px;
+  gap: 10px;
+  /* width: 100%; */
   flex-grow: 1;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -64,7 +76,9 @@
   height: 100px;
 }
 
-.column-first-team, .column-match-result, .column-second-team {
+.column-first-team,
+.column-match-result,
+.column-second-team {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -88,13 +102,13 @@
   font-weight: 1000;
 }
 
-.match-score input[type='number']::-webkit-outer-spin-button,
-.match-score input[type='number']::-webkit-inner-spin-button {
+.match-score input[type="number"]::-webkit-outer-spin-button,
+.match-score input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.match-score input[type='number'] {
+.match-score input[type="number"] {
   -moz-appearance: textfield;
   -webkit-appearance: none;
   appearance: none;
@@ -109,7 +123,8 @@
 .prediction-btn {
   width: 150px;
   height: 40px;
-  background-color: #007bff;
+  background-color: #a000cc;
+  border-radius: 25px;
   color: #fff;
   font-size: 16px;
   font-weight: 400;
@@ -130,10 +145,11 @@
   border: none;
   cursor: pointer;
   margin-right: 10px;
+  border-radius: 5px;
 }
 
 .save-btn {
-  background-color: #28a745;
+  background-color: #a000cc;
 }
 
 .edit-prediction-btn {
@@ -143,6 +159,8 @@
 .prediction-buttons {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
   margin-top: 10px;
 }
 
@@ -230,7 +248,6 @@
   }
 }
 
-
 .live-dash {
   position: relative; /* Change to relative if not already */
   top: -15px; /* Adjust this value to position the dash line higher */
@@ -258,10 +275,13 @@
 }
 
 @keyframes pop {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1); /* Original size */
   }
   50% {
     transform: scale(1.5); /* Scale up to 1.5 times */
   }
 }
+
+

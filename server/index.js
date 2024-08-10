@@ -86,7 +86,7 @@ app.get('/verify-email', async (req, res) => {
     await db.query('UPDATE users SET email_verified = true WHERE email = $1', [email]);
 
     // Respond to the user (e.g., redirect to a login page or display a success message)
-    res.status(200).send('Email verification successful! You will be directed to the Create Team page');
+    res.status(200).send('Email verification successful! Go back to the sign up screen');
   } catch (error) {
     console.error('Error verifying email:', error.message);
     res.status(400).json({ error: 'Invalid token or token has expired' });

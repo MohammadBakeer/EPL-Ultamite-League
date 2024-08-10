@@ -6,20 +6,19 @@ body, html {
 
 .table-container {
     position: relative;
-    top: 9rem;
-    width: 40%;
+    top: 1em;
+    left: 1em;
+    width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 80vh;
-    left: 1em;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin: 0;
-    font-size: 12px;
+    font-size: 18px;
     background-color: white;
 }
 th, td {
@@ -34,7 +33,7 @@ th {
 }
 
 tr:hover {
-    background-color: rgba(254, 173, 23, 0.871);
+    background-color: #e8e8e8;
 }
 
 .pagination-bar {
@@ -42,26 +41,27 @@ tr:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2596be;
+    background-color: #fffefe;
     color: white;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 0;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px 0;
 }
 
 .pagination-bar button {
-    padding: px;
-    font-size: 12px;
+   
+    font-size: 15px;
     cursor: pointer;
     border: none;
     border-radius: 3px;
-    background-color: gold;
-    color: black;
-    padding: .3rem;
+    background-color: #a000cc;
+    color: white;
+    border-radius: 25px;
+    padding: 10px 25px;
 }
 
 .pagination-bar button:hover {
-    background-color: #922b21;
+    background-color: var(--btn-hover);
 }
 
 .pagination-bar span {
@@ -76,28 +76,31 @@ tr:hover {
     margin: 0; /* Adjusted margin */
     border-radius: 5px;
     height: 1.8rem;
+    margin-bottom: 10px;
 }
 
 .manual-page-input input {
-    padding: .3rem;
+  padding: 12px 25px;
     font-size: 12px;
-    border-radius: 3px;
-    width: 10%;
+    border: 1px solid transparent;
+    border-radius: 25px 0 0 25px;
+  
+    width: 20%;
 }
 
 .manual-page-input button {
-    padding: 5px;
-    font-size: 12px;
-    cursor: pointer;
-    border: none;
-    border-radius: 3px;
-    background-color: gold;
-    color: black;
-    width: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  background-color: #a000cc;
+  color: white;
+  border-radius: 0  25px 25px 0px;
+  padding: 10px 25px;
 }
 
 .manual-page-input button:hover {
-    background-color: brown;
+    background-color: var(--btn-hover);
 }
 
 /* Add this to your existing styles or create a new rule */
@@ -105,48 +108,57 @@ tr:hover {
 .filter-container {
     display: flex;
     align-items: center;
+    /* justify-content: center; */
+    flex-wrap: wrap;
     gap: 2em;
     margin-bottom: 2rem;
   }
       
   .filter-bars {
     display: flex;
-    gap: 2em;
+    flex-wrap: wrap;
+    gap: 20px;
    
   }
   
   .filter-input,
 .filter-select {
   padding: .5rem;
-  font-size: .5em;
-  border: 1.5px solid black; /* Gold border */
+  font-size:15px;
+  border: 1.5px solid transparent; /* Gold border */
   border-radius: 3px;
-  background-color: gold;
+  background-color: #fffefe;
   color: black; /* Gold text color */
 }
 
 .filter-input:hover,
 .filter-select:hover {
-  border-color: #8b4513; /* Saddle brown border on hover */
+  border-color: #a000cc; /* Saddle brown border on hover */
 }
   
-  .clear-filters-btn {
-    padding: 0.2rem 1rem;
-    background-color: #ffd700; /* Gold color */
-    color: black;
-    border: 1.5px solid black; /* Black border */
+
+.btn-view-table {
+  background: #a000cc;
+    color: white;
+    padding: 10px 25px;
+    border: 1px solid transparent;
+    border-radius: 25px;
     cursor: pointer;
-    margin: 0;
-    font-size: 12px;
+}
+  .clear-filters-btn {
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
     border-radius: 3px;
-    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;
+    background-color: rgb(213, 0, 0);
+    color: white;
+    border-radius: 25px;
+    padding: 10px 25px;
   }
   
   .clear-filters-btn:hover {
-    background-color: #8b4513; /* Saddle brown on hover */
-    color: white;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
-    border: 1px solid #8b4513; /* Saddle brown border on hover */
+    background-color: rgb(107, 107, 107); /* Saddle brown on hover */
+   
   }
 
   .filter-input::placeholder {
@@ -161,4 +173,11 @@ tr:hover {
   .filter-select:focus {
     outline: none; /* Remove the default focus outline */
     border-color: black; /* Add a custom border color when focused, you can adjust the color as needed */
+  }
+
+  @media only screen and (max-width: 800px) {
+    .table-container {
+      width: 90%;
+      left: 0;
+    }
   }

@@ -5,17 +5,21 @@
     justify-content: center;
     align-items: center;
     margin: auto;
-    height: 100vh;
+    /* height: 100vh; */
+    
 }
 
 .create-account-card{
     width: 80%;
-    height: 48rem;
+    height: 58rem;
     background-image:url('login2.png') ;
     background-repeat: no repeat;
     background-size: cover;
+    background-position: center;
     background-color: antiquewhite;
+    border-radius: 25px;
     position:relative; 
+    margin-bottom: 25px;
 }
 
 .create-account-form{ 
@@ -23,7 +27,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap:15px;
+    gap:10px;
     position: absolute;
     margin-top: 330px;
     color: #fff;
@@ -32,24 +36,26 @@
 }
 
 .create-label-password{
-    color: #87fa90;
-    font-size: 18px;
-    margin-right: 220px;
+   
+    font-size: 15px;
+    margin: 0 auto;
+    /* margin-right: 220px; */
 }
 
 .create-label-confirmpaswword{
-    margin-right: 130px; 
-    font-size: 18px; 
+    text-align: center;
+    margin: 0 auto;
+    font-size: 15px; 
 }
 
 .create-label-email{
-    margin-right: 250px;
-    font-size: 18px;
+    margin: 0 auto;
+    font-size: 15px;
 }
 
 .create-label-username{
-    margin-right: 230px;
-    font-size: 18px;
+    margin: 0 auto;
+    font-size: 15px;
 }
 
 
@@ -60,16 +66,20 @@
     outline: none;
     border-bottom: 2px solid #3d3d3d;
     font-size: 16px;
+    border-radius: 9px;
     /*background-color: #38003d;*/
 }
 
 .create-account-btn{
     width: 21rem;
     padding: 8px;
-    background-color: #87fa90;
+    background-color: #a000cc;
+    padding: 10px 25px;
+    
+    color: white;
     font-size: 18px;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 25px;
     border: none;
     outline: none;
     font-family: Arial, Helvetica, sans-serif;
@@ -80,7 +90,7 @@
 
 .create-account-btn:hover{
     cursor: pointer;
-    background-color:  rgb(127, 245, 80);
+    background-color:  var(--btn-hover);
     
 }
 
@@ -109,5 +119,5 @@
 }
 
 .create-account-form span a:hover {
-    color: rgb(127, 245, 80);
+    color: white;
 }

@@ -3,7 +3,18 @@
 }
 .squad-page {
     height: 100vh; /* Adjust the height as needed */
-    background-image: url('/goolagoon.png');
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+.squad-view-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #a000cc;
+    border-radius: 25px;
+    color: white;
+    border: 2px solid transparent; /* Initial transparent border */
+    transition: all ease-in-out 0.4ms;
+    cursor: pointer;
+    margin-top: 1rem;
 }

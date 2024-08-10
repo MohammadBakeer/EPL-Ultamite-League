@@ -535,7 +535,7 @@ if (playerLineup.length === 0) {
          {isHomePage && (
           <div className="team-stats">
             <div>
-              <strong>Team Budget:</strong> {totalBudget}
+              <strong>Team Budget:</strong> ${totalBudget}
             </div>
             <div>
               <strong>Team Round Points:</strong> {points}

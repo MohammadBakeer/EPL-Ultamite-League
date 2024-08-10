@@ -11,6 +11,7 @@ const SignUp = () => {
 
 
   return (
+    <>
     <div className="signup-page">
       <div className="signup-container">
         <CreateAccountCard />
@@ -27,9 +28,10 @@ const SignUp = () => {
           </div>
         </div>
       </div>
+    </div>
       <ScheduleRounds />
       <Footer />
-    </div>
+    </>
   );
 };
 

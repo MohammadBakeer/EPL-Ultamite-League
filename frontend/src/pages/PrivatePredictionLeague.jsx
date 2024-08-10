@@ -13,6 +13,7 @@ import '../styles/League.css';
 import '../styles/PrivatePredictionLeague.css';
 import '../styles/pagination.css';
 import ConfirmModal from '../components/ConfirmModal';
+import ConfirmLeaveModal from '../components/ConfirmLeaveModal';
 import axios from 'axios';
 
 const PrivatePredictionLeague = () => {
@@ -32,8 +33,9 @@ const PrivatePredictionLeague = () => {
   const [roundNum, setRoundNum] = useState(null)
   const [blockChanges, setBlockChanges] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false); 
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [leagueName, setLeagueName] = useState('');
-
+  console.log(leagueName);
   const navigate = useNavigate();
 
   const itemsPerPage = 5;
@@ -161,9 +163,9 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
       });
   
       const { leagueCode, leagueName, message } = response.data;
-   
+      console.log(response.data);
       if (message === 'User is not the owner') {
-
+          setLeagueName(leagueName)
       } else if (leagueCode) {
         setLeagueCode(leagueCode)
         setLeagueName(leagueName)
@@ -396,12 +398,11 @@ useEffect(()=>{
     setShowConfirmModal(false); // Hide the confirmation modal
   };
 
-  const handleLeaveLeague = async () => {
-    // Confirmation popup
-    const confirmLeave = window.confirm("Are you sure you want to leave the league?");
-    if (!confirmLeave) {
-      return; // Exit if the user cancels
-    }
+  const handleLeaveLeague = () => {
+    setShowLeaveModal(true); // Show the leave modal
+  };
+
+  const handleConfirmLeave = async () => {
   
     const token = sessionStorage.getItem('authToken'); // Get the token from session storage
   
@@ -422,6 +423,11 @@ useEffect(()=>{
       console.error('Error leaving the league:', error);
       alert('An error occurred while leaving the league.');
     }
+  };
+
+
+  const handleCancelLeave = () => {
+    setShowLeaveModal(false); // Hide the leave modal
   };
 
   return (
@@ -525,6 +531,13 @@ useEffect(()=>{
             leagueName={leagueName}
             onConfirm={handleConfirmDelete}
             onCancel={handleCancelDelete}
+          />
+        )}
+         {showLeaveModal && (
+          <ConfirmLeaveModal
+            leagueName={leagueName}
+            onConfirm={handleConfirmLeave}
+            onCancel={handleCancelLeave}
           />
         )}
      <Footer />

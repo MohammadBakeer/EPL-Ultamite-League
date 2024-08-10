@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import Card from './ScheduleCards.jsx';
 import axios from 'axios';
 import '../styles/roundBars.css'
-import { current } from '@reduxjs/toolkit';
+// import { current } from '@reduxjs/toolkit';
 
 
+// eslint-disable-next-line react/prop-types
 function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePage, games, currentRoundNum }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const [roundNum, setRoundNum] = useState(null);
@@ -91,7 +92,9 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
 
   const splitGamesIntoPairs = (games) => {
     let pairs = [];
+    // eslint-disable-next-line react/prop-types
     for (let i = 0; i < games.length; i += 2) {
+      // eslint-disable-next-line react/prop-types
       pairs.push(games.slice(i, i + 2));
     }
     return pairs;
@@ -138,14 +141,14 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
   return (
     <div className="container-round">
       <div className="round-completed-bar"
-           style={{ backgroundColor: isExpanded ? '#007bff' : '#fff', transition: '.3s' }}>
+           style={{ backgroundColor: '#a000cc'}}>
        
-        <div className="rounds" style={{ color: isExpanded ? '#fff' : '#000', transition: '.3s' }}>
+        <div className="rounds" style={{ color:  '#fff'  }}>
           Round {roundNum}
         </div>
         
         <div className="completed-arrow" onClick={toggleVisibility}>
-          <span style={{ color: isExpanded ? '#fff' : '#000', transition: '.3s' }}>{roundNum < currentRoundNum ? 'COMPLETED' : (roundNum === currentRoundNum ? 'UPCOMING' : 'SCHEDULED')}</span>
+          <span style={{ color: '#fff' }}>{roundNum < currentRoundNum ? 'COMPLETED' : (roundNum === currentRoundNum ? 'UPCOMING' : 'SCHEDULED')}</span>
           <img 
             src={isExpanded ? "/arrow_drop_up.png" : "/arrow_drop_down.png"} 
             alt="arrow" 

@@ -91,12 +91,11 @@ const ManageProfile = ({ show, onClose }) => {
       }
 
       const result = await response.json();
-      console.log('Account deleted successfully:', result);
 
       // Clear the token from session storage
       sessionStorage.removeItem('authToken');
       
-      toast.error('Successfully deleted account')
+      toast.success('Successfully deleted account')
       // Navigate to login page
       navigate('/login');
 
@@ -188,8 +187,8 @@ const ManageProfile = ({ show, onClose }) => {
               />
             </div>
             <div className="form-actions">
-              <button type="submit" className="save-changes-btn">Save Changes</button>
               <button type="button" className="sign-out-btn" onClick={signUserOut}>Sign Out</button>
+              <button type="submit" className="save-changes-btn">Save Changes</button>
               <button type="button" className="delete-account-btn" onClick={confirmDeleteAccount}>Delete Account</button>
             </div>
           </form>

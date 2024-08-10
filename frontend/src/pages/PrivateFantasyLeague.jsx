@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import '../styles/PrivateFantasyLeague.css'; // Import your CSS for styling
 import ConfirmModal from '../components/ConfirmModal';
+import ConfirmLeaveModal from '../components/ConfirmLeaveModal';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -33,6 +34,7 @@ const PrivateFantasyLeague = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [leagueCode, setLeagueCode] = useState(0)
   const [showConfirmModal, setShowConfirmModal] = useState(false); 
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
 
   useEffect(() => {
     const decodedToken = decodeJWT();
@@ -194,21 +196,21 @@ const PrivateFantasyLeague = () => {
     setShowConfirmModal(false); // Hide the confirmation modal
   };
 
-  const handleLeaveLeague = async () => {
-    const confirmLeave = window.confirm("Are you sure you want to leave the league?");
-    if (!confirmLeave) {
-      return;
-    }
-  
+
+  const handleLeaveLeague = () => {
+    setShowLeaveModal(true); // Show the leave modal
+  };
+
+  const handleConfirmLeave = async () => {
     const token = sessionStorage.getItem('authToken');
-  
+
     try {
       const response = await axios.delete(`http://localhost:3000/api/leavefantasyleague/${leagueId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (response.status === 200) {
         toast.success(`Successfully left the league!`);
         navigate('/fantasyleague');
@@ -218,7 +220,13 @@ const PrivateFantasyLeague = () => {
     } catch (error) {
       console.error('Error leaving the league:', error);
       alert('An error occurred while leaving the league.');
+    } finally {
+      setShowLeaveModal(false); // Hide the leave modal
     }
+  };
+
+  const handleCancelLeave = () => {
+    setShowLeaveModal(false); // Hide the leave modal
   };
 
   const handleTokenUpdate = async (newPayload) => {
@@ -272,7 +280,7 @@ const PrivateFantasyLeague = () => {
                 <td>{member.team_name}</td>
                 <td>{member.points}</td>
                 <td className="team-view-column">
-                  <button onClick={() => handleViewSquadClick(member.user_id)}>View</button>
+                  <button className='btn-view-table' onClick={() => handleViewSquadClick(member.user_id)}>View</button>
                 </td>
               </tr>
             ))}
@@ -319,6 +327,13 @@ const PrivateFantasyLeague = () => {
             leagueName={leagueName}
             onConfirm={handleConfirmDelete}
             onCancel={handleCancelDelete}
+          />
+        )}
+          {showLeaveModal && (
+          <ConfirmLeaveModal
+            leagueName={leagueName}
+            onConfirm={handleConfirmLeave}
+            onCancel={handleCancelLeave}
           />
         )}
       </div>

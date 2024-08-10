@@ -1,127 +1,130 @@
 .prediction-table-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center horizontally */
-    margin: 0 auto; /* Center the wrapper */
-    max-width: 800px; /* Set max width for the table */
-  }
-  
-  .prediction-table {
-    width: 100%; /* Make the table take full width of the wrapper */
-    max-width: 600px; /* Set a smaller max width for the table */
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 0.9rem; /* Slightly smaller font size */
-  }
-  
-  .prediction-table th,
-  .prediction-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .pagination button {
-    padding: 5px 10px; /* Smaller button size */
-    margin: 0 5px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .pagination button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .pagination span {
-    align-self: center;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center horizontally */
+  margin: 0 auto; /* Center the wrapper */
+  max-width: 800px; /* Set max width for the table */
+}
 
-  .prediction-table-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 auto;
-    max-width: 800px;
-  }
-  
-  .prediction-table {
-    width: 100%;
-    max-width: 600px;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 0.9rem;
-  }
-  
-  .prediction-table th,
-  .prediction-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .pagination-button {
-    padding: 5px 10px;
-    margin: 0 5px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .pagination-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  .pagination-of {
-    align-self: center;
-  }
-  
-  .prediction-options-header {
-    font-size: 1.2rem;
-    margin-bottom: 25px;
-  }
-  
-  .prediction-option {
-    margin-bottom: 25px;
-  }
-  
-  .prediction-option-input {
-    margin-right: 10px;
-  }
-  
-  .table-options-wrapper{
-    height: 50vh;
+.prediction-table {
+  width: 100%; /* Make the table take full width of the wrapper */
+  max-width: 600px; /* Set a smaller max width for the table */
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.9rem; /* Slightly smaller font size */
+}
 
-  }
+.prediction-table th,
+.prediction-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
 
-  .prediction-options {
-    height: 30%;
-    width: 30%;
-    border: 2px solid black; /* Border outline */
-    background-color: #f9f9f9; /* Light-colored background */
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a slight shadow for better appearance */
-    margin-top: 20px;
-  }
+.prediction-table th{
+  background-color: #a000cc;
+}
 
-.prediction-options-container{
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.pagination button {
+  padding: 5px 10px; /* Smaller button size */
+  margin: 0 5px;
+  background-color: #a000cc;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  align-self: center;
+}
+
+.prediction-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.prediction-table {
+  width: 100%;
+  max-width: 600px;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 0.9rem;
+}
+
+.prediction-table th,
+.prediction-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.pagination-button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination-of {
+  align-self: center;
+}
+
+.prediction-options-header {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+}
+
+.prediction-option {
+  margin-bottom: 25px;
+}
+
+.prediction-option-input {
+  margin-right: 10px;
+}
+
+.table-options-wrapper {
+  height: 50vh;
+}
+
+.prediction-options {
+  height: 30%;
+  width: 30%;
+  border: 2px solid black; /* Border outline */
+  background-color: #f9f9f9; /* Light-colored background */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a slight shadow for better appearance */
+  margin-top: 20px;
+}
+
+.prediction-options-container {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -133,42 +136,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(59, 6, 59, 0.796);
+  flex-wrap: wrap;
+  /* background-color: #fffefe; */
   padding: 10px 0;
 }
 
 .bottom-bar {
   width: 50%;
-  background-color: #9def5fd3;
-  color: white;
+  min-width: 50%;
+  background-color: #fffefe;
+
   display: flex;
+  border-radius: 25px;
   justify-content: space-between;
   align-items: center;
+  gap: 25px;
+  flex-wrap: wrap;
   padding: 10px;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .league-code {
   margin-left: 20px;
-  font-weight: bold;
+  min-width: 50%;
 }
 
 .delete-league-button {
-  background-color: #e74c3c;
   color: white;
-  border: none;
+  /* border: none; */
+  border: 1px solid transparent;
+  background-color: #e74c3c;
+  border-radius: 25px;
   padding: 10px 20px;
   margin-right: 20px;
   cursor: pointer;
   font-size: 1rem;
+  justify-self: flex-end;
   display: flex;
   align-items: center;
 }
-
-.delete-league-button:hover {
-  background-color: #c0392b;
+@media only screen and (max-width : 800px ) {
+  .bottom-bar{
+    justify-content: center;
+  }
 }
-
 .delete-league-button .fa-trash {
   margin-right: 8px;
 }
