@@ -3,6 +3,8 @@ import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import '../styles/ContactUs.css';
 import emailjs from 'emailjs-com';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -67,7 +69,7 @@ const ContactUs = () => {
     emailjs.send('service_zmn733r', 'template_oo1oter', templateParams, '3o1FkrRqpKtc_Etnc')
       .then(response => {
         console.log('SUCCESS!', response.status, response.text);
-        alert('Message sent successfully!');
+        toast.success('Message sent successfully!');
         setFormData({ name: '', email: '', message: '' }); // Reset form
       })
       .catch(err => {
@@ -121,6 +123,7 @@ const ContactUs = () => {
           </form>
         </div>
       </div>
+      <ToastContainer />
       <Footer />
     </>
   );

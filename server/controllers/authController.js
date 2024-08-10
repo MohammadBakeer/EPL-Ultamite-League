@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import config from '../config/config.js';
 import nodemailer from 'nodemailer';
 import bcrypt from 'bcrypt'
+import dotenv from 'dotenv';
+dotenv.config();
 
 const { sign } = jwt;
 
@@ -68,8 +70,8 @@ const isValidEmail = (email) => {
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'ultamitefpleague@gmail.com',
-    pass: 'hwml ewlo iwgw rmcp',
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -77,7 +79,7 @@ const transporter = nodemailer.createTransport({
 
 const sendVerificationEmail = async (email, verificationToken) => {
   const mailOptions = {
-    from: 'ultamitefpleague@gmail.com',
+    from: process.env.EMAIL_USER,
     to: email,
     subject: 'Email Verification',
     html: `
@@ -146,7 +148,7 @@ console.log("register");
     const verificationAttemptsResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
     
       const currentTime = new Date();
-    console.log(teamName);
+    
     if (verificationAttemptsResult.rows.length === 0) {
       console.log(teamName);
 
