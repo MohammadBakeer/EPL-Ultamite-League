@@ -14,7 +14,7 @@ function Footer() {
                     <div className="twitter"><img src="/social-twitter-grey.png" alt="twitter" /></div>
                 </div>
                 <div className="privacy">
-                    <div className="all-right">Fantasyte LLC 2024. All rights reserved</div>
+                    <div className="all-right">Bakeer LLC 2024. All rights reserved</div>
                     <div className="line">|</div>
                     <div className="policy">Privacy Policy</div>
                 </div>

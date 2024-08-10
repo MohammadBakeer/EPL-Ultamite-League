@@ -4,44 +4,15 @@ body {
   margin: 0;
 }
 
-.app-container {
- 
-  display: flex;
-  justify-content: space-evenly;
+.edit-container {
+display: flex;
+justify-content: space-around;
  align-items: center;
  flex-direction: column;
- gap: 50px;
- 
-  /* Your other styles for .app-container */
+ height: 250vh;
+
 }
 
-.navbar {
-  background-color: #2596be;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  /* z-index: 1000; */
-  display: flex;
-  justify-content: space-between; /* Align items horizontally with space between */
-  align-items: center; /* Center items vertically */
-}
-
-.navbar h2 {
-  margin: 0;
-}
-
-.navbar button {
-  padding: 0.5rem 1rem;
-  font-size: 14px;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;
-}
 
 .confirm-button {
   background-color: #009e00; /* Green color */
@@ -53,33 +24,21 @@ body {
   background-color: var(--btn-hover); /* Darker green on hover */
 }
 
-.clear-button {
-  background-color: red; /* Red color */
-  color: white;
-  margin-right: 2em;
-}
 
-.clear-button:hover {
-  background-color: #c82333; /* Darker red on hover */
-}
 .edit-field-h2 {
   font-weight: bold;
+  margin-left: 3rem;
 }
 .edit-nav {
-  
   background-color: #fffefe;
     color: black;
   text-align: center;
   width: 100%;
   min-height: 100px;
-  
-  /* z-index: 1000; */
   display: flex;
-  justify-content: space-around; /* Align items horizontally with space between */
+  justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
- 
-  /* height: 100px; */
 }
 
 .edit-team-table{
@@ -98,4 +57,21 @@ body {
   border-radius: 3px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;
+}
+
+.edit-field-component{
+  width: 40%; /* Adjust as needed */
+  max-width: 600px; /* Set a maximum width */
+  margin: 0 auto;
+}
+
+.edit-team-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 250vh;
+}
+
+.edit-field-h3{
+  font-size: .9em;
 }

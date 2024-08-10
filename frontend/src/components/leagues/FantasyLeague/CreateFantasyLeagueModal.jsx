@@ -62,7 +62,7 @@ const CreateLeagueModal = ({ onClose, selectedBadge, onUpdateLeagues }) => {
             />
           </label>
           <label style={{color: "black", display: 'block'}}>
-            Points Start Round:
+            Points Start From Round:
             <select
               value={startRound}
               onChange={(e) => setStartRound(Number(e.target.value))}

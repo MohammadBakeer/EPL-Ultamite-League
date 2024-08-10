@@ -67,6 +67,9 @@ function Navbar() {
           <li onClick={handleToggleNav}>
             <Link onClick={handleManageProfileClick}>Manage Profile</Link>
           </li>
+          <li onClick={handleToggleNav}>
+            <Link to="/contactus">Contact Us</Link>
+          </li>
         </ul>
       </nav>
       <button onClick={handleToggleNav} className="nav-burger"><FaHamburger className="nav-burger-icon"/></button>

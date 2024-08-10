@@ -26,7 +26,6 @@ export const checkIfVerified = async (req, res) => {
     }
 
     const { email_verified, password, user_id } = result.rows[0];
-    console.log(user_id);
     // Log email verification status
 
 
@@ -43,7 +42,7 @@ export const checkIfVerified = async (req, res) => {
       // Insert initial team setup into the database
       await db.query(
         'INSERT INTO teams (user_id, formation, player_lineup, total_budget, round_num, points) VALUES ($1, $2, $3, $4, $5, $6)',
-        [user_id, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 100, currentRoundNum, 0]
+        [user_id, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 85, currentRoundNum, 0]
       );
 
       // Generate JWT token
@@ -199,7 +198,7 @@ console.log("register");
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, teamData, roundNum } = req.body;
 
     // Query the database for the user with the provided email
     const result = await db.query('SELECT user_id, password FROM users WHERE email = $1', [email]);
@@ -213,10 +212,19 @@ export const login = async (req, res) => {
     
     // Compare the provided password with the stored hashed password
     const match = await bcrypt.compare(password, hashedPassword);
-    console.log(match);
+
     if (match) {
       // Passwords match, generate a JWT token
       const token = sign({ userId: user_id }, config.jwtSecret, { expiresIn: '1h' });
+
+
+      //if teamData.present === false insert
+      if(teamData.present === false){
+      await db.query(
+        'INSERT INTO teams (user_id, formation, player_lineup, total_budget, round_num, points) VALUES ($1, $2, $3, $4, $5, $6)',
+        [user_id, '["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]', '[]', 85, roundNum, 0]
+      );
+    }
 
       // Send response with match status, userId, and token
       return res.json({ match: true, userId: user_id, token });
@@ -252,3 +260,41 @@ export const login = async (req, res) => {
       console.error('Error fetching round status from the database:', error.message);
     }
   };
+
+  export const teamPresent = async (req, res) => {
+    
+    const { email } = req.params 
+
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+  
+    try {
+      // Query the users table to get the user ID based on the provided email
+      const userQuery = 'SELECT user_id FROM users WHERE email = $1';
+      const userResult = await db.query(userQuery, [email]);
+  
+      if (userResult.rows.length === 0) {
+        return res.status(404).json({ present: false, message: 'User not found' });
+      }
+  
+      const userId = userResult.rows[0].user_id;
+  
+      // Query the teams table to find rows associated with the user ID
+      const teamQuery = 'SELECT * FROM teams WHERE user_id = $1';
+      const teamResult = await db.query(teamQuery, [userId]);
+  
+      // Check if any teams are associated with the user ID
+      if (teamResult.rows.length === 0) {
+        return res.status(200).json({ present: false, message: 'No teams found for this user' });
+      }
+  
+      // Return the teams associated with the user ID
+      res.status(200).json({ present: true, teams: teamResult.rows });
+    } catch (error) {
+      console.error('Error checking team presence:', error.message);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+  

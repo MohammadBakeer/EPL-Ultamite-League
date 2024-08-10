@@ -3,6 +3,7 @@ import Table from '../components/table/Table.jsx'
 import Field from '../components/field/Field.jsx';
 import { useNavigate } from 'react-router-dom';
 import { decodeJWT } from '../jwtUtils.js';
+import Footer from '../components/Footer.jsx'
 import axios from 'axios'; 
 import '../styles/Edit-Team.css'
 
@@ -14,8 +15,6 @@ const Edit = () => {
   const [blockChanges, setBlockChanges] = useState(false)
   const [deleteCount, setDeleteCount] = useState(0)
   const [changeCount, setChangeCount] = useState(0)
-
-  console.log(changeCount);
   
   const navigate = useNavigate();
 
@@ -166,19 +165,20 @@ useEffect(() => {
   }, [userId]); // Fetch team name when userId changes
 
   return (
-    <div>
+    <div className='edit-team-container'>
       <nav className="edit-nav">
         <button className="confirm-button" onClick={handleConfirmTeam}>Confirm Team</button>
            <h2 className="edit-field-h2">{teamName}</h2>
-            <h3>{changeCount}/2 changes for round {roundNum}</h3>
+            <h3 className='edit-field-h3'>{changeCount}/2 changes for round {roundNum}</h3>
       </nav>
 
-    
-      <div className="app-container">
-        <Table onPlayerSelect={handlePlayerSelection}  blockChanges={blockChanges} roundNum={roundNum}/>
+      <div className="edit-container">
         <Field selectedPlayer={selectedPlayer} userId={userId} isClearTeamRequested={isClearTeamRequested} onClearTeam={onClearTeam} isHomePage = {true} roundNum = {roundNum} blockChanges = {blockChanges} deleteCount = {deleteCount}  changeCount = {changeCount} setDeleteCount = {setDeleteCount} setChangeCount = {setChangeCount}/>
+        <Table onPlayerSelect={handlePlayerSelection}  blockChanges={blockChanges} roundNum={roundNum}/>
       </div>
+      < Footer/>
     </div>
+    
   );
 };
 

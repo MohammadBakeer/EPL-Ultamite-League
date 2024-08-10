@@ -91,12 +91,11 @@ const ManageProfile = ({ show, onClose }) => {
       }
 
       const result = await response.json();
-      console.log('Account deleted successfully:', result);
 
       // Clear the token from session storage
       sessionStorage.removeItem('authToken');
       
-      toast.error('Successfully deleted account')
+      toast.success('Successfully deleted account')
       // Navigate to login page
       navigate('/login');
 

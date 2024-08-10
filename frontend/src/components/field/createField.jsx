@@ -1,6 +1,7 @@
 import React, { useEffect,useState, useRef } from 'react';
 import { DefaultShirt, PlayerShirt } from './playerShirts.jsx';
 import '../../styles/Field.css'
+import '../../styles/Create-Team.css'
 
 // Have the API lock changing the teams during the round start and the round num still the same lock ability to change
 // Limit the changes per time to 3 
@@ -317,10 +318,11 @@ if (playerLineup.length === 0) {
 
       return (
         <>
+        <div className="create-field-component">
          {isHomePage && (
           <div className="team-stats">
             <div>
-              <strong>Team Budget:</strong> {totalBudget}
+              <strong>Team Budget:</strong> ${totalBudget}
             </div>
             <div>
               <strong>Team Round Points:</strong> {points}
@@ -353,6 +355,7 @@ if (playerLineup.length === 0) {
                     {Goalkeepr}
                 </div>
             </div>    
+        </div>
         </div>
      </>
       );

@@ -54,6 +54,7 @@ const PredictionLeague = () => {
           teamName: item.team_name,
           leaguePoints: item.league_points
         }));
+        console.log("processedData: ", processedData);
         
         setLeaderboardData(processedData);
     
@@ -76,8 +77,7 @@ const PredictionLeague = () => {
       });
 
       if (response.data.message === 'No leagues found for this user.') {
-      
-        console.log('No leagues found for this user.');
+    
       
         setPrivateLeagues([]); // Set empty array or handle as needed
         
@@ -99,11 +99,11 @@ const PredictionLeague = () => {
   }, []);
   
 
+
   const sortedData = [...leaderboardData].sort((a, b) => b.leaguePoints - a.leaguePoints);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
-
   const remainingBlankRows = itemsPerPage - currentItems.length;
   const displayItems = [
     ...currentItems,
@@ -115,12 +115,12 @@ const PredictionLeague = () => {
     rank: index + 1 + indexOfFirstItem,
   }));
 
-
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
 
   const onPageChange = (page) => {
     setCurrentPage(page);
   };
+
 
   const currentToken = sessionStorage.getItem('authToken');
 
@@ -242,9 +242,9 @@ const PredictionLeague = () => {
                   </tr>
                 </thead>
                 <tbody>
-                {displayItems.map((team, index) => (
+                {currentItems.map((team, index) => (
                   <tr key= {index} className={team.rank <= 1 ? 'highlighted' : ''}>
-                    <td>{team.rank}</td>
+                    <td>{index + 1 + indexOfFirstItem}</td>
                     <td>{team.teamName}</td>
                     <td>{team.leaguePoints}</td>
                   </tr>

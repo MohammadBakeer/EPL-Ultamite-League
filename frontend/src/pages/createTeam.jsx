@@ -3,8 +3,9 @@ import Table from '../components/table/Table.jsx'
 import CreateField from '../components/field/createField.jsx';
 import { useNavigate } from 'react-router-dom';
 import { decodeJWT } from '../jwtUtils.js';
+import Footer from '../components/Footer.jsx'
 import axios from 'axios'; 
-import '../styles/Edit-Team.css'
+import '../styles/Create-Team.css'
 
 
 
@@ -16,6 +17,7 @@ const Edit = () => {
   const [blockChanges, setBlockChanges] = useState(false) // this state is needed since it will be always false
   const [deleteCount, setDeleteCount] = useState(0) // always be 0
   const [changeCount, setChangeCount] = useState(0) // always be 0 
+  const [teamFilled, setTeamFilled] = useState(false) //Confirm button can only be pressed if all the positions are filled out including subs
 
   const navigate = useNavigate();
 
@@ -110,22 +112,21 @@ const Edit = () => {
     };
 
     fetchTeamName();
-  }, [userId]); // Fetch team name when userId changes
+  }, [userId]); 
 
   return (
-    <div>
-      {/* Navbar */}
-      <nav className="navbar">
+    <div className='create-team-page'>  
+      <nav className="create-navbar">
         <button className="confirm-button" onClick={handleConfirmTeam}>Confirm Team</button>
         <h2>{teamName}</h2>
         <button className="clear-button" onClick={handleClearTeam}>Clear Team</button>
       </nav>
 
-      {/* Main content */}
-      <div className="app-container">
-        <Table onPlayerSelect={handlePlayerSelection} blockChanges={blockChanges} roundNum={roundNum} />
+      <div className="create-field-container">
         <CreateField selectedPlayer={selectedPlayer} userId={userId} isClearTeamRequested={isClearTeamRequested} onClearTeam={onClearTeam} isHomePage = {true} roundNum = {roundNum} blockChanges = {blockChanges} />
+        <Table onPlayerSelect={handlePlayerSelection} blockChanges={blockChanges} roundNum={roundNum} />
       </div>
+      < Footer/>
     </div>
   );
 };

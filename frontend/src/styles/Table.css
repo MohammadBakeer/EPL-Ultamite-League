@@ -6,13 +6,12 @@ body, html {
 
 .table-container {
     position: relative;
-    top: 9rem;
+    top: 1em;
     left: 1em;
     width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
 }
 
 table {

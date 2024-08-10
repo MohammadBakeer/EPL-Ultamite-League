@@ -13,6 +13,7 @@ import SquadView from './pages/SquadView.jsx';
 import Rules from './pages/Rules.jsx';
 import Schedule from './pages/Schedule.jsx';
 import Prizes from './pages/Prizes.jsx';
+import ContactUs from './pages/ContactUs.jsx'
 import './styles/App.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -41,6 +42,7 @@ const App = () => {
         <Route path="/rules" element={<Rules />} />
         <Route path="/squad-view" element={<SquadView />} />
         <Route path="/prizes" element={<Prizes />} />
+        <Route path="/contactus" element={<ContactUs />} />
       </Routes>
     </Router>
   

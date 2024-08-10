@@ -1,0 +1,79 @@
+
+  .create-navbar h2 {
+    margin: 0;
+    font-weight: bold;
+  }
+  
+  .create-navbar button {
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;
+  }
+  
+  .confirm-button {
+    background-color: #009e00; /* Green color */
+    color: white;
+    border-radius: 25px !important;
+  }
+  
+  .confirm-button:hover {
+    background-color: var(--btn-hover); /* Darker green on hover */
+  }
+  
+  .clear-button {
+    background-color: red; /* Red color */
+    color: white;
+    margin-right: 2em;
+     border-radius: 25px !important;
+  }
+  
+  .clear-button:hover {
+    background-color: #c82333; /* Darker red on hover */
+  }
+
+
+.create-navbar {
+    background-color: white;
+    color: black;
+    padding: 1rem;
+    text-align: center;
+    width: 100%;
+    top: 0;
+    left: 0;
+    /* z-index: 1000; */
+    display: flex;
+    justify-content: space-between; /* Align items horizontally with space between */
+    align-items: center; /* Center items vertically */
+  }
+  
+
+  
+
+  .create-field-component {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    padding-top: 6em;
+    height: 95vh;
+    width: 100%;
+  }
+  
+  .team-stats, .formation-dropdown {
+    margin-bottom: 1rem; 
+    width: 20%;
+  }
+  
+  .formation-dropdown {
+    margin-top: 1rem; /* Space above the formation dropdown */
+  }
+
+  .create-field-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+

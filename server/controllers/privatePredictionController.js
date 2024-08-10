@@ -499,46 +499,48 @@ export const fetchLeagueCode = async (req, res) => {
   const { leagueId } = req.params;
   const token = req.headers.authorization?.split(' ')[1];
   
-
   if (!token) {
     return res.status(401).json({ error: 'Token not provided' });
   }
-
+  
   try {
     const decoded = jwt.verify(token, config.jwtSecret);
     const userId = decoded.userId;
 
-    const ownershipQuery = `
-      SELECT owner_id 
-      FROM private_prediction_leagues 
-      WHERE league_id = $1 AND owner_id = $2
-    `;
-    const ownershipResult = await db.query(ownershipQuery, [leagueId, userId]);
-
-    if (ownershipResult.rows.length === 0) {
-      return res.status(200).json({ message: 'User is not the owner' });
-    }
-
-    // Fetch league code from private_prediction_leagues table
+    // Fetch league details, including owner_id
     const query = `
-      SELECT league_code, league_name  
+      SELECT league_code, league_name, owner_id  
       FROM private_prediction_leagues 
       WHERE league_id = $1
     `;
     const result = await db.query(query, [leagueId]);
 
     if (result.rows.length > 0) {
-      const { league_code, league_name } = result.rows[0];
-      // Send both league_code and league_name in the response
-      res.status(200).json({ leagueCode: league_code.toString(), leagueName: league_name });
-    }else {
-      res.status(404).json({ message: 'League code not found' });
+      const { league_code, league_name, owner_id } = result.rows[0];
+
+      // Check if the user is the owner
+      if (owner_id === userId) {
+        // Send both league_code and league_name if the user is the owner
+        res.status(200).json({
+          leagueCode: league_code.toString(),
+          leagueName: league_name,
+        });
+      } else {
+        // Send message and league_name if the user is not the owner
+        res.status(200).json({
+          message: 'User is not the owner',
+          leagueName: league_name,
+        });
+      }
+    } else {
+      res.status(404).json({ message: 'League not found' });
     }
   } catch (error) {
     console.error('Error fetching league code:', error.message);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 
 export const deletePrivatePredictionLeague = async (req, res) => {

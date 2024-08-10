@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const fetchRoundStatus = async () => {
-  
+    
   const url = `https://api.sportmonks.com/v3/football/rounds/seasons/23614?api_token=${process.env.API_TOKEN}`;
 
   try {
@@ -24,8 +24,7 @@ export const fetchRoundStatus = async () => {
 
     await insertTeam(currentRoundNum);
 
-   
-    await storeRoundStatus(sortedData);
+   // await storeRoundStatus(sortedData);
 
   } catch (error) {
     console.error('Error fetching data from the Fantasy Premier League API:', error.message);

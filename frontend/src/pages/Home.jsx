@@ -102,7 +102,6 @@ const Home = () => {
               roundNum={roundNum}
               blockChanges={blockChanges}
             />{" "}
-            {/* Pass userId only */}
           </div>
           <Link to={`/editteam`} className="Edit-team-link">
             <button className="Edit-team">View Squad</button>

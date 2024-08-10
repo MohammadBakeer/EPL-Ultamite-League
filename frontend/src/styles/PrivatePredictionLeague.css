@@ -21,6 +21,10 @@
   text-align: left;
 }
 
+.prediction-table th{
+  background-color: #a000cc;
+}
+
 .pagination {
   display: flex;
   justify-content: center;

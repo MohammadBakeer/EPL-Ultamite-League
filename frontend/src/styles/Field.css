@@ -1,10 +1,8 @@
 /* Field.css */
 .field-container {
-    height: 70vh;
-    width: 80%;
+    height: 80vh;
+    width: 65%;
     position: relative;
-    top: 20em;
-    right: 2em;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,6 +10,7 @@
     object-fit: cover;
     background-size: cover; 
     background-position: center; 
+    top: 5em;
   }
   @media only screen and (max-width: 800px) {
     .field-container {
@@ -128,24 +127,22 @@
 
 .team-stats{
   position: absolute;
-  top: 7em !important;
+  top: 8em !important;
   right: 11em;
   display: flex;
   justify-content: space-between;
   background-color: #fffefe;
   color: black;
-  width: 16em;
+  width: 18em;
   border-radius: 25px;
   padding: 15px 25px;
   font-size: 15px;
 }
 .team-stats strong {
-  /* padding: 2px 5px; */
   border-radius: 25px;
   font-weight: bold;
   display: block;
-    /* color: white; */
-  /* background-color: #6b6b6b; */
+
 }
 @media only screen and (max-width: 700px) {
   .formation-dropdown  {
