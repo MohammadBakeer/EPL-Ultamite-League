@@ -13,19 +13,18 @@ const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTe
     const [formation, setFormation] = useState(["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]) 
     const [playerLineup, setPlayerLineup] = useState(formation)
     const [selectedFormation, setSelectedFormation] = useState(""); 
-    const [totalBudget, setTotalBudget] = useState(100);
+    const [totalBudget, setTotalBudget] = useState(85);
     const [points, setPoints] = useState(0);
     const [isInitialRender, setIsInitialRender] = useState(true);
     const formationSelectRef = useRef(null);
 
 
-    console.log(roundNum);
 
     useEffect(() => {
       
       if (isClearTeamRequested && blockChanges == false) {
         setPlayerLineup(formation);
-        setTotalBudget(100); // Reset totalBudget to the initial value
+        setTotalBudget(85); // Reset totalBudget to the initial value
         setPoints(0); // Reset totalPoints to zero
         onClearTeam(); // Callback to reset isClearTeamRequested in the parent component
       }
@@ -245,7 +244,7 @@ useEffect(() => {
 
     
         const handleFormationChange = (e) => {
-          
+          console.log("hi from edit field");
           if (!blockChanges) {
             if (changeCount < 2) {
               const changedFormation = e.target.value;
@@ -452,7 +451,6 @@ useEffect(() => {
               // If all positions are checked, allow formation change
               setFormation(newFormation);
    
-              setTotalBudget(100); // or any logic you need for budget
             }
           }
         };

@@ -11,7 +11,7 @@ const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTe
 
     const [formation, setFormation] = useState(["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]) 
     const [playerLineup, setPlayerLineup] = useState(formation)
-    const [totalBudget, setTotalBudget] = useState(100);
+    const [totalBudget, setTotalBudget] = useState(85);
     const [points, setPoints] = useState(0);
     const [isInitialRender, setIsInitialRender] = useState(true);
     const formationSelectRef = useRef(null);
@@ -20,7 +20,7 @@ const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTe
       
       if (isClearTeamRequested && blockChanges == false) {
         setPlayerLineup(formation);
-        setTotalBudget(100); // Reset totalBudget to the initial value
+        setTotalBudget(85); // Reset totalBudget to the initial value
         setPoints(0); // Reset totalPoints to zero
         onClearTeam(); // Callback to reset isClearTeamRequested in the parent component
       }
@@ -235,7 +235,7 @@ useEffect(() => {
             default:
                 newFormation = ["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]; // Default to 4-3-3
         }
-        let tempBudget = 100;
+        let tempBudget = 85;
 
         setTotalBudget(tempBudget);
 
