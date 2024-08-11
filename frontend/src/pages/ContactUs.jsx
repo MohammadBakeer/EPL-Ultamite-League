@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import Navbar from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
 import '../styles/ContactUs.css';
-import emailjs from 'emailjs-com';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import emailjs from 'emailjs-com'; // Make sure to import EmailJS
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -24,20 +25,17 @@ const ContactUs = () => {
   const validateForm = () => {
     const { name, email, message } = formData;
 
-    // Name validation: only letters, one space, max 17 characters
     const nameRegex = /^[A-Za-z]{1,8}(\s[A-Za-z]{1,8})?$/;
     if (!nameRegex.test(name)) {
       alert('Name must contain only letters, one space, and be max 17 characters.');
       return false;
     }
 
-    // Email validation: contains "@"
     if (!email.includes('@')) {
       alert('Please enter a valid email address.');
       return false;
     }
 
-    // Message validation: max 70 words
     const wordCount = message.trim().split(/\s+/).length;
     if (wordCount > 70) {
       alert('Message must be 70 words or less.');
@@ -47,36 +45,56 @@ const ContactUs = () => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      sendEmail();
+      await sendContactEmail();
     }
   };
 
-  const sendEmail = () => {
+ 
+  const sendContactEmail = async () => {
+    const token = sessionStorage.getItem('authToken');
+
     const { name, email, message } = formData;
-
-    const templateParams = {
-      from_name: name,
-      from_email: email,
-      message: message,
-      subject: 'FPL User Contact'
-    };
-
-    console.log('Sending email with the following parameters:', templateParams); // Debug log
-
-    emailjs.send('service_zmn733r', 'template_oo1oter', templateParams, '3o1FkrRqpKtc_Etnc')
-      .then(response => {
-        console.log('SUCCESS!', response.status, response.text);
-        toast.success('Message sent successfully!');
-        setFormData({ name: '', email: '', message: '' }); // Reset form
-      })
-      .catch(err => {
-        console.error('Failed to send email:', err);
-        alert(`Failed to send message: ${err.text}`); // Log the error text
-      });
+  
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/sendContactEmail',
+        { name, email, message },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json', // Optional, specify the content type
+          },
+        }
+      );
+  
+      const { emailDetails, emailConfig, recipientEmail } = response.data;
+  
+      // Use EmailJS to send the email directly from the frontend
+      await emailjs.send(
+        emailConfig.serviceID,
+        emailConfig.templateID,
+        {
+          from_name: emailDetails.from_name,
+          from_email: emailDetails.from_email,
+          message: emailDetails.message,
+          subject: emailDetails.subject,
+          to_email: recipientEmail, 
+        },
+        emailConfig.userID
+      );
+  
+      toast.success('Message sent successfully!');
+      setFormData({ name: '', email: '', message: '' }); // Reset form
+    } catch (error) {
+      console.error('Failed to send email:', error);
+      toast.error('Failed to send message.');
+    }
   };
+  
+  
 
   return (
     <>
@@ -105,7 +123,7 @@ const ContactUs = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="contact-us-email-input contact-us-input" // Apply the same class
+                className="contact-us-email-input contact-us-input"
               />
             </div>
             <div className="contact-us-form-group">

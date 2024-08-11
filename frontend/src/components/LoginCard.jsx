@@ -26,9 +26,12 @@ const LoginCard = ({roundNum}) => {
         if (data.match) {
          
           sessionStorage.setItem('authToken', data.token);
-
+          console.log(teamData);
           if(teamData.present === false){
             navigate('/createteam')
+          }
+          else if(teamData.message === 'User not found'){
+            toast.error('User not found')
           }
           else{
           navigate('/home');
@@ -42,35 +45,35 @@ const LoginCard = ({roundNum}) => {
 
     }catch (error) {
       toast.error('Error during login');
-      console.error('Error during login:', error.message);
     }
   }
 
 
 
   const handleLogIn = async () => { 
-
     try {
       const teamResponse = await fetch(`http://localhost:3000/auth/teamPresent/${email}`, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json',
         },
-    });
-    
-    if (!teamResponse.ok) {
-        const errorResponse = await teamResponse.text(); // Get response as text
-        console.error('Error response:', errorResponse);
-        toast.error('Request failed: ' + teamResponse.status);
-        return; // Exit the function if the request fails
-    }
-    
-    const teamData = await teamResponse.json();
+      });
   
-    loginVerification(teamData)
-
+      if (!teamResponse.ok) {
+        if (teamResponse.status === 404) {
+          toast.error('No User Found');
+        } else {
+          toast.error(`Request failed: ${teamResponse.status}`);
+        }
+        return;
+      }
+  
+      const teamData = await teamResponse.json();
+      loginVerification(teamData);
+  
     } catch (error) {
-      console.error('Error during login:', error.message);
+      console.error('Error:', error.message);
+      toast.error('Error during login');
     }
   };
 
