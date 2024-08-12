@@ -19,6 +19,7 @@ import tokenRouter from './routes/tokenRoutes.js';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,6 +29,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Middleware setup
+app.use(cookieParser());
 app.use(bodyParser.json({ limit: '10mb' })); // Adjust limit as per your needs
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '..', 'frontend', 'public'))); // Serve static files
