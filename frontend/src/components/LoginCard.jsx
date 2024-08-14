@@ -5,38 +5,75 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import '../styles/LoginCard.css';
 
-const LoginCard = () => {
+const LoginCard = ({roundNum}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogIn = async () => {
-    console.log(password);
-    try {
+
+  const loginVerification = async (teamData) => {
+    try{
       const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, teamData, roundNum }),
       });
 
       if (response.ok) {
         const data = await response.json();
         if (data.match) {
-          console.log('There is a match!');
+         
           sessionStorage.setItem('authToken', data.token);
-     
+          console.log(teamData);
+          if(teamData.present === false){
+            navigate('/createteam')
+          }
+          else if(teamData.message === 'User not found'){
+            toast.error('User not found')
+          }
+          else{
           navigate('/home');
+          }
         } else {
           toast.error('Invalid email or password');
         }
       } else {
         toast.error('Failed to log in');
       }
-    } catch (error) {
+
+    }catch (error) {
       toast.error('Error during login');
-      console.error('Error during login:', error.message);
+    }
+  }
+
+
+
+  const handleLogIn = async () => { 
+    try {
+      const teamResponse = await fetch(`http://localhost:3000/auth/teamPresent/${email}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!teamResponse.ok) {
+        if (teamResponse.status === 404) {
+          toast.error('No User Found');
+        } else {
+          toast.error(`Request failed: ${teamResponse.status}`);
+        }
+        return;
+      }
+  
+      const teamData = await teamResponse.json();
+      loginVerification(teamData);
+  
+    } catch (error) {
+      console.error('Error:', error.message);
+      toast.error('Error during login');
     }
   };
 

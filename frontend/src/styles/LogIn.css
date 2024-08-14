@@ -1,11 +1,11 @@
-.auth-background {
+/* .auth-background {
   height: 100vh;
   background-color: #fff;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   padding-top: 6em;
-}
+} */
 
 .login-page {
   display: flex;
@@ -13,7 +13,10 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #fff;
+  margin-top: 20px;
+ 
+  border-radius: 25px;
+  /* background-color: #fff; */
 }
 
 .login-container {
@@ -21,10 +24,10 @@
   width: 100%;
   gap: 100px;
   max-width: 1200px;
-  background-color: #fff;
+  /* background-color: #fff; */
   border: none;
-  border-radius: 8px;
-  box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1);
+  /* border-radius: 8px; */
+  /* box-shadow: 0 2px 50px rgba(0, 0, 0, 0.1); */
   margin-bottom: 20px; /* Add some space below the login container */
 }
 
@@ -36,19 +39,21 @@
 }
 
 .logincard {
+
   width: 50%;
   padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
 .signin-h1-EPL-container,
 .signin-h3-EPL-container {
   text-align: center;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .sign-img {
@@ -60,6 +65,10 @@
 .sign-img img {
   max-width: 100%;
   height: auto;
+}
+
+.signin-h1-EPL {
+  font-weight: bold;
 }
 
 @media (max-width: 768px) {

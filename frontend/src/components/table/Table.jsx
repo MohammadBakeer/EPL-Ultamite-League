@@ -231,10 +231,10 @@ const Table = ({ onPlayerSelect, blockChanges, roundNum }) => {
         </button>
       </div>
       {/* Player Table */}
-      <table>
-        <thead>
+      <table className='edit-team-table'>
+        <thead >
           <tr>
-            <th>First Name</th>
+            <th >First Name</th>
             <th>Last Name</th>
             <th>Club</th>
             <th>Position</th>

@@ -1,16 +1,21 @@
 /*round-bar style start*/
 .container-round{
   width: 100%;
+  /* padding: 25px; */
   display:flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   gap: 20px;
 }
 
 
 .round-completed-bar{
-  width: 75%;
+  width: 65%;
+  border-radius: 25px;
+ 
+  /* width: 50%; */
   height: 80px;
   background-color: rgb(206, 125, 20);
   display: flex;
@@ -18,13 +23,13 @@
   justify-content: space-between;
   align-items: center;
   border: 1px solid rgb(242, 231, 231);
-  background-color: #fff;
+  /* background-color: #fff; */
   margin-top: 25px;
 }
 
 .round-completed-bar:hover{
-  border: 1px solid #efce6a;
-  box-shadow: 0px 0px 7px 1px rgb(231, 191, 138) ;
+  /* border: 1px solid #efce6a;
+  box-shadow: 0px 0px 7px 1px rgb(231, 191, 138) ; */
   transition: .2s;
 }
 
@@ -40,6 +45,7 @@
 
 .rounds{
   margin-left: 15px;
+  font-size: 22px;
 }
 
 span{
@@ -57,7 +63,7 @@ span{
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 15px; /* Adjust the font size as needed */
+  font-size: 1px; /* Adjust the font size as needed */
   font-weight: bold; /* Adjust the font weight as needed */
   color: balck; /* Adjust the text color */
   margin-top: 10px; /* Add margin top for spacing */

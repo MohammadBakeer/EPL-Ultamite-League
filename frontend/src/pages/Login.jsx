@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginCard from '../components/LoginCard';
 import Footer from '../components/Footer'
 import ScheduleRounds from '../components/ScheduleRounds';
@@ -7,12 +7,41 @@ import '../styles/LogIn.css';
 
 const Login = () => {
 
+  const [roundNum, setRoundNum] = useState(null);
+ 
+
+  const fetchRoundStatus =  async () => {
+   
+    const response = await fetch('http://localhost:3000/api/getScheduleRoundStatus', {
+      method: 'GET',
+    });
+  
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+    
+    const currentDate = new Date();
+  
+    const finishedRounds = data
+      .filter(round => round.finished)
+      .map(round => round.round_num);
+  
+    const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
+    const currentRound = maxRoundNum + 1;
+    setRoundNum(maxRoundNum > 0 ? maxRoundNum + 1 : 1);
+    
+    return currentRound;
+  };
+
+  useEffect(() =>{
+      fetchRoundStatus()
+  }, [])
 
 
   return (
+    <>
     <div className="login-page">
       <div className="login-container">
-        <LoginCard />
+        <LoginCard roundNum={roundNum} />
         <div className="logincard">
           <div className="signin-h1-EPL-container">
             <h1 className="signin-h1-EPL">EPL Ultimate League</h1>
@@ -26,9 +55,10 @@ const Login = () => {
           </div>
         </div>
       </div>
+    </div>
       <ScheduleRounds />
       <Footer />
-    </div>
+    </>
   );
 };
 

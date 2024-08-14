@@ -50,8 +50,8 @@ const CreateLeagueModal = ({ onClose, selectedBadge, onUpdateLeagues }) => {
     <div className="modal">
       <div className="modal-content">
         <h2>Create New League</h2>
-        <form onSubmit={handleCreateLeague}>
-          <label>
+        <form  onSubmit={handleCreateLeague}>
+          <label style={{color: "black", display: 'block'}}>
             League Name:
             <input
               type="text"
@@ -61,8 +61,8 @@ const CreateLeagueModal = ({ onClose, selectedBadge, onUpdateLeagues }) => {
               required
             />
           </label>
-          <label>
-            Points Start Round:
+          <label style={{color: "black", display: 'block'}}>
+            Points Start From Round:
             <select
               value={startRound}
               onChange={(e) => setStartRound(Number(e.target.value))}
@@ -75,7 +75,7 @@ const CreateLeagueModal = ({ onClose, selectedBadge, onUpdateLeagues }) => {
             </select>
           </label>
           <button type="submit">Create</button>
-          <button type="button" onClick={onClose}>
+          <button style={{color: "white", background:"#c90000"}} type="button" onClick={onClose}>
             Cancel
           </button>
         </form>

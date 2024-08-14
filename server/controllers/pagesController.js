@@ -27,3 +27,40 @@ export const getTeamNameByUserId = async (req, res) => {
   }
 };
 
+export const sendContactEmail = async (req, res) => {
+
+  try {
+
+    const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: 'Token not provided' });
+  }
+  const { name, email, message, subject } = req.body;
+  
+  const recipientEmail = process.env.EMAIL_USER;
+  
+  // Prepare the email parameters
+  const templateParams = {
+    from_name: name,
+    from_email: email,
+    message: message,
+    recipientEmail,
+    subject: subject || 'Contact Form Submission',
+  };
+  
+  // Return email details and EmailJS credentials to the frontend
+  res.status(200).json({
+    message: 'Email details retrieved successfully',
+    emailDetails: templateParams,
+    emailConfig: {
+      serviceID: process.env.EMAILJS_SERVICE_ID,
+      templateID: process.env.EMAILJS_TEMPLATE_ID,
+      userID: process.env.EMAILJS_USER_ID,
+    },
+  });
+} catch (error) {
+  console.error('Error retrieving email details:', error.message);
+  res.status(500).json({ error: 'Internal Server Error' });
+  }
+  };

@@ -60,19 +60,23 @@ const CreateAccount = () => {
     if (response.ok) {
       sessionStorage.setItem('verificationToken', data.verificationToken);
       // Set up the interval to check every 10 seconds
-      toast.success(data.message);
-      toast.success('Expires in 5 minutes')
+      toast.success(data.message, { autoClose: 20000 });
+      toast.success('Expires in 5 minutes', { autoClose: 20000 });
+      
       const intervalId = setInterval(() => checkVerificationStatus(data.verificationToken, intervalId, timeoutId), 5000);
 
-      // Set a timeout to stop checking after 2 minutes
+     
       const timeoutId = setTimeout(() => {
         clearInterval(intervalId); // Stop checking
-        console.error('Verification process timed out. Please check your email again.');
-      }, 300000); 
+        toast.error('Verification window is closed. Please try again.', {
+          duration: 30000, // Duration in milliseconds (30 seconds)
+        });
+        
+      }, 360000); 
     } else {
       // User-friendly error messages
       if (data.error === 'Email already exists. Please choose another email.') {
-        toast.error('User with this email already exists.');
+        toast.error('User with this email already exists, Log in.');
       } else if (data.error === 'Team Name Already Exists') {
         toast.error('Team Name Already Exists.');
       } else if(data.error === 'You can only make 2 attempts per 24 hours. Please try again later.'){

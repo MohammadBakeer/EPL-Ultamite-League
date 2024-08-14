@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, Link } from 'react-router-dom'; 
 import { decodeJWT } from '../jwtUtils.js';
 import { setViewId } from '../redux/viewSlice';
 import Field from '../components/field/Field.jsx';
@@ -109,7 +109,7 @@ useEffect(() => {
         <div className="home-field">
             <h1 className="home-team">{teamName}</h1>
             <Field viewId={viewId} isHomePage={false} roundNum = {roundNum} blockChanges = {blockChanges} />
-            <button className="Edit-team" onClick={() => navigate(-1)}>Exit View</button>
+            <button className="squad-view-button" onClick={() => navigate(-1)}>Exit View</button>
         </div>
       </div>
         

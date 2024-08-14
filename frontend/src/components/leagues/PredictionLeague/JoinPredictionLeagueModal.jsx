@@ -42,7 +42,7 @@ const JoinLeagueModal = ({ onClose }) => {
       <div className="modal-content">
         <h2>Join League</h2>
         <form onSubmit={handleJoinLeague}>
-          <label>
+          <label style={{color: "black"}}>
             League Code:
             <input
               type="text"
@@ -51,7 +51,7 @@ const JoinLeagueModal = ({ onClose }) => {
             />
           </label>
           <button type="submit">Join</button>
-          <button type="button" onClick={onClose}>
+          <button style={{color: "white", background:"#c90000"}} type="button" onClick={onClose}>
             Cancel
           </button>
         </form>

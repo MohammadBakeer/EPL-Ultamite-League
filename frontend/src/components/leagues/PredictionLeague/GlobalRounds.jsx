@@ -139,14 +139,14 @@ function Rounds({ defaultExpanded, roundbarText, roundnum, onSchedulePage, games
   return (
     <div className="container-round">
       <div className="round-completed-bar"
-           style={{ backgroundColor: isExpanded ? '#007bff' : '#fff', transition: '.3s' }}>
+           style={{ backgroundColor: '#a000cc'}}>
        
-        <div className="rounds" style={{ color: isExpanded ? '#fff' : '#000', transition: '.3s' }}>
+        <div className="rounds" style={{ color: '#fff'}}>
           Round {roundNum}
         </div>
         
         <div className="completed-arrow" onClick={toggleVisibility}>
-          <span style={{ color: isExpanded ? '#fff' : '#000', transition: '.3s' }}>Fixtures</span>
+          <span style={{ color: '#fff'  }}>Fixtures</span>
           <img 
             src={isExpanded ? "/arrow_drop_up.png" : "/arrow_drop_down.png"} 
             alt="arrow" 

@@ -48,4 +48,11 @@ WHERE round_num = 2;
 delete from users where user_id = 374
 delete from fantasy_points where user_id = 374
 
+UPDATE games
+SET live = TRUE, minute = 15
+WHERE game_id = 19134453;
+
+UPDATE games
+SET live = FALSE, minute = 0
+WHERE game_id = 19134453;
 

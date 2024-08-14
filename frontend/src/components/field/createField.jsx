@@ -1,6 +1,7 @@
 import React, { useEffect,useState, useRef } from 'react';
 import { DefaultShirt, PlayerShirt } from './playerShirts.jsx';
 import '../../styles/Field.css'
+import '../../styles/Create-Team.css'
 
 // Have the API lock changing the teams during the round start and the round num still the same lock ability to change
 // Limit the changes per time to 3 
@@ -10,7 +11,7 @@ const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTe
 
     const [formation, setFormation] = useState(["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]) 
     const [playerLineup, setPlayerLineup] = useState(formation)
-    const [totalBudget, setTotalBudget] = useState(100);
+    const [totalBudget, setTotalBudget] = useState(85);
     const [points, setPoints] = useState(0);
     const [isInitialRender, setIsInitialRender] = useState(true);
     const formationSelectRef = useRef(null);
@@ -19,7 +20,7 @@ const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTe
       
       if (isClearTeamRequested && blockChanges == false) {
         setPlayerLineup(formation);
-        setTotalBudget(100); // Reset totalBudget to the initial value
+        setTotalBudget(85); // Reset totalBudget to the initial value
         setPoints(0); // Reset totalPoints to zero
         onClearTeam(); // Callback to reset isClearTeamRequested in the parent component
       }
@@ -234,7 +235,7 @@ useEffect(() => {
             default:
                 newFormation = ["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]; // Default to 4-3-3
         }
-        let tempBudget = 100;
+        let tempBudget = 85;
 
         setTotalBudget(tempBudget);
 
@@ -317,10 +318,11 @@ if (playerLineup.length === 0) {
 
       return (
         <>
+        <div className="create-field-component">
          {isHomePage && (
           <div className="team-stats">
             <div>
-              <strong>Team Budget:</strong> {totalBudget}
+              <strong>Team Budget:</strong> ${totalBudget}
             </div>
             <div>
               <strong>Team Round Points:</strong> {points}
@@ -353,6 +355,7 @@ if (playerLineup.length === 0) {
                     {Goalkeepr}
                 </div>
             </div>    
+        </div>
         </div>
      </>
       );

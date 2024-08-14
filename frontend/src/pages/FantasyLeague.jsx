@@ -244,7 +244,7 @@ const Leaderboard = () => {
                         {team.emptyRow ? (
                           <button disabled>View Squad</button>
                         ) : (
-                          <button onClick={() => handleViewSquadClick(team.userId)}>
+                          <button className='btn-view-table' onClick={() => handleViewSquadClick(team.userId)}>
                             View
                           </button>
                         )}
