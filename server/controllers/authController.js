@@ -50,6 +50,12 @@ export const checkIfVerified = async (req, res) => {
       // Generate JWT token
       const token = sign({ userId: user_id }, config.jwtSecret, { expiresIn: '1h' });
 
+      res.cookie('authToken', token, {
+        httpOnly: true,
+        secure: true, // Ensure cookie is only sent over HTTPS
+        sameSite: 'Strict', // Adjust according to your needs
+      });
+
       return res.status(200).json({ verified: true, token });
     } else {
       // User is not verified
@@ -140,8 +146,6 @@ console.log("register");
       // If team name already exists, return an error
       return res.status(400).json({ error: 'Team name is taken.' });
     }
-
-
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
