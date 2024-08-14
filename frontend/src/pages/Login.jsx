@@ -35,7 +35,7 @@ const Login = () => {
   useEffect(() =>{
       fetchRoundStatus()
   }, [])
-
+  console.log(roundNum);
 
   return (
     <>

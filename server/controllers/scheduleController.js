@@ -38,7 +38,7 @@ export const fetchLiveScores = async (req, res) => {
 };
 
 export const getRoundStatus = async (req, res) => {
-
+  console.log("hi");
     try {
       const query = 'SELECT * FROM round_status;';
       const result = await db.query(query);
