@@ -17,20 +17,15 @@ import scheduleRouter from './routes/scheduleRoutes.js'
 import profileRouter from './routes/profileRoutes.js'
 import tokenRouter from './routes/tokenRoutes.js';
 import bodyParser from 'body-parser';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Define __dirname manually
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+
 
 // Middleware setup
 app.use(bodyParser.json({ limit: '10mb' })); // Adjust limit as per your needs
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public'))); // Serve static files
 app.use(cors());
 app.use(express.json());
 

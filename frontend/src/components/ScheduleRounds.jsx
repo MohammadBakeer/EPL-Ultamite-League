@@ -6,14 +6,12 @@ import '../styles/roundBars.css'
 
 
 // eslint-disable-next-line react/prop-types
-function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePage, games, currentRoundNum }) {
+function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePage, games, currentRoundNum, setCurrentRoundNum }) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
   const [roundNum, setRoundNum] = useState(null);
   const [roundGames, setRoundGames] = useState([]);
   const [blockChanges, setBlockChanges] = useState(false);
 
-  console.log(roundnum);
-  console.log(currentRoundNum);
 
   const toggleVisibility = () => {
     setIsExpanded(prevState => !prevState);
@@ -32,7 +30,6 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
     }
   }, [roundnum])
 
-  
 
   const fetchRoundGames = async (roundNum) => {
     if(onSchedulePage){
@@ -48,7 +45,9 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
   };
 
   const fetchRoundStatus = async () => {
-  
+    if(onSchedulePage){
+      return
+    }
     const response = await fetch('http://localhost:3000/api/getScheduleRoundStatus', {
       method: 'GET',
     });

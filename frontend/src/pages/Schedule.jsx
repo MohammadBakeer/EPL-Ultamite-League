@@ -80,6 +80,7 @@ function Schedule() {
     }, []);
 
 
+
     return (
         <>
             <Navbar />
@@ -91,6 +92,7 @@ function Schedule() {
                     games={round.games}
                     onSchedulePage={onSchedulePage}
                     currentRoundNum={currentRoundNum} // Pass currentRoundNum as a prop
+                   
                 />
 
         ))} 
