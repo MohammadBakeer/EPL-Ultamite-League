@@ -99,8 +99,7 @@ teamRoundPoints(currentRound)
 
 cron.schedule('*/60 * * * * *', buildPlayerData);
 
-cron.schedule('*/10 * * * * *', fetchRoundStatus);
-
+cron.schedule('0 */6 * * *', fetchRoundStatus);
 
 
 // Fetch Live updates cron will be set to run every 5 minutes once blockChanges is true and then when Live is true it will run every 10 seconds. Once no lives it will go 
