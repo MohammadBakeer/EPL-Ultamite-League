@@ -26,7 +26,7 @@ const LoginCard = ({roundNum}) => {
         if (data.match) {
          
           sessionStorage.setItem('authToken', data.token);
-          console.log(teamData);
+         
           if(teamData.present === false){
             navigate('/createteam')
           }

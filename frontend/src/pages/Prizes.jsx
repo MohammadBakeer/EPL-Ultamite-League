@@ -6,7 +6,7 @@ import Navbar from '../components/Navbar.jsx';
 import Jerseys from '../images/prizes/prize-round-23-24.png';
 import AppleWatch from '../images/prizes/prize-quad-23-24.png';
 import MacBook from '../images/prizes/macbook.jpg';
-
+import Footer from '../components/Footer.jsx'
 const Prizes = () => {
 
   const location = useLocation();
@@ -23,9 +23,11 @@ const Prizes = () => {
   const currentTab = getCurrentTab();
 
   return (
+  
     <div>
       <Navbar />
       <div className='prizes-container'>
+        {/* 
         <h2>Prizes</h2>
         <div className='mini-navbar'>
           {tabs.map(tab => (
@@ -98,6 +100,8 @@ const Prizes = () => {
             </div>
           )}
         </div>
+        */}
+        <h2>Prizes Coming Soon</h2>
       </div>
     </div>
   );
