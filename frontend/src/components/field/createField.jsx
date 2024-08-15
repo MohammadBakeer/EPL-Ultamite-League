@@ -94,7 +94,7 @@ useEffect(() => {
         });
   
         if (response.ok) {
-          console.log('Lineup and formation updated successfully in the database.');
+       
         } else {
           console.error('Failed to update lineup and formation in the database:', response.statusText);
         }

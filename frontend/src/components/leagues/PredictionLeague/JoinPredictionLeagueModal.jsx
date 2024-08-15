@@ -29,8 +29,6 @@ const JoinLeagueModal = ({ onClose }) => {
           },
         }
       );
-
-      console.log(response.data.message);
       onClose(true); 
     } catch (error) {
       console.error('Error joining league:', error.message);

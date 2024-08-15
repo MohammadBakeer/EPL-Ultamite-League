@@ -39,7 +39,6 @@ const CreateLeagueModal = ({ onClose, selectedBadge, onUpdateLeagues }) => {
 
       onUpdateLeagues(response.data);
       onClose(true); 
-      console.log(response.data.message);
     
     } catch (error) {
       console.error('Error creating league:', error.message);

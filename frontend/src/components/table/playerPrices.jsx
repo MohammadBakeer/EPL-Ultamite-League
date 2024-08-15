@@ -121,7 +121,7 @@ export const updatePlayerPrices = async (playerData) => {
         return response.json();
       })
       .then(data => {
-        console.log('Success:', data.message);
+
       })
       .catch(error => {
         console.error('Error:', error.message);

@@ -14,7 +14,6 @@ const storeTotalPoints = async (table) => {
       }
     });
 
-    console.log('Success:', response.data.message);
   } catch (error) {
     console.error('Error:', error.message);
   }
@@ -33,7 +32,6 @@ const storeRoundPoints = async (roundPoints) => {
       }
     });
 
-    console.log('Success:', response.data.message);
   } catch (error) {
     console.error('Error:', error.message);
   }
@@ -128,7 +126,7 @@ export const calculatePoints = async (table) => {
 
   const roundPoints = await calculateRoundPoints(table)
   const haalandPoints = roundPoints.find(player => player.lastName === 'Haaland');
-  console.log("Haaland roundPoints: ", haalandPoints);
+
   storeRoundPoints(roundPoints)
   storeTotalPoints(table)
   

@@ -57,7 +57,7 @@ const ManageProfile = ({ show, onClose }) => {
       }
 
       const result = await response.json();
-      console.log('Profile updated successfully:', result);
+
       // Optionally, you can show a success message or perform additional actions
     } catch (error) {
       console.error('Error saving changes:', error);

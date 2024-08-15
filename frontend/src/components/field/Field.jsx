@@ -75,8 +75,6 @@ const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTe
           break;
       }
 
-      console.log("formation: ", formation);
-
     } else {
       console.error('Failed to fetch user lineup:', response.statusText);
     }
@@ -119,7 +117,7 @@ useEffect(() => {
         });
   
         if (response.ok) {
-          console.log('Lineup and formation updated successfully in the database.');
+          
         } else {
           console.error('Failed to update lineup and formation in the database:', response.statusText);
         }
@@ -244,7 +242,7 @@ useEffect(() => {
 
     
         const handleFormationChange = (e) => {
-          console.log("hi from edit field");
+      
           if (!blockChanges) {
             if (changeCount < 2) {
               const changedFormation = e.target.value;
@@ -269,9 +267,7 @@ useEffect(() => {
                 default:
                   newFormation = ["GK", "DEF", "DEF", "DEF", "DEF", "MID", "MID", "MID", "FWD", "FWD", "FWD"]; // Default to 4-3-3
               }
-           
-              console.log("currentFormaiton: ", currentFormation);
-
+    
               let oldFormation;
 
              
@@ -418,10 +414,6 @@ useEffect(() => {
                 newPositionsToCheck.push({ position: 'FWD', count: fwdDifference });
               }
               
-              console.log('new Positions to check:', newPositionsToCheck);
-              console.log("copy: ", positionsToCheckCopy);
-              console.log(playerLineup);
-
               const newPlayerLineup = playerLineup.filter(player => {
                 let found = false;
                 positionsToCheckCopy.forEach(pos => {
@@ -445,8 +437,6 @@ useEffect(() => {
                 }
               });
         
-              console.log("newPlayerLineupo: ", newPlayerLineup);
-  
               setPlayerLineup(newPlayerLineup)
               // If all positions are checked, allow formation change
               setFormation(newFormation);
@@ -548,7 +538,7 @@ if (playerLineup.length === 0) {
                     value={selectedFormation} // This binds the dropdown to selectedFormation
                     onChange={(e) => {
                         const changedFormation = e.target.value;
-                        console.log("Changed formation to:", changedFormation);
+         
                         setSelectedFormation(changedFormation); // Update selectedFormation state
                         handleFormationChange(e); // Call your formation change handler
                     }}

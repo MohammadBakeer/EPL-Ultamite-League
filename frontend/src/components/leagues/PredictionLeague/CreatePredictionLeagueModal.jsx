@@ -11,9 +11,6 @@ const CreateLeagueModal = ({ onClose, selectedBadge }) => {
   const [roundNum, setRoundNum] = useState(null)
   const [blockChanges, setBlockChanges] = useState(false)
 
-  console.log(roundNum);
-  console.log(blockChanges);
-  
   const decodedToken = decodeJWT();
   const userId = decodedToken.userId;
 
@@ -84,7 +81,6 @@ const CreateLeagueModal = ({ onClose, selectedBadge }) => {
       );
 
       onClose(true); 
-      console.log(response.data.message);
     
     } catch (error) {
       console.error('Error creating league:', error.message);

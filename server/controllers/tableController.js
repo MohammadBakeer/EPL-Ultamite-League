@@ -131,7 +131,6 @@ export const storeRoundPoints = async (req, res) => {
           `INSERT INTO player_rounds (first_name, last_name, round_num, round_points) VALUES ($1, $2, $3, $4)`,
           [firstName, lastName, roundNum, roundPoints]
         );
-        console.log(`Inserted new round points for ${firstName} ${lastName}`);
       }
     }
 

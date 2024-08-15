@@ -20,11 +20,12 @@ export const fetchRoundStatus = async () => {
     }));
   
     const sortedData = parsedData.sort((a, b) => a.name - b.name);
-     const currentRoundNum = await fetchRoundDBStatus(); // Await the asynchronous function call
 
-    await insertTeam(currentRoundNum);
+  await storeRoundStatus(sortedData); // Wait for this to complete first
 
-   // await storeRoundStatus(sortedData);
+  const currentRoundNum = await fetchRoundDBStatus(); // Now fetch the round number
+
+  await insertTeam(currentRoundNum); // Finally insert the team
 
   } catch (error) {
     console.error('Error fetching data from the Fantasy Premier League API:', error.message);
@@ -32,7 +33,6 @@ export const fetchRoundStatus = async () => {
 };
 
 const storeRoundStatus = async (rounds) => {
-
     try {
       for (const round of rounds) {
         const query = `

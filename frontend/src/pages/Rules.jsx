@@ -29,6 +29,7 @@ const Rules = () => {
     <div>
       <Navbar />
       <div className='rules-container'>
+           {/* 
         <h2>Rules & FAQ</h2>
         <div className='mini-navbar'>
           {tabs.map(tab => (
@@ -112,13 +113,13 @@ const Rules = () => {
                 <section id='Budget-&-player-price-changes'>
                   <h3>Budget & player price changes</h3>
                   <p>A €100M budget is allotted to select all 15 players for a fantasy team.</p>
-
+  
                   <p>Budget and player prices may change after the start of season.</p>
-
+  
                   <p>Price changes will be determined according to the performance of the football players. Price changes will enter into force after Round 1. Price changes will be made every round. Changes may not apply to all player prices.</p>
-
+  
                   <p>Player prices will increase or decrease by €0.2 after each round. Threshold for maximum price is €15.0 and for minimum price is €3.0.</p>
-
+  
                   <p>Users will be able to benefit from budget surpluses (greater than €100M) as a result of price increases. Users will be liable for budget deficits (lower than €100M) as a result of price declines.</p>
                 </section>
                 <section id='Transfers-&-substitutions'>
@@ -175,108 +176,42 @@ const Rules = () => {
                         <td>2</td>
                       </tr>
                       <tr>
-                        <td>Minutes played <i>from 61 to 90</i></td>
+                        <td>Minutes played <i>more than 60</i></td>
                         <td>3</td>
                         <td>3</td>
                         <td>3</td>
                         <td>3</td>
                       </tr>
                       <tr>
-                        <td>Goals scored <i>from open play</i></td>
-                        <td>8</td>
-                        <td>7</td>
+                        <td>Goal</td>
+                        <td>5</td>
                         <td>6</td>
+                        <td>5</td>
+                        <td>4</td>
+                      </tr>
+                      <tr>
+                        <td>Assist</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>3</td>
                         <td>5</td>
                       </tr>
                       <tr>
-                        <td>Goals scored <i>from penalty</i></td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
+                        <td>Clean sheet</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td>0</td>
+                        <td>0</td>
                       </tr>
                       <tr>
-                        <td>Assists</td>
-                        <td>6</td>
-                        <td>4</td>
-                        <td>4</td>
-                        <td>4</td>
-                      </tr>
-                      <tr>
-                        <td>Penalties earned</td>
-                        <td>3</td>
-                        <td>3</td>
-                        <td>3</td>
-                        <td>3</td>
-                      </tr>
-                      <tr>
-                        <td>Shots on target
-                            (every 2)</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                      </tr>
-                      <tr>
-                        <td>Clean sheets <i>for every half-time</i></td>
-                        <td>3</td>
-                        <td>3</td>
-                        <td>1</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <td>Tackles/blocks/interceptions
-                        (every 3)</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <td>Saves from <i>open play
-                        (every 2)</i></td>
-                        <td>1</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <td>Saves <i>from penalty</i></td>
-                        <td>6</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <td>Goals conceded</td>
-                        <td>-1</td>
-                        <td>-1</td>
-                        <td>-</td>
-                        <td>-</td>
-                      </tr>
-                      <tr>
-                        <td>Own goals</td>
-                        <td>-5</td>
-                        <td>-5</td>
-                        <td>-5</td>
-                        <td>-5</td>
-                      </tr>
-                      <tr>
-                        <td>Penalties missed</td>
-                        <td>-3</td>
-                        <td>-3</td>
-                        <td>-3</td>
-                        <td>-3</td>
-                      </tr>
-                      <tr>
-                        <td>Yellow cards</td>
+                        <td>Yellow card</td>
                         <td>-1</td>
                         <td>-1</td>
                         <td>-1</td>
                         <td>-1</td>
                       </tr>
                       <tr>
-                        <td>Red cards</td>
+                        <td>Red card</td>
                         <td>-3</td>
                         <td>-3</td>
                         <td>-3</td>
@@ -285,54 +220,16 @@ const Rules = () => {
                     </tbody>
                   </table>
                 </section>
-                <section id='Results-update'>
-                  <h3>Results update</h3>
-                  <p>All of the player statistics will be verified and updated live.</p>
-                  <p>League rankings will be updated at the end of each day.</p>
-                </section>
-                <section id='Common-Leagues'>
-                  <h3>Common Leagues</h3>
-                  <p>Upon signing up, all teams will be automatically registered to:</p>
-                  <ul>
-                    <li>Season league</li>
-                    <li>Country league</li>
-                    <li>Round league</li>
-                    <li>Quad league (league created for 4 round segments)</li>
-                  </ul>
-                </section>
-                <section id='Private-Leagues'>
-                  <h3>Private Leagues</h3>
-                  <p>Up to 10 Private Leagues can be created by users in which they become a member immediately.</p>
-                  <p>Each Private League is assigned an auto generated league code that can be shared with prospective league members.</p>
-                  <p>Additionally, 10 Private Leagues can be joined by users in which they become a member immediately.</p>
-                  <p>There is no limit on the number of users in Private leagues.</p>
-                  <p>The creator of Private league is entitled to delete the league.</p>
-                </section>
-                {/* Add more sections here for the "Rules" tab */}
               </>
-            )}
-            {currentTab === 'FAQ' && (
-              <section id='General-Questions'>
-                <h3>General Questions</h3>
-                <h4>Will there be adjustments in football player prices during the season?</h4>
-                <p>Some player prices may change after Round 4 based on their performances. After this, price changes will be made every round.</p>
-                <h4>What is meant by Quad league?</h4>
-                <p>Quad is a sum of 4 rounds. It has a separate league table. A new Quad league begins every 4 rounds. A total of 9 Quad leagues are played during the season.</p>
-                <h4>Is it allowed to have more than 2 players from the same football club?</h4>
-                <p>It is technically possible, if the user chooses not to make any transfers until the end of the season.</p>
-                <p>During the actual transfer window, there could be players who switch clubs within Serie A. As a result, a user that has already created a team, may automatically have more than 2 players from the same club. However, users will be required to comply with the two-players-per-team rule, when they are going to make their next transfers in the game.</p>
-                <h4>How to change captain and vice-captain?</h4>
-                <p>Users should click on the "C" icon on the upper left corner of the pitch on Team - Next Round page. Then they should click on the player they want to assign as the team's captain. The same is applicable to vice-captain which could be activated with "V" icon.</p>
-                <h4>How to make substitutions?</h4>
-                <p>Substitutions can be made on the Team - Next Round page by dragging & dropping the players that a user chooses to switch.</p>
-                {/* Add more content here for the "FAQ" tab */}
-              </section>
-            )}
+            )} 
           </div>
         </div>
+        */}
       </div>
+      <h2>Rules Coming Soon</h2>
     </div>
   );
+  
 };
 
 export default Rules;

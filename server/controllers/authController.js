@@ -99,7 +99,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log('Verification email sent to:', email);
+
     return `Verification email sent to: ${email}. Check your SPAM`;
   } catch (error) {
     console.error('Error sending verification email:', error.message);
@@ -110,7 +110,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
 
 
 export const register = async (req, res) => {
-console.log("register");
+
   try {
     const { email, password, teamName } = req.body;
 
@@ -120,7 +120,7 @@ console.log("register");
     }
 
     const emailResult = await db.query('SELECT * FROM users WHERE email = $1', [email]);
-    console.log(emailResult);
+  
     if (emailResult.rows.length > 0) {
       const userData = emailResult.rows[0];
 
@@ -129,7 +129,7 @@ console.log("register");
         return res.status(400).json({ error: 'Email already has an account.' });
       } else {
         // Email exists but is not verified, proceed with registration
-        console.log('Email exists but is not verified. Proceeding with registration.');
+       
       }
     }
 
@@ -150,7 +150,7 @@ console.log("register");
       const currentTime = new Date();
     
     if (verificationAttemptsResult.rows.length === 0) {
-      console.log(teamName);
+    
 
       await db.query(
         'INSERT INTO users (email, team_name, attempt_count, attempt_time, password) VALUES ($1, $2, $3, $4, $5)',

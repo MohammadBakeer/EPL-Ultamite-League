@@ -73,7 +73,7 @@ const Leaderboard = () => {
       });
       
       if (response.data.message === 'No leagues found for this user.') {
-        console.log('No leagues found for this user.');
+      
         setPrivateLeagues([]); // Set empty array or handle as needed
        
       } else {

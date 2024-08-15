@@ -94,7 +94,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
         });
   
         if (response.status === 200) {
-          console.log('Card choice saved successfully.');
+
        
         } else {
           console.warn('Failed to save card choice.');
@@ -121,7 +121,6 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
         });
   
         if (response.status === 200) {
-          console.log('Prediction deleted successfully');
           
           setIsPredicted(false);
           setTeam1Score('');
@@ -182,7 +181,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
       });
   
       if (response.status === 200) {
-        console.log('Prediction has been saved.');
+     
          if (predictionOption === "allow_any" ) {
         setAnyPrivateGames(true);
       }

@@ -30,8 +30,6 @@ const JoinLeagueModal = ({ onClose,  onUpdateLeagues }) => {
         }
       );
 
-      console.log(response.data.message);
-
       onUpdateLeagues(response.data)
       onClose(true); 
     } catch (error) {

@@ -104,7 +104,7 @@ const Edit = () => {
             }
           }
         );
-   console.log(response.data);
+ 
         setTeamName(response.data.teamName);
       } catch (error) {
         console.error('Error fetching team name:', error.message);
