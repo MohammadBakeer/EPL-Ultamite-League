@@ -1,10 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import jwt from 'jsonwebtoken';
-import db from './config/db.js';
-import config from './config/config.js';
-import './services/cron.js';
+import jwt from 'jsonwebtoken'; // Ensure you import jwt for token verification
+import db from './config/db.js'; // Import your database configuration
+import config from './config/config.js'; // Import your configuration file
+import './services/cron.js'; // Your cron job service
 import authRouter from './routes/authRoutes.js';
 import fieldRouter from './routes/fieldRoutes.js';
 import tableRouter from './routes/tableRoutes.js';
@@ -13,34 +13,19 @@ import pagesRouter from './routes/pagesRoutes.js';
 import privatePredictions from './routes/privatePredictionRoutes.js';
 import globalPredictions from './routes/globalPredictionRoutes.js';
 import fantasyPrivateLeague from './routes/fantasyLeagueRoutes.js';
-import scheduleRouter from './routes/scheduleRoutes.js';
-import profileRouter from './routes/profileRoutes.js';
+import scheduleRouter from './routes/scheduleRoutes.js'
+import profileRouter from './routes/profileRoutes.js'
 import tokenRouter from './routes/tokenRoutes.js';
 import bodyParser from 'body-parser';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import cookieParser from 'cookie-parser';
-import https from 'https';
-import fs from 'fs';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Define __dirname manually
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
-// Path to SSL certificate and key files
-const sslOptions = {
-  key: fs.readFileSync(path.resolve(__dirname, '../localhost.key')),
-  cert: fs.readFileSync(path.resolve(__dirname, '../localhost.cert')),
-};
 
 // Middleware setup
-app.use(cookieParser());
-app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.json({ limit: '10mb' })); // Adjust limit as per your needs
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
 app.use(cors());
 app.use(express.json());
 
@@ -80,18 +65,22 @@ app.use('/api', tokenRouter);
 
 // Email verification route
 app.get('/verify-email', async (req, res) => {
-  const { token } = req.query;
 
+  const { token } = req.query; // Extract the token from the query parameters
+  
   if (!token) {
     return res.status(400).json({ error: 'No token provided' });
   }
 
   try {
+    // Verify the token
     const decoded = jwt.verify(token, config.jwtSecret);
     const { email } = decoded;
 
+    // Update the user's email verification status in the database
     await db.query('UPDATE users SET email_verified = true WHERE email = $1', [email]);
 
+    // Respond to the user (e.g., redirect to a login page or display a success message)
     res.status(200).send('Email verification successful! Go back to the sign up screen');
   } catch (error) {
     console.error('Error verifying email:', error.message);
@@ -99,7 +88,7 @@ app.get('/verify-email', async (req, res) => {
   }
 });
 
-// Start the HTTPS server
-https.createServer(sslOptions, app).listen(port, () => {
-  console.log(`Https Server is running on https://localhost:${port}`);
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
