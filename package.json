@@ -7,7 +7,7 @@
     "type": "module",
     "scripts": {
         "start": "concurrently \"npm run start-server\" \"npm run start-frontend\"",
-        "start-server": "nodemon server/index.js",
+        "start-server": "node index.js",
         "start-frontend": "vite --config frontend/vite.config.js --force",
         "dev": "vite --config frontend/vite.config.js --force",
         "build": "vite build --config frontend/vite.config.js",
