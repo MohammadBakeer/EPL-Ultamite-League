@@ -148,9 +148,7 @@ export const calculatePoints = async (table) => {
       default:
           break;
     }
-
-    points += 4;
-
+    
     player.points = points;
   });
 
