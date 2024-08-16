@@ -7,7 +7,7 @@ const fetchRoundDBStatus = async () => {
     const response = await fetch('https://epl-ultamite-league-production.up.railway.app/api/getRoundDBStatus', {
       method: 'GET',
     });
-
+    console.log("from points: ",response);
     if (!response.ok) throw new Error(`HTTP error! Status from points: ${response.status}`);
     const data = await response.json();
   
