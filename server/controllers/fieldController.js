@@ -71,7 +71,7 @@ export const updateLineup = async (req, res) => {
     try {
       const query = 'SELECT * FROM round_status;';
       const result = await db.query(query);
-    
+    console.log(result);
       // Check if data was retrieved
       if (result.rows.length === 0) {
         return res.status(404).json({ message: 'No round status found.' });
