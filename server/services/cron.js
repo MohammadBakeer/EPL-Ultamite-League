@@ -10,7 +10,7 @@ import { fetchRoundStatus } from './CronFunctions/roundTracker.js'
 
 const fetchRoundDBStatus = async () => {
   try {
-    const response = await fetch('https://epl-ultimate-league-production.up.railway.app/api/getRoundDBStatus', {
+    const response = await fetch('https://epl-ultamite-league-production.up.railway.app/api/getRoundDBStatus', {
       method: 'GET',
     });
 
