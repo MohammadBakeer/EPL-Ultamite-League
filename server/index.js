@@ -29,7 +29,7 @@ const __dirname = dirname(__filename);
 
 
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'https://ultimatefpleague.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
@@ -37,9 +37,9 @@ const corsOptions = {
 // Middleware setup
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
 app.use(cors(corsOptions)); // Apply CORS middleware with options
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
 
 
 // Token update route
