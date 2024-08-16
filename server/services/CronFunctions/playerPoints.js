@@ -20,7 +20,7 @@ const fetchRoundDBStatus = async () => {
 
     return currentRound;
   } catch (error) {
-    console.error('Error fetching round status from the database:', error.message);
+    console.error('Error fetching round status from the database from points:', error.message);
   }
 };
 
@@ -66,7 +66,7 @@ const calculateRoundPoints = async (table) => {
 
   
   try {
-    const response = await axios.get0('https://epl-ultamite-league-production.up.railway.app/api/getPrevTotal', {
+    const response = await axios.get('https://epl-ultamite-league-production.up.railway.app/api/getPrevTotal', {
      
     });
 

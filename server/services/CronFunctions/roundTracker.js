@@ -101,7 +101,7 @@ const fetchRoundDBStatus = async () => {
 
     return currentRound;
   } catch (error) {
-    console.error('Error fetching round status from the database:', error.message);
+    console.error('Error fetching round status from the database from round tracker:', error.message);
   }
 };
 
