@@ -2,12 +2,12 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  root: 'frontend',  // Set the root directory
+  root: '.',  // Vite will use the current directory as the root
   plugins: [react()],
   build: {
-    outDir: '../dist',  // Output directory for the build
+    outDir: 'dist',  // Output directory for the build
   },
   server: {
-    port: process.env.PORT || 5173,  // Use the port from environment variable or fallback to 5173
+    port: process.env.PORT || 5173,  // Port for local development
   },
 });
