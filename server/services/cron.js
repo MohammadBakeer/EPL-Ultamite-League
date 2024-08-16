@@ -62,8 +62,6 @@ const fetchRoundLive = async () => {
       }
     }
 
-    console.log(`Current Round: ${currentRound}, Round Live: ${roundLive}`);
-
     return { currentRound, roundLive };
   } catch (error) {
     console.error('Error fetching round status from the database:', error.message);
@@ -134,15 +132,14 @@ cron.schedule('*/60 * * * * *', buildPlayerData);
 
 cron.schedule('0 */6 * * *', fetchRoundStatus);
 
-cron.schedule('*/5 * * * *', async () => {
-  const { currentRound, roundLive } = await fetchRoundLive();
-  if (roundLive) {
-    console.log('Round is live. Tracking live games...');
-    liveGameTracker(currentRound);
-  } else {
-    console.log('No live round.');
-  }
-});
+// cron.schedule('*/20 * * * * *', async () => {
+//   const { currentRound, roundLive } = await fetchRoundLive();
+//   if (roundLive) {
+//     console.log('Round is live. Tracking live games...');
+//     liveGameTracker(currentRound);
+//   } else {
+//     console.log('No live round.');
+// });
 
 
 // Fetch Live updates cron will be set to run every 5 minutes once blockChanges is true and then when Live is true it will run every 10 seconds. Once no lives it will go 
