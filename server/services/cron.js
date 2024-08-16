@@ -87,7 +87,6 @@ async function buildPlayerData(){
   await fetchData();
   const currentRound = await fetchRoundDBStatus();
 
-  console.log("current Round: ",currentRound);
   teamRoundPoints(currentRound);
 }
 

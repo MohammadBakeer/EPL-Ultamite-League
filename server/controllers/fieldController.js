@@ -67,7 +67,7 @@ export const updateLineup = async (req, res) => {
 
  
   export const getRoundStatus = async (req, res) => {
-    console.log("hello from field");
+
     try {
       const query = 'SELECT * FROM round_status;';
       const result = await db.query(query);
