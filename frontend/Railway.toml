@@ -1,0 +1,13 @@
+# Railway.toml
+
+
+[build]
+  # Build the frontend application
+  [build.frontend]
+    path = "./frontend"
+    build = "npm install && npm run build"
+
+[deploy]
+  # Deploy the frontend application
+  [deploy.frontend]
+    path = "./frontend/build"

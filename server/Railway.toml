@@ -1,0 +1,11 @@
+# Railway.toml
+
+  # Build the server application
+  [build.server]
+    path = "./server"
+    build = "npm install"
+  
+  # Deploy the backend application
+  [deploy.server]
+    path = "./server"
+    start_command = "node index.js"
