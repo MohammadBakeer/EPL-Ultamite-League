@@ -63,7 +63,7 @@ const storeRoundStatus = async (rounds) => {
   const insertTeam = async (currentRoundNum) => {
 
     try {
-      const response = await fetch('http://localhost:3000/api/insertTeamTracker', {
+      const response = await fetch('https://epl-ultimate-league-production.up.railway.app/api/insertTeamTracker', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const storeRoundStatus = async (rounds) => {
   // Function to fetch round status from the database
   const fetchRoundDBStatus = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+      const response = await fetch('https://epl-ultimate-league-production.up.railway.app/api/getRoundDBStatus', {
         method: 'GET',
       });
   
