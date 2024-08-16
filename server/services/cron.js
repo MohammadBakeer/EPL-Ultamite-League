@@ -50,51 +50,43 @@ const mapPosition = (positionId) => {
 async function buildPlayerData(){
   const fetchData = async () => {
     try {
-       
-        const playerResponse = await fetch('http://localhost:3000/api/playerNames', {
-          
-        });
-        const playerData = await playerResponse.json();
-       
-        const teamResponse = await fetch('http://localhost:3000/api/teams', {
-            
-        });
-        const teamData = await teamResponse.json();
+      const playerResponse = await fetch('https://epl-ultimate-league-production.up.railway.app/api/playerNames');
+      const playerData = await playerResponse.json();
 
-        const updatedTable = playerData.playerNames.map((player) => {
-            const { firstName, lastName, teamId, positionId, ...stats } = player;
-            const matchingTeam = teamData.team.find((team) => team.id === teamId);
-               
-            if (matchingTeam) {
-                return {
-                    firstName,
-                    lastName,
-                    club: matchingTeam.club,
-                    position: mapPosition(positionId),
-                    price: '',
-                    points: '',
-                    roundPoints: 0, 
-                    ...stats,
-                };
-            } else {
-                console.warn(`No matching team found for player with teamId ${teamId}`);
-                return null;
-            }
-        });
+      const teamResponse = await fetch('https://epl-ultimate-league-production.up.railway.app/api/teams');
+      const teamData = await teamResponse.json();
 
-        calculatePoints(updatedTable)
+      const updatedTable = playerData.playerNames.map((player) => {
+        const { firstName, lastName, teamId, positionId, ...stats } = player;
+        const matchingTeam = teamData.team.find((team) => team.id === teamId);
 
+        if (matchingTeam) {
+          return {
+            firstName,
+            lastName,
+            club: matchingTeam.club,
+            position: mapPosition(positionId),
+            price: '',
+            points: '',
+            roundPoints: 0,
+            ...stats,
+          };
+        } else {
+          console.warn(`No matching team found for player with teamId ${teamId}`);
+          return null;
+        }
+      });
+
+      calculatePoints(updatedTable);
     } catch (error) {
-        console.error('Error fetching data:', error.message);
+      console.error('Error fetching data:', error.message);
     }
-};
+  };
 
-
-fetchData();
-const currentRound = await fetchRoundDBStatus()
-teamRoundPoints(currentRound)
+  await fetchData();
+  const currentRound = await fetchRoundDBStatus();
+  teamRoundPoints(currentRound);
 }
-
 
 
 cron.schedule('*/60 * * * * *', buildPlayerData);
