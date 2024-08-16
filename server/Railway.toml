@@ -1,11 +1,19 @@
 # Railway.toml
 
-  # Build the server application
-  [build.server]
-    path = "./server"
-    build = "npm install"
-  
-  # Deploy the backend application
-  [deploy.server]
-    path = "./server"
-    start_command = "node index.js"
+# Use Nixpacks to build the project
+[build]
+builder = "NIXPACKS"
+
+# Specify the root directory where package.json is located
+# This is where all dependencies are installed
+context = "./server"
+
+# Define the build steps for the server application
+[build.server]
+path = "./server"
+build_command = "npm install"
+
+# Define the deployment process for the backend
+[deploy.server]
+path = "./server"
+start_command = "node index.js"
