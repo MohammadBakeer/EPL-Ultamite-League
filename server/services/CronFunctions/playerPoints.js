@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 const fetchRoundDBStatus = async () => {
+  console.log("from points");
   try {
     const response = await fetch('https://epl-ultamite-league-production.up.railway.app/api/getRoundDBStatus', {
       method: 'GET',

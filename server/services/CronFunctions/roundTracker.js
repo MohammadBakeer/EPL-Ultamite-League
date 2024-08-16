@@ -83,6 +83,7 @@ const insertTeam = async (currentRoundNum) => {
 
 // Function to fetch round status from the database
 const fetchRoundDBStatus = async () => {
+  console.log("from tracker");
   try {
     const response = await fetch('https://epl-ultamite-league-production.up.railway.app/api/getRoundDBStatus', {
       method: 'GET',

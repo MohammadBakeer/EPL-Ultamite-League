@@ -11,7 +11,7 @@ const fetchRoundDBStatus = async () => {
         method: 'GET',
       });
   
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.ok) throw new Error(`HTTP error! Status from games: ${response.status}`);
       const data = await response.json();
     
       const finishedRounds = data
