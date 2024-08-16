@@ -1,32 +1,21 @@
 import axios from 'axios';
-import db from '../../config/db.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
+export const liveGameTracker = async () => {
+  const url = `https://api.sportmonks.com/v3/football/livescores/latest?api_token=${process.env.SPORTMONKS_API_TOKEN}&include=scores`;
 
-const fetchRoundDBStatus = async () => {
-    try {
-      const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundDBStatus', {
-        method: 'GET',
-      });
-  
-      if (!response.ok) throw new Error(`HTTP error! Status from games: ${response.status}`);
-      const data = await response.json();
-    
-      const finishedRounds = data
-        .filter(round => round.finished) // Filter objects with finished as true
-        .map(round => round.round_num); // Map to round_num
-  
-      // Find the maximum round_num
-      const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
-      const currentRound = maxRoundNum + 1; // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
-  
-      return currentRound;
-    } catch (error) {
-      console.error('Error fetching round status from the database:', error.message);
-    }
-  };
+  try {
+    // Make the API request
+    const response = await axios.get(url);
 
+    // Log the response data
+    console.log('Live Game Data:', response.data);
 
-//This is where live data will come from sports monks
+    // You can add more logic here to process the live game data
+  } catch (error) {
+    // Handle any errors that occur during the API call
+    console.error('Error fetching live game data:', error.message);
+  }
+};

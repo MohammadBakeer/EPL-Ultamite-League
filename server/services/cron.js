@@ -6,6 +6,8 @@ import cron from 'node-cron';
 import { calculatePoints } from './CronFunctions/playerPoints.js';
 import { teamRoundPoints } from './CronFunctions/matchingRoundPoints.js'
 import { fetchRoundStatus } from './CronFunctions/roundTracker.js'
+import { liveGameTracker } from './CronFunctions/gameTracker.js';
+
 
 
 const fetchRoundDBStatus = async () => {
@@ -26,6 +28,43 @@ const fetchRoundDBStatus = async () => {
     const currentRound = maxRoundNum + 1; // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
 
     return currentRound;
+  } catch (error) {
+    console.error('Error fetching round status from the database:', error.message);
+  }
+};
+
+const fetchRoundLive = async () => {
+  try {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundDBStatus', {
+      method: 'GET',
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const data = await response.json();
+
+    const finishedRounds = data
+      .filter(round => round.finished)
+      .map(round => round.round_num);
+
+    const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
+    const currentRound = maxRoundNum + 1;
+
+    const currentRoundObject = data.find(round => round.round_num === currentRound);
+    const currentDate = new Date();
+    let roundLive = false;
+
+    if (currentRoundObject) {
+      const { is_current, start_date, finished } = currentRoundObject;
+      const startDate = new Date(start_date);
+
+      if (is_current || (startDate <= currentDate && !finished)) {
+        roundLive = true;
+      }
+    }
+
+    console.log(`Current Round: ${currentRound}, Round Live: ${roundLive}`);
+
+    return { currentRound, roundLive };
   } catch (error) {
     console.error('Error fetching round status from the database:', error.message);
   }
@@ -94,6 +133,16 @@ async function buildPlayerData(){
 cron.schedule('*/60 * * * * *', buildPlayerData);
 
 cron.schedule('0 */6 * * *', fetchRoundStatus);
+
+cron.schedule('*/5 * * * *', async () => {
+  const { currentRound, roundLive } = await fetchRoundLive();
+  if (roundLive) {
+    console.log('Round is live. Tracking live games...');
+    liveGameTracker(currentRound);
+  } else {
+    console.log('No live round.');
+  }
+});
 
 
 // Fetch Live updates cron will be set to run every 5 minutes once blockChanges is true and then when Live is true it will run every 10 seconds. Once no lives it will go 
