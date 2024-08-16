@@ -60,7 +60,7 @@ const storeRoundStatus = async (rounds) => {
 
 const insertTeam = async (currentRoundNum) => {
   try {
-    const response = await fetch('https://epl-ultimate-league-production.up.railway.app/api/insertTeamTracker', {
+    const response = await fetch('https://epl-ultamite-league-production.up.railway.app/api/insertTeamTracker', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ const insertTeam = async (currentRoundNum) => {
 // Function to fetch round status from the database
 const fetchRoundDBStatus = async () => {
   try {
-    const response = await fetch('https://epl-ultimate-league-production.up.railway.app/api/getRoundDBStatus', {
+    const response = await fetch('https://epl-ultamite-league-production.up.railway.app/api/getRoundDBStatus', {
       method: 'GET',
     });
 
@@ -104,3 +104,4 @@ const fetchRoundDBStatus = async () => {
     console.error('Error fetching round status from the database:', error.message);
   }
 };
+
