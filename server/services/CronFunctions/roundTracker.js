@@ -99,7 +99,7 @@ const fetchRoundDBStatus = async () => {
     // Find the maximum round_num
     const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
     const currentRound = maxRoundNum + 1; // Set roundNum to maxRoundNum + 1 or 1 if no finished rounds are found
-
+    console.log(currentRound);
     return currentRound;
   } catch (error) {
     console.error('Error fetching round status from the database from round tracker:', error.message);
