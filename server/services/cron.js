@@ -48,7 +48,7 @@ const mapPosition = (positionId) => {
 };
 
 async function buildPlayerData(){
-  console.log(" hi current round");
+  
   const fetchData = async () => {
     try {
       const playerResponse = await fetch('https://epl-ultamite-league-production.up.railway.app/api/playerNames');
