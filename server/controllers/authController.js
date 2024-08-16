@@ -84,7 +84,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
     subject: 'Email Verification',
     html: `
       <p>Please verify your email by clicking the button below:</p>
-      <a href="http://localhost:3000/verify-email.html?token=${verificationToken}" 
+      <a href="https://epl-ultamite-league-production.up.railway.app/verify-email.html?token=${verificationToken}" 
          style="display: inline-block; 
                 padding: 10px 20px; 
                 font-size: 16px; 
@@ -242,7 +242,7 @@ export const login = async (req, res) => {
 
   const fetchRoundDBStatus = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+      const response = await fetch('https://epl-ultamite-league-production.up.railway.app/http:/localhost:/api/getRoundDBStatus', {
         method: 'GET',
       });
   

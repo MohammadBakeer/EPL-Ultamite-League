@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const fetchRoundDBStatus = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+    const response = await fetch('https://epl-ultamite-league-production.up.railway.app/api/getRoundDBStatus', {
       method: 'GET',
     });
 
@@ -28,7 +28,7 @@ const fetchRoundDBStatus = async () => {
 const storeTotalPoints = async (table) => {
 
   try {
-    const response = await axios.post('http://localhost:3000/api/storeTotalPoints', {
+    const response = await axios.post('https://epl-ultamite-league-production.up.railway.app/api/storeTotalPoints', {
       table,
     }, {
       headers: {
@@ -45,7 +45,7 @@ const storeTotalPoints = async (table) => {
 const storeRoundPoints = async (roundPoints, roundNum) => {
 
   try {
-    const response = await axios.post('http://localhost:3000/api/storeRoundPoints', {
+    const response = await axios.post('https://epl-ultamite-league-production.up.railway.app/api/storeRoundPoints', {
       roundPoints,
       roundNum
     }, {
@@ -66,7 +66,7 @@ const calculateRoundPoints = async (table) => {
 
   
   try {
-    const response = await axios.get('http://localhost:3000/api/getPrevTotal', {
+    const response = await axios.get0('https://epl-ultamite-league-production.up.railway.app/api/getPrevTotal', {
      
     });
 

@@ -7,7 +7,7 @@ dotenv.config();
 
 const fetchRoundDBStatus = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+      const response = await fetch('https://epl-ultamite-league-production.up.railway.app/api/getRoundDBStatus', {
         method: 'GET',
       });
   
