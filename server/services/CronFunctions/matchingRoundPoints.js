@@ -63,7 +63,7 @@ export const teamRoundPoints = async (currentRound) => {
   try {
   
     // Make a GET request to the fetchPlayerRounds endpoint with currentRound as a query parameter
-    const response = await axios.get(`https://epl-ultamite-league-production.up.railway.app/api/fetchPlayerRounds/${currentRound}`, {
+    const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/fetchPlayerRounds/${currentRound}`, {
       headers: {
         'Content-Type': 'application/json',
       }

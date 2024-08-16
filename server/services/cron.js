@@ -10,7 +10,7 @@ import { fetchRoundStatus } from './CronFunctions/roundTracker.js'
 
 const fetchRoundDBStatus = async () => {
   try {
-    const response = await fetch('https://epl-ultamite-league-production.up.railway.app/api/getRoundDBStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundDBStatus', {
       method: 'GET',
     });
 
@@ -51,10 +51,10 @@ async function buildPlayerData(){
   
   const fetchData = async () => {
     try {
-      const playerResponse = await fetch('https://epl-ultamite-league-production.up.railway.app/api/playerNames');
+      const playerResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/api/playerNames');
       const playerData = await playerResponse.json();
 
-      const teamResponse = await fetch('https://epl-ultamite-league-production.up.railway.app/api/teams');
+      const teamResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/api/teams');
       const teamData = await teamResponse.json();
 
       const updatedTable = playerData.playerNames.map((player) => {
