@@ -7,9 +7,9 @@
     path = "./frontend"
     build = "npm install && npm run build"
 
-  # Build the backend application
-  [build.backend]
-    path = "./backend"
+  # Build the server application
+  [build.server]
+    path = "./server"
     build = "npm install"
 
 # This section defines the deployment settings for your frontend and backend.
@@ -17,9 +17,8 @@
   # Deploy the frontend application
   [deploy.frontend]
     path = "./frontend/build"
-    build_command = "npm run build"
   
   # Deploy the backend application
-  [deploy.backend]
-    path = "./backend"
-    build_command = "npm run start-server"
+  [deploy.server]
+    path = "./server"
+    start_command = "node index.js"
