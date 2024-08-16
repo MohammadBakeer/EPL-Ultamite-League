@@ -8,6 +8,6 @@ export default defineConfig({
     outDir: '../dist',  // Output directory for the build
   },
   server: {
-    port: 5173,  // Port on which Vite will run
+    port: process.env.PORT || 5173,  // Use the port from environment variable or fallback to 5173
   },
 });
