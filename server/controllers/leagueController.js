@@ -1,5 +1,5 @@
 
-import { decodeJWT } from '../config/jwtUtils.js';
+import { decodeJWT } from '../jwtUtils.js';
 import db from '../config/db.js';
 import config from '../config/config.js';
 import jwt from 'jsonwebtoken';
