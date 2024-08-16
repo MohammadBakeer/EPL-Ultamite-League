@@ -1,13 +1,10 @@
-# Railway.toml
-
-
 [build]
   # Build the frontend application
   [build.frontend]
-    path = "./frontend"
-    build = "npm install && npm run build"
+    path = "."  # This path should be the current directory (frontend folder)
+    build = "npm install && npm run build"  # Command to install dependencies and build the app
 
 [deploy]
   # Deploy the frontend application
   [deploy.frontend]
-    path = "./frontend/build"
+    path = "./dist"  # This path should be relative to the frontend folder
