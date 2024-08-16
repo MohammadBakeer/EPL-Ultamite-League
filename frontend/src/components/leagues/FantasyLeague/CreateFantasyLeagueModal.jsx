@@ -22,7 +22,7 @@ const CreateLeagueModal = ({ onClose, selectedBadge, onUpdateLeagues }) => {
       const token = sessionStorage.getItem('authToken');
 
       const response = await axios.post(
-        'http://localhost:3000/api/createfantasyleague',
+        'https://epl-ultimate-league-server.up.railway.app/api/createfantasyleague',
         {
           leagueName,
           ownerId: userId,

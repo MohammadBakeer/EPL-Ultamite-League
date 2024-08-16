@@ -16,7 +16,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 
   const fetchMatchPredictions = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/getRoundPredictions/${roundNum}`, {
+      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/getRoundPredictions/${roundNum}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -68,7 +68,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
     }
     try {
       if (isPredicted) {
-        const response = await axios.delete(`http://localhost:3000/api/deleteGlobalPredictions/${gameId}`, {
+        const response = await axios.delete(`https://epl-ultimate-league-server.up.railway.app/api/deleteGlobalPredictions/${gameId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -118,7 +118,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
   
     try {
       // Send the scores to the server
-      const response = await axios.post('http://localhost:3000/api/storeGlobalPredictions', {
+      const response = await axios.post('https://epl-ultimate-league-server.up.railway.app/api/storeGlobalPredictions', {
         team1Score: parsedTeam1Score,
         team2Score: parsedTeam2Score,
         roundNum,

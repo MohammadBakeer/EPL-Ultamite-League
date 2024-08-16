@@ -43,7 +43,7 @@ const PredictionLeague = () => {
       try {
         const token = sessionStorage.getItem('authToken');
         
-        const response = await axios.get('http://localhost:3000/api/fetchallglobalpredictions', {
+        const response = await axios.get('https://epl-ultimate-league-server.up.railway.app/api/fetchallglobalpredictions', {
           headers: {
             'Authorization': `Bearer ${token}` 
           }
@@ -69,7 +69,7 @@ const PredictionLeague = () => {
     try {
       const token = sessionStorage.getItem('authToken');
 
-      const response = await axios.get('http://localhost:3000/api/privateteamleagues', {
+      const response = await axios.get('https://epl-ultimate-league-server.up.railway.app/api/privateteamleagues', {
         headers: {
           'Authorization': `Bearer ${token}` 
         }
@@ -125,7 +125,7 @@ const PredictionLeague = () => {
 
  const handleTokenUpdate = async (newPayload) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/updatetoken', newPayload, {
+      const response = await axios.post('https://epl-ultimate-league-server.up.railway.app/api/updatetoken', newPayload, {
         headers: {
           'Authorization': `Bearer ${currentToken}`,
         },

@@ -33,7 +33,7 @@ function Rounds({ defaultExpanded, roundbarText, roundnum, onSchedulePage, games
     }
     try {
       const token = sessionStorage.getItem('authToken');
-      const response = await axios.get(`http://localhost:3000/api/getRoundGames/${roundNum}`, {
+      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/getRoundGames/${roundNum}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -49,7 +49,7 @@ function Rounds({ defaultExpanded, roundbarText, roundnum, onSchedulePage, games
       return
     }
     const token = sessionStorage.getItem('authToken');
-    const response = await fetch('http://localhost:3000/api/getRoundStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundStatus', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

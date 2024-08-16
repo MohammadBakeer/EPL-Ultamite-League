@@ -37,7 +37,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
   useEffect(() => {
     const fetchChosenGames = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/fetchChosenGames/${leagueId}/${roundNum}`, {
+        const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/fetchChosenGames/${leagueId}/${roundNum}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -82,7 +82,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
       setIsStarred(true); // Star the game
       setStarClicked(true);
       try {
-        const response = await axios.post('http://localhost:3000/api/storeChooseCard', {
+        const response = await axios.post('https://epl-ultimate-league-server.up.railway.app/api/storeChooseCard', {
           gameId,
           leagueId,
           roundNum
@@ -114,7 +114,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
     }
     try {
       if (isPredicted) {
-        const response = await axios.delete(`http://localhost:3000/api/deletePrivatePrediction/${gameId}/${leagueId}`, {
+        const response = await axios.delete(`https://epl-ultimate-league-server.up.railway.app/api/deletePrivatePrediction/${gameId}/${leagueId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -167,7 +167,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
     }
   
     try {
-      const response = await axios.post('http://localhost:3000/api/storePrivatePredictions', {
+      const response = await axios.post('https://epl-ultimate-league-server.up.railway.app/api/storePrivatePredictions', {
         team1Score: team1Score ? parseInt(team1Score) : null, // Allow null if not provided
         team2Score: team2Score ? parseInt(team2Score) : null, // Allow null if not provided
         roundNum,
@@ -202,7 +202,7 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
     const fetchMatchPredictions = async () => {
       
       try {
-        const response = await axios.get(`http://localhost:3000/api/getPrivateRoundPredictions/${roundNum}/${leagueId}`, {
+        const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/getPrivateRoundPredictions/${roundNum}/${leagueId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -254,7 +254,7 @@ useEffect(()=>{
     const token = sessionStorage.getItem('authToken');
   
     try {
-      const response = await axios.get(`http://localhost:3000/api/fetchOptionType/${leagueId}/${roundNum}`, {
+      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/fetchOptionType/${leagueId}/${roundNum}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -282,7 +282,7 @@ useEffect(()=>{
 useEffect(() => {
   const fetchAllMatchPredictions = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/getAllPrivateRoundPredictions/${roundNum}/${leagueId}`, {
+      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/getAllPrivateRoundPredictions/${roundNum}/${leagueId}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -36,7 +36,7 @@ const Field = ({ selectedPlayer, userId, viewId, isClearTeamRequested, onClearTe
 
   try {
     const token = sessionStorage.getItem('authToken');
-    const response = await fetch('http://localhost:3000/api/getUserLineup', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getUserLineup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ useEffect(() => {
       try {
         const token = sessionStorage.getItem('authToken');
    
-        const response = await fetch('http://localhost:3000/api/updateLineup', {
+        const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/updateLineup', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

@@ -13,7 +13,7 @@ const LoginCard = ({roundNum}) => {
 
   const loginVerification = async (teamData) => {
     try{
-      const response = await fetch('http://localhost:3000/auth/login', {
+      const response = await fetch('https://epl-ultimate-league-server.up.railway.app/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const LoginCard = ({roundNum}) => {
 
   const handleLogIn = async () => { 
     try {
-      const teamResponse = await fetch(`http://localhost:3000/auth/teamPresent/${email}`, {
+      const teamResponse = await fetch(`https://epl-ultimate-league-server.up.railway.app/auth/teamPresent/${email}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

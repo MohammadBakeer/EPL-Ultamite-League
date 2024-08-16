@@ -27,14 +27,14 @@ const Table = ({ onPlayerSelect, blockChanges, roundNum }) => {
             const token = sessionStorage.getItem('authToken');
           
            
-            const playerResponse = await fetch('http://localhost:3000/api/playerNames', {
+            const playerResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/playerNames', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
             });
             const playerData = await playerResponse.json();
 
-            const teamResponse = await fetch('http://localhost:3000/api/teams', {
+            const teamResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/api/teams', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

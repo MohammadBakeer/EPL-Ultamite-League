@@ -43,7 +43,7 @@ const PrivatePredictionLeague = () => {
   const fetchRoundStatus = async () => {
   
     const token = sessionStorage.getItem('authToken');
-    const response = await fetch('http://localhost:3000/api/getRoundStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundStatus', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -94,7 +94,7 @@ const PrivatePredictionLeague = () => {
 
     try {
         const response = await axios.get(
-            `http://localhost:3000/api/fetchSubmitStatus/${roundNum}/${leagueId}`,
+            `https://epl-ultimate-league-server.up.railway.app/api/fetchSubmitStatus/${roundNum}/${leagueId}`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
   const token = sessionStorage.getItem('authToken');
 
   try {
-    const response = await axios.get(`http://localhost:3000/api/fetchOptionType/${leagueId}/${roundNum}`, {
+    const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/fetchOptionType/${leagueId}/${roundNum}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -155,7 +155,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
     const token = sessionStorage.getItem('authToken');
   
     try {
-      const response = await axios.get(`http://localhost:3000/api/fetchLeagueCode/${leagueId}`, {
+      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/fetchLeagueCode/${leagueId}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -185,7 +185,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
     }
     const token = sessionStorage.getItem('authToken');
     try {
-      const response = await axios.post('http://localhost:3000/api/privateleaguepoints', { leagueId }, {
+      const response = await axios.post('https://epl-ultimate-league-server.up.railway.app/api/privateleaguepoints', { leagueId }, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -207,7 +207,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
     }
     const token = sessionStorage.getItem('authToken');
     try {
-      const response = await axios.get(`http://localhost:3000/api/checkIfOwner/${leagueId}`, {
+      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/checkIfOwner/${leagueId}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -260,7 +260,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
 
     const token = sessionStorage.getItem('authToken');
     try {
-      await axios.post('http://localhost:3000/api/storePrivatePredictionOption', {
+      await axios.post('https://epl-ultimate-league-server.up.railway.app/api/storePrivatePredictionOption', {
         leagueId,
         roundNum,
         predictionType: newPredictionOption
@@ -318,7 +318,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
   
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/saveSubmitStatus`,
+        `https://epl-ultimate-league-server.up.railway.app/api/saveSubmitStatus`,
         {
           leagueId,
           roundNum,
@@ -374,7 +374,7 @@ useEffect(()=>{
     const token = sessionStorage.getItem('authToken'); // Adjust based on how you store the token
 
     try {
-      const response = await axios.delete(`http://localhost:3000/api/deletePrivatePredictionLeague/${leagueId}`,
+      const response = await axios.delete(`https://epl-ultimate-league-server.up.railway.app/api/deletePrivatePredictionLeague/${leagueId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -407,7 +407,7 @@ useEffect(()=>{
     const token = sessionStorage.getItem('authToken'); // Get the token from session storage
   
     try {
-      const response = await axios.delete(`http://localhost:3000/api/leavepredictionleague/${leagueId}`, {
+      const response = await axios.delete(`https://epl-ultimate-league-server.up.railway.app/api/leavepredictionleague/${leagueId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

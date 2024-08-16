@@ -17,7 +17,7 @@ const JoinLeagueModal = ({ onClose }) => {
       const token = sessionStorage.getItem('authToken');
 
       const response = await axios.post(
-        'http://localhost:3000/api/joinleague',
+        'https://epl-ultimate-league-server.up.railway.app/api/joinleague',
         {
           userId,
           leagueCode,

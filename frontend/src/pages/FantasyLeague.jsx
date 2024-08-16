@@ -46,7 +46,7 @@ const Leaderboard = () => {
        const token = sessionStorage.getItem('authToken');
 
         // Make a GET request to fetch leaderboard data with authorization header
-        const response = await axios.get('http://localhost:3000/api/fetchglobalpoints', {
+        const response = await axios.get('https://epl-ultimate-league-server.up.railway.app/api/fetchglobalpoints', {
           headers: {
             'Authorization': `Bearer ${token}` // Pass the t oken in the Authorization header
           }
@@ -66,7 +66,7 @@ const Leaderboard = () => {
     try {
       const token = sessionStorage.getItem('authToken');
   
-      const response = await axios.get('http://localhost:3000/api/myfantasyleagues', {
+      const response = await axios.get('https://epl-ultimate-league-server.up.railway.app/api/myfantasyleagues', {
         headers: {
           'Authorization': `Bearer ${token}` 
         }
@@ -120,7 +120,7 @@ const Leaderboard = () => {
 
   const handleTokenUpdate = async (newPayload) => {
      try {
-       const response = await axios.post('http://localhost:3000/api/updatetoken', newPayload, {
+       const response = await axios.post('https://epl-ultimate-league-server.up.railway.app/api/updatetoken', newPayload, {
          headers: {
            'Authorization': `Bearer ${currentToken}`,
          },

@@ -106,7 +106,7 @@ export const calculatePlayerPrice = (table) => {
 export const updatePlayerPrices = async (playerData) => {
 
       const token = sessionStorage.getItem('authToken');
-      const response = await fetch('http://localhost:3000/api/playerPrices', {
+      const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/playerPrices', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

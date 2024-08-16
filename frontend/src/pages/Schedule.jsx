@@ -16,7 +16,7 @@ function Schedule() {
             return;
         }
         const token = sessionStorage.getItem('authToken');
-        const response = await fetch('http://localhost:3000/api/getRoundStatus', {
+        const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundStatus', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -55,7 +55,7 @@ function Schedule() {
     const fetchAllRoundGames = async () => {
         try {
             const token = sessionStorage.getItem('authToken');
-            const response = await axios.get('http://localhost:3000/api/getAllRoundGames', {
+            const response = await axios.get('https://epl-ultimate-league-server.up.railway.app/api/getAllRoundGames', {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

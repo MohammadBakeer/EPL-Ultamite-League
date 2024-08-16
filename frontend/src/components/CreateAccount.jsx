@@ -17,7 +17,7 @@ const CreateAccount = () => {
 
 
   const checkVerificationStatus = async (verificationToken, intervalId, timeoutId) => {
-    const response = await fetch('http://localhost:3000/auth/checkIfVerified', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/auth/checkIfVerified', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${verificationToken}`,
@@ -43,7 +43,7 @@ const CreateAccount = () => {
  const handleCreateAccount = async () => {
   
   try {
-    const response = await fetch('http://localhost:3000/auth/register', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

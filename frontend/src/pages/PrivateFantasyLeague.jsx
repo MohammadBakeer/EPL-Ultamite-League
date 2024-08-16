@@ -45,7 +45,7 @@ const PrivateFantasyLeague = () => {
 
   const fetchRoundStatus = async () => {
     const token = sessionStorage.getItem('authToken');
-    const response = await fetch('http://localhost:3000/api/getRoundStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundStatus', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -70,7 +70,7 @@ const PrivateFantasyLeague = () => {
   const fetchMembersTeams = async (memberIds, roundNum, startRound) => {
     const token = sessionStorage.getItem('authToken');
     try {
-      const response = await fetch(`http://localhost:3000/api/fetchMembersTeams`, {
+      const response = await fetch(`https://epl-ultimate-league-server.up.railway.app/api/fetchMembersTeams`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -91,7 +91,7 @@ const PrivateFantasyLeague = () => {
   const fetchPrivateFantasyLeague = async () => {
     const token = sessionStorage.getItem('authToken');
     try {
-      const response = await fetch(`http://localhost:3000/api/fetchPrivateFantasyLeague/${leagueId}`, {
+      const response = await fetch(`https://epl-ultimate-league-server.up.railway.app/api/fetchPrivateFantasyLeague/${leagueId}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -121,7 +121,7 @@ const PrivateFantasyLeague = () => {
     }
     const token = sessionStorage.getItem('authToken');
     try {
-      const response = await axios.get(`http://localhost:3000/api/checkIfFantasyOwner/${leagueId}`, {
+      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/checkIfFantasyOwner/${leagueId}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -172,7 +172,7 @@ const PrivateFantasyLeague = () => {
     const token = sessionStorage.getItem('authToken');
 
     try {
-      const response = await axios.delete(`http://localhost:3000/api/deleteFantasyLeague/${leagueId}`, {
+      const response = await axios.delete(`https://epl-ultimate-league-server.up.railway.app/api/deleteFantasyLeague/${leagueId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -205,7 +205,7 @@ const PrivateFantasyLeague = () => {
     const token = sessionStorage.getItem('authToken');
 
     try {
-      const response = await axios.delete(`http://localhost:3000/api/leavefantasyleague/${leagueId}`, {
+      const response = await axios.delete(`https://epl-ultimate-league-server.up.railway.app/api/leavefantasyleague/${leagueId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -231,7 +231,7 @@ const PrivateFantasyLeague = () => {
 
   const handleTokenUpdate = async (newPayload) => {
     try {
-      const response = await axios.post('http://localhost:3000/api/updatetoken', newPayload, {
+      const response = await axios.post('https://epl-ultimate-league-server.up.railway.app/api/updatetoken', newPayload, {
         headers: {
           'Authorization': `Bearer ${currentToken}`,
         },

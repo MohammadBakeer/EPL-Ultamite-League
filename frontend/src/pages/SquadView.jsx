@@ -31,7 +31,7 @@ const SquadView = () => {
   const fetchRoundStatus = async () => {
   
     const token = sessionStorage.getItem('authToken');
-    const response = await fetch('http://localhost:3000/api/getRoundStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundStatus', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -83,7 +83,7 @@ useEffect(() => {
 
       // Use a POST request to send viewId securely with Authorization header
       const response = await axios.post(
-        'http://localhost:3000/api/getTeamName',
+        'https://epl-ultimate-league-server.up.railway.app/api/getTeamName',
         { viewId }, // Request body
         {
           headers: {

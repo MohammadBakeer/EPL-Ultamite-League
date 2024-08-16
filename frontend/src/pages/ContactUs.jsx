@@ -60,7 +60,7 @@ const ContactUs = () => {
   
     try {
       const response = await axios.post(
-        'https://epl-ultamite-league-production.up.railway.app/api/sendContactEmail',
+        'https://epl-ultimate-league-server.up.railway.app/api/sendContactEmail',
         { name, email, message },
         {
           headers: {

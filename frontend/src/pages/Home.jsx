@@ -20,7 +20,7 @@ const Home = () => {
 
   const fetchRoundStatus = async () => {
     const token = sessionStorage.getItem("authToken");
-    const response = await fetch("http://localhost:3000/api/getRoundStatus", {
+    const response = await fetch("https://epl-ultimate-league-server.up.railway.app/api/getRoundStatus", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ const Home = () => {
       try {
         const token = sessionStorage.getItem("authToken");
         const response = await axios.post(
-          "http://localhost:3000/api/getTeamName",
+          "https://epl-ultimate-league-server.up.railway.app/api/getTeamName",
           { userId }, // Request body
           {
             headers: {

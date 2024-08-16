@@ -24,7 +24,7 @@ const Edit = () => {
   const fetchRoundStatus = async () => {
   
     const token = sessionStorage.getItem('authToken');
-    const response = await fetch('http://localhost:3000/api/getRoundStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundStatus', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -67,7 +67,7 @@ const Edit = () => {
     const token = sessionStorage.getItem('authToken');
     try {
       await axios.post(
-        'http://localhost:3000/api/storeChangeStatus',
+        'https://epl-ultimate-league-server.up.railway.app/api/storeChangeStatus',
         {
           deleteCount,
           changeCount,
@@ -88,7 +88,7 @@ const Edit = () => {
   const fetchChangeStatus = async (currentRoundNum) => {
     const token = sessionStorage.getItem('authToken');
     try {
-      const response = await axios.get(`http://localhost:3000/api/fetchChangeStatus/${currentRoundNum}`, {
+      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/fetchChangeStatus/${currentRoundNum}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ useEffect(() => {
       try {
         const token = sessionStorage.getItem('authToken');
         const response = await axios.post(
-          'http://localhost:3000/api/getTeamName',
+          'https://epl-ultimate-league-server.up.railway.app/api/getTeamName',
           { userId }, // Request body
           {
             headers: {

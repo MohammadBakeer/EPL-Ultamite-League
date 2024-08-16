@@ -15,7 +15,7 @@ const ManageProfile = ({ show, onClose }) => {
   const fetchUserProfile = async () => {
     try {
       const token = sessionStorage.getItem('authToken');
-      const response = await fetch('http://localhost:3000/api/fetchuserprofile', {
+      const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/fetchuserprofile', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -40,7 +40,7 @@ const ManageProfile = ({ show, onClose }) => {
 
     try {
       const token = sessionStorage.getItem('authToken');
-      const response = await fetch('http://localhost:3000/api/updateuserprofile', {
+      const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/updateuserprofile', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -79,7 +79,7 @@ const ManageProfile = ({ show, onClose }) => {
 
     try {
       const token = sessionStorage.getItem('authToken');
-      const response = await fetch('http://localhost:3000/api/deleteuserprofile', {
+      const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/deleteuserprofile', {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
