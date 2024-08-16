@@ -27,12 +27,20 @@ const port = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+
+const corsOptions = {
+  origin: 'https://ultimatefpleague.up.railway.app', // Your frontend domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+
 // Middleware setup
-app.use(bodyParser.json({ limit: '10mb' })); // Adjust limit as per your needs
+app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public'))); // Serve static files
-app.use(cors());
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
+app.use(cors(corsOptions)); // Apply CORS middleware with options
 app.use(express.json());
+
 
 // Token update route
 app.post('/api/update-token', (req, res) => {
