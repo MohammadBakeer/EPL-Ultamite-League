@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const liveGameTracker = async () => {
-  const url = `https://api.sportmonks.com/v3/football/livescores/latest?api_token=${process.env.SPORTMONKS_API_TOKEN}&include=scores`;
+  const url = `https://api.sportmonks.com/v3/football/livescores/latest?api_token=${process.env.API_TOKEN}&include=scores`;
 
   try {
     // Make the API request
