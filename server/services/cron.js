@@ -50,10 +50,10 @@ const mapPosition = (positionId) => {
 async function buildPlayerData(){
   const fetchData = async () => {
     try {
-      const playerResponse = await fetch('https://epl-ultimate-league-production.up.railway.app/api/playerNames');
+      const playerResponse = await fetch('https://epl-ultamite-league-production.up.railway.app/api/playerNames');
       const playerData = await playerResponse.json();
 
-      const teamResponse = await fetch('https://epl-ultimate-league-production.up.railway.app/api/teams');
+      const teamResponse = await fetch('https://epl-ultamite-league-production.up.railway.app/api/teams');
       const teamData = await teamResponse.json();
 
       const updatedTable = playerData.playerNames.map((player) => {
