@@ -1,0 +1,25 @@
+# Railway.toml
+
+# This section defines the build process for your frontend and backend.
+[build]
+  # Build the frontend application
+  [build.frontend]
+    path = "./frontend"
+    build = "npm install && npm run build"
+
+  # Build the backend application
+  [build.backend]
+    path = "./backend"
+    build = "npm install"
+
+# This section defines the deployment settings for your frontend and backend.
+[deploy]
+  # Deploy the frontend application
+  [deploy.frontend]
+    path = "./frontend/build"
+    build_command = "npm run build"
+  
+  # Deploy the backend application
+  [deploy.backend]
+    path = "./backend"
+    build_command = "npm run start-server"
