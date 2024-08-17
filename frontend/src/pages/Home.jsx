@@ -20,6 +20,7 @@ const Home = () => {
 
   const fetchRoundStatus = async () => {
     const token = sessionStorage.getItem("authToken");
+    console.log(token);
     const response = await fetch("https://epl-ultimate-league-server.up.railway.app/api/getRoundStatus", {
       method: "GET",
       headers: {
