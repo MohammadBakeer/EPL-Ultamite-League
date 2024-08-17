@@ -28,6 +28,7 @@ const Edit = () => {
   const fetchRoundStatus = async () => {
   
     const token = sessionStorage.getItem('authToken');
+   
     const response = await fetch('https://epl-ultimate-league-server.up.railway.app/getRoundStatus', {
       method: 'GET',
       headers: {
