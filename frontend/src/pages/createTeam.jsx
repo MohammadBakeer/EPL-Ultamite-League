@@ -29,7 +29,7 @@ const Edit = () => {
   
     const token = sessionStorage.getItem('authToken');
    
-    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/getRoundStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundStatus', {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,
