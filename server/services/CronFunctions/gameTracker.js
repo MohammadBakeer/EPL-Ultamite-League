@@ -87,17 +87,6 @@ export const liveGameTracker = async () => {
       // Retrieve team names from the fixture name (e.g., "Newcastle United vs Southampton")
       const [team1, team2] = fixture.name.split(' vs ');
 
-      // Log the extracted details along with minuteOfGame
-      console.log({
-        fixtureId,
-        team1,
-        team2,
-        team1Result,
-        team2Result,
-        minuteOfGame,
-        stateId
-      });
-
       // Prepare the data object for insertion/updating
       const gameData = {
         fixtureId,
