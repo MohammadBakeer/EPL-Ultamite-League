@@ -1,8 +1,5 @@
 import React from 'react'
 import { TwitterTweetEmbed } from 'react-twitter-embed';
-import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import '../styles/largeCard.css'
 
 

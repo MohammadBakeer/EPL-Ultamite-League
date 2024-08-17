@@ -27,7 +27,7 @@ const Table = ({ onPlayerSelect, blockChanges, roundNum }) => {
             const token = sessionStorage.getItem('authToken');
             console.log(token);
            
-            const playerResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/playerNames', {
+            const playerResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/api/playerNames', {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
