@@ -111,7 +111,6 @@ const Home = () => {
         <div className="smallCard">
           <SmallCard />
         </div>
-       
         <ScheduleRounds />
         <Footer />
       </div>
