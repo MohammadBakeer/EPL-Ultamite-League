@@ -40,7 +40,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions)); // Apply CORS middleware with options
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
 
 
 // Token update route
