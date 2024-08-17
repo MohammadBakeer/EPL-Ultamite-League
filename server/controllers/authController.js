@@ -90,7 +90,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
     subject: 'Email Verification',
     html: `
       <p>Please verify your email by clicking the button below:</p>
-      <a href="http://localhost:3000/verify-email.html?token=${verificationToken}" 
+      <a href="http://localhost:3000/verify-email?token=${verificationToken}" 
          style="display: inline-block; 
                 padding: 10px 20px; 
                 font-size: 16px; 
