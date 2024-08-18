@@ -94,7 +94,6 @@ function TeamCard({ gameId, roundNum, team1Name, matchDate, matchTime, team2Name
 function Card({ gamePairs, blockChanges, roundNum }) {
   const [scores, setScores] = useState({});
 
- 
   useEffect(() => {
     if (!blockChanges) return; // if block changes is true we dont want it to return. so change it to !blockChanges when done testing
  
@@ -138,13 +137,12 @@ function Card({ gamePairs, blockChanges, roundNum }) {
       }
     };
     
-    
     fetchLiveScores();
     const pollingInterval = setInterval(fetchLiveScores, 20000);
 
     return () => clearInterval(pollingInterval);
   }, [blockChanges]);
-  console.log(scores);
+ 
 
   const setTeamScores = (gameId, team, score) => {
     setScores(prevScores => ({

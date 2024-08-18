@@ -34,8 +34,9 @@ function Schedule() {
 
         const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
         const currentRound = maxRoundNum + 1;
+     
+     
         setCurrentRoundNum(currentRound);
-
     };
 
     const groupGamesByRound = (games) => {
