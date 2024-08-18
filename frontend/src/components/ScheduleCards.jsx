@@ -127,7 +127,7 @@ function Card({ gamePairs, blockChanges, roundNum }) {
           // If there's no live game, clear the interval
           if (!hasLiveGame) {
             clearInterval(pollingInterval); // Clear the polling interval
-            console.log('No live games available. Stopping polling.');
+            
           }
         } else {
           console.log('No more live scores available');
