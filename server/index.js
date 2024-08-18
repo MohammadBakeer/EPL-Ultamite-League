@@ -19,6 +19,9 @@ import tokenRouter from './routes/tokenRoutes.js';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import dotenv from 'dotenv';
+dotenv.config(); // Ensure this is at the top of your file
+
 
 const app = express();
 const port = process.env.PORT || 3000;

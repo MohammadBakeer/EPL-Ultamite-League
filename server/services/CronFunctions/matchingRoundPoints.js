@@ -8,7 +8,7 @@ async function matchRoundPoints(players, teams, currentRound) {
       // Loop over each team
       for (const team of teams) {
           let teamPoints = 0;
-
+          
           // Loop over each player in the team's lineup
           for (const player of team.player_lineup) {
               // Find the matching player in the players data by first and last name
@@ -59,7 +59,7 @@ async function roundTeams(currentRound) {
 
 
 export const teamRoundPoints = async (currentRound) => {
-  
+ 
   try {
   
     // Make a GET request to the fetchPlayerRounds endpoint with currentRound as a query parameter

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
 import db from '../../config/db.js'; // Adjust path as needed
-
 dotenv.config();
 
 // Function to insert or update live game data in the database
@@ -58,6 +57,7 @@ const insertLiveGame = async (gameData) => {
 
 // Function to fetch fixture details including periods
 const fetchFixtureDetails = async (fixtureId) => {
+  
   const url = `https://api.sportmonks.com/v3/football/fixtures/${fixtureId}?api_token=${process.env.API_TOKEN}&include=periods`;
 
   try {
@@ -71,6 +71,7 @@ const fetchFixtureDetails = async (fixtureId) => {
 
 // Function to fetch live game data and process it
 export const liveGameTracker = async () => {
+ 
   const url = `https://api.sportmonks.com/v3/football/livescores/latest?api_token=${process.env.API_TOKEN}&include=scores`;
 
   try {
