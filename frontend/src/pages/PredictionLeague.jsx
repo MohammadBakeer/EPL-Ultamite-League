@@ -177,7 +177,7 @@ const PredictionLeague = () => {
   const NoPrivateLeaguesMessage = (
     <div className="no-leagues-message">
       <p className="no-leagues-text">Create or Join your first private league</p>
-      <p className="no-leagues-info">Leagues with 20 people or more can apply to earn prizes for the top 3 of their private league.</p>
+      <p className="no-leagues-info">Private Leagues with 20 people or more can contact us to earn prizes for their League.</p>
       <div className="league-buttons">
         <button className="create-league-button" onClick={() => handleOpenBadgeModal()}>Create new league</button>
         <button className="join-league-button" onClick={() => setShowJoinLeagueModal(true)}>Join league</button>
