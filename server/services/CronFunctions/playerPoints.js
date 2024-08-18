@@ -113,7 +113,7 @@ export const calculatePoints = async (table) => {
     // Calculate points based on player's position
     switch (player.position) {
       case 'FWD':
-          points += player.goalsScored * 1800; // 1.3 * 100
+          points += player.goalsScored * 2000; // 1.3 * 100
           points += player.assists * 1000; // 0.7 * 100
           points += player.cleanSheets * 100; // 0.1 * 100
           points += player.goalsConceded * -100; // -0.1 * 100
@@ -141,8 +141,8 @@ export const calculatePoints = async (table) => {
           break;
       case 'GK':
           points += player.cleanSheets * 1400; // 1.2 * 100
-          points += player.goalsConceded * -800; // -0.8 * 100
-          points += player.penaltiesSaved * 700; // 0.7 * 100
+          points += player.goalsConceded * -600; // -0.8 * 100
+          points += player.penaltiesSaved * 1500; // 0.7 * 100
           points += player.saves * 400; // 0.4 * 100
           points += Math.floor(player.minutes / 90) * 100; // 0.3 * 100
           break;
@@ -151,6 +151,7 @@ export const calculatePoints = async (table) => {
     }
 
     player.points = points;
+    player.points = points < 0 ? 0 : points;
   });
 
   const currentRound = await fetchRoundDBStatus()

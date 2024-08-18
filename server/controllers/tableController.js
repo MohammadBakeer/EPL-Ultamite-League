@@ -56,30 +56,33 @@ export const getTeamsData = async (req, res) => {
     }
 };
 
-export const storePlayerPrices = async (req, res) => {
+export const attachPlayerPrices = async (req, res) => {
+
   const { table } = req.body;
 
   try {
-    // Use a loop to insert each player's data into the database
+    // Loop through each player in the table array
     for (let player of table) {
-      const { firstName, lastName, price } = player;
+      const { firstName, lastName } = player;
 
-      // Example SQL query to insert data into the 'players' table
-      // If a conflict occurs (same first_name and last_name), update the price
+      // Query the database to find the player by first_name and last_name
       const query = `
-        INSERT INTO players (first_name, last_name, price, total_points)
-        VALUES ($1, $2, $3, 0)
-        ON CONFLICT (first_name, last_name)
-        DO UPDATE SET price = EXCLUDED.price;
+        SELECT price FROM players 
+        WHERE first_name = $1 AND last_name = $2
       `;
 
-      // Execute the query with sanitized values using db.query
-      await db.query(query, [firstName, lastName, price]);
-    }
+      // Execute the query
+      const result = await db.query(query, [firstName, lastName]);
 
-    res.status(200).json({ message: 'Player prices stored successfully' });
+      // If a match is found, update the price in the table array
+      if (result.rows.length > 0) {
+        player.price = result.rows[0].price;
+      } 
+    }
+ 
+    res.status(200).json({ message: 'Player prices attached successfully', table });
   } catch (error) {
-    console.error('Error storing player prices:', error.message);
+    console.error('Error attaching player prices:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
