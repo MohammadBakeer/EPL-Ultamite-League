@@ -75,3 +75,56 @@ justify-content: space-around;
 .edit-field-h3{
   font-size: .9em;
 }
+
+
+@media (max-width: 375px) {
+  .edit-container {
+    flex-direction: column;
+    height: 3000px; /* Allow the height to adjust based on content */
+    padding: 10px; /* Add padding for smaller screens */
+  }
+
+  .edit-nav {
+    flex-direction: column;
+    padding: 10px;
+    min-height: auto; /* Adjust height */
+  }
+
+  .edit-nav button {
+    font-size: 12px; /* Reduce font size */
+    padding: 0.4rem 0.8rem; /* Adjust padding */
+  }
+
+  .edit-field-h2 {
+    margin-left: 1rem; /* Reduce margin */
+    font-size: 1.2rem; /* Adjust font size */
+  }
+
+  .edit-team-table {
+    font-size: 15px; /* Reduce font size */
+  }
+
+  .edit-team-table tr th {
+    padding: 8px; /* Adjust padding for headers */
+  }
+
+  .edit-field-component {
+    width: 80%; /* Increase width for smaller screens */
+    max-width: 100%; /* Remove max-width to allow full screen usage */
+    margin: 0 auto; /* Center the component */
+  }
+
+  .edit-team-container {
+    height: auto; /* Allow height to adjust based on content */
+    padding: 10px; /* Add padding for smaller screens */
+  }
+
+  .edit-field-h3 {
+    font-size: 0.8em; /* Reduce font size */
+  }
+
+  .confirm-button {
+    width: 100%; /* Make the button full width */
+    padding: 10px; /* Adjust padding */
+  }
+}
