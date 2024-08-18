@@ -41,7 +41,6 @@ app.use(cors(corsOptions)); // Apply CORS middleware with options
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
 
-
 // Token update route
 app.post('/api/update-token', (req, res) => {
   const { viewId, leagueId } = req.body;
