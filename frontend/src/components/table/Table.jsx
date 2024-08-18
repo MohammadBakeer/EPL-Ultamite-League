@@ -25,7 +25,6 @@ const Table = ({ onPlayerSelect, blockChanges, roundNum }) => {
         try {
 
             const token = sessionStorage.getItem('authToken');
-            console.log(token);
            
             const playerResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/api/playerNames', {
                 headers: {
@@ -64,7 +63,7 @@ const Table = ({ onPlayerSelect, blockChanges, roundNum }) => {
 
             // Calculate points and price for each player and sort by price
             const { table: newTable } = calculatePlayerPrice(updatedTable);
-              console.log(table);
+           
             const orderedTable = newTable.sort((a, b) => b.price - a.price);
             
             updatePlayerPrices(orderedTable)

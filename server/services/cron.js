@@ -12,7 +12,7 @@ import { liveGameTracker } from './CronFunctions/gameTracker.js';
 
 const fetchRoundDBStatus = async () => {
   try {
-    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundDBStatus', {
+    const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
       method: 'GET',
     });
 
@@ -34,8 +34,9 @@ const fetchRoundDBStatus = async () => {
 };
 
 const fetchRoundLive = async () => {
+  
   try {
-    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundDBStatus', {
+    const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
       method: 'GET',
     });
 
@@ -88,10 +89,10 @@ async function buildPlayerData(){
   
   const fetchData = async () => {
     try {
-      const playerResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/api/playerNames');
+      const playerResponse = await fetch('http://localhost:3000/api/playerNames');
       const playerData = await playerResponse.json();
 
-      const teamResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/api/teams');
+      const teamResponse = await fetch('http://localhost:3000/api/teams');
       const teamData = await teamResponse.json();
 
       const updatedTable = playerData.playerNames.map((player) => {
@@ -132,32 +133,14 @@ cron.schedule('*/60 * * * * *', buildPlayerData);
 
 cron.schedule('0 */6 * * *', fetchRoundStatus);
 
-  cron.schedule('*/20 * * * * *', async () => {
-    const { currentRound, roundLive } = await fetchRoundLive();
-    if (roundLive) {
-    console.log('Round is live. Tracking live games...');
-      liveGameTracker(currentRound);
-  } else {
-      console.log('No live round.');
-      }
-  });
+ cron.schedule('*/20 * * * * *', async () => {
+  const { currentRound, roundLive } = await fetchRoundLive();
+  if (roundLive) {
+    liveGameTracker(currentRound);
+  } 
+});
+
+
 
 
 // Fetch Live updates cron will be set to run every 5 minutes once blockChanges is true and then when Live is true it will run every 10 seconds. Once no lives it will go 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

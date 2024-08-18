@@ -45,10 +45,7 @@ const insertLiveGame = async (gameData) => {
         fixtureId,
       ]);
 
-      console.log(`Game with fixtureId ${fixtureId} updated successfully.`);
-    } else {
-      console.log(`Game with fixtureId ${fixtureId} not found.`);
-    }
+    } 
 
     // Commit transaction
     await db.query('COMMIT');
@@ -84,7 +81,7 @@ export const liveGameTracker = async () => {
     // Check if fixtures is an array and has data
     const fixtures = data.data;
     if (!Array.isArray(fixtures) || fixtures.length === 0) {
-      console.log('No live games available at the moment.');
+    
       return;
     }
 
@@ -116,19 +113,6 @@ export const liveGameTracker = async () => {
       const team1Result = team1Score ? team1Score.score.goals : 0; // Goals for home team
       const team2Result = team2Score ? team2Score.score.goals : 0; // Goals for away team
 
-      // Retrieve team names from the fixture name (e.g., "Newcastle United vs Southampton")
-      const [team1, team2] = fixture.name.split(' vs ');
-
-      // Log the extracted details along with minuteOfGame
-      console.log({
-        fixtureId,
-        team1,
-        team2,
-        team1Result,
-        team2Result,
-        minuteOfGame,
-        stateId
-      });
 
       // Prepare the data object for insertion/updating
       const gameData = {
