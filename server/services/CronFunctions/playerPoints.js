@@ -150,8 +150,6 @@ export const calculatePoints = async (table) => {
           break;
     }
 
-    points += 4;
-
     player.points = points;
   });
 
