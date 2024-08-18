@@ -105,7 +105,6 @@ export const liveGameTracker = async () => {
         );
         minuteOfGame = latestPeriod.minutes;
       }
-
       // Find the relevant score objects for home and away teams
       const team1Score = fixture.scores.find(score => score.description === "CURRENT" && score.score.participant === "home");
       const team2Score = fixture.scores.find(score => score.description === "CURRENT" && score.score.participant === "away");
