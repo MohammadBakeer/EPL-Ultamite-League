@@ -99,7 +99,7 @@ function Card({ gamePairs, blockChanges, roundNum }) {
  
     const fetchLiveScores = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/fetchLiveScores/${roundNum}`);
+        const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/fetchLiveScores/${roundNum}`);
         
         const data = response.data;
     

@@ -12,7 +12,7 @@ import { liveGameTracker } from './CronFunctions/gameTracker.js';
 
 const fetchRoundDBStatus = async () => {
   try {
-    const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundDBStatus', {
       method: 'GET',
     });
 
@@ -36,7 +36,7 @@ const fetchRoundDBStatus = async () => {
 const fetchRoundLive = async () => {
   
   try {
-    const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundDBStatus', {
       method: 'GET',
     });
 
@@ -89,10 +89,10 @@ async function buildPlayerData(){
   
   const fetchData = async () => {
     try {
-      const playerResponse = await fetch('http://localhost:3000/api/playerNames');
+      const playerResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/api/playerNames');
       const playerData = await playerResponse.json();
 
-      const teamResponse = await fetch('http://localhost:3000/api/teams');
+      const teamResponse = await fetch('https://epl-ultimate-league-server.up.railway.app/api/teams');
       const teamData = await teamResponse.json();
 
       const updatedTable = playerData.playerNames.map((player) => {
@@ -129,16 +129,16 @@ async function buildPlayerData(){
 }
 
 
-//cron.schedule('*/60 * * * * *', buildPlayerData);
+cron.schedule('*/60 * * * * *', buildPlayerData);
 
-//cron.schedule('0 */6 * * *', fetchRoundStatus);
+cron.schedule('0 */6 * * *', fetchRoundStatus);
 
- //cron.schedule('*/20 * * * * *', async () => {
-  //const { currentRound, roundLive } = await fetchRoundLive();
-  //if (roundLive) {
-    //liveGameTracker(currentRound);
- // } 
-  //});
+ cron.schedule('*/20 * * * * *', async () => {
+  const { currentRound, roundLive } = await fetchRoundLive();
+  if (roundLive) {
+    liveGameTracker(currentRound);
+  } 
+});
 
 
 

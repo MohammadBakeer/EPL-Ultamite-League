@@ -36,7 +36,7 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
       return
     }
     try {
-      const response = await axios.get(`http://localhost:3000/api/getScheduleRoundGames/${roundNum}`, {
+      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/getScheduleRoundGames/${roundNum}`, {
       });     
       setRoundGames(response.data);
     } catch (error) {
@@ -46,7 +46,7 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
 
   const fetchRoundStatus = async () => {
   
-    const response = await fetch('http://localhost:3000/api/getScheduleRoundStatus', {
+    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getScheduleRoundStatus', {
       method: 'GET',
     });
   
