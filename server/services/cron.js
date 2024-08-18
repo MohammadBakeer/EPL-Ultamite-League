@@ -11,7 +11,6 @@ import { liveGameTracker } from './CronFunctions/gameTracker.js';
 
 
 const fetchRoundDBStatus = async () => {
-
   try {
     const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
       method: 'GET',
@@ -87,7 +86,7 @@ const mapPosition = (positionId) => {
 };
 
 async function buildPlayerData(){
-
+  
   const fetchData = async () => {
     try {
       const playerResponse = await fetch('http://localhost:3000/api/playerNames');
