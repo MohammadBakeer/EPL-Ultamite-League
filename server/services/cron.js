@@ -133,12 +133,12 @@ async function buildPlayerData(){
 
 //cron.schedule('0 */6 * * *', fetchRoundStatus);
 
- cron.schedule('*/20 * * * * *', async () => {
-  const { currentRound, roundLive } = await fetchRoundLive();
-  if (roundLive) {
-    liveGameTracker(currentRound);
-  } 
-});
+ //cron.schedule('*/20 * * * * *', async () => {
+  //const { currentRound, roundLive } = await fetchRoundLive();
+  //if (roundLive) {
+    //liveGameTracker(currentRound);
+ // } 
+  //});
 
 
 
