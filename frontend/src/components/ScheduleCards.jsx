@@ -96,10 +96,10 @@ function Card({ gamePairs, blockChanges, roundNum }) {
 
   useEffect(() => {
     if (!blockChanges) return; // if block changes is true we dont want it to return. so change it to !blockChanges when done testing
-   
+ 
     const fetchLiveScores = async () => {
       try {
-        const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/fetchLiveScores/${roundNum}`);
+        const response = await axios.get(`http://localhost:3000/api/fetchLiveScores/${roundNum}`);
         
         const data = response.data;
     
@@ -127,23 +127,22 @@ function Card({ gamePairs, blockChanges, roundNum }) {
           // If there's no live game, clear the interval
           if (!hasLiveGame) {
             clearInterval(pollingInterval); // Clear the polling interval
-         
+            console.log('No live games available. Stopping polling.');
           }
         } else {
-
+          console.log('No more live scores available');
         }
       } catch (error) {
         console.error('Error fetching live scores:', error);
       }
     };
     
-    
     fetchLiveScores();
     const pollingInterval = setInterval(fetchLiveScores, 20000);
 
     return () => clearInterval(pollingInterval);
   }, [blockChanges]);
-
+ 
 
   const setTeamScores = (gameId, team, score) => {
     setScores(prevScores => ({

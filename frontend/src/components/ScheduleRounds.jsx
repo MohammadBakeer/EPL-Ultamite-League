@@ -11,6 +11,7 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
   const [roundNum, setRoundNum] = useState(null);
   const [roundGames, setRoundGames] = useState([]);
   const [blockChanges, setBlockChanges] = useState(false);
+  const [roundBarOnlyNum, setRoundBarOnlyNum] = useState(null);
 
   const toggleVisibility = () => {
     setIsExpanded(prevState => !prevState);
@@ -29,14 +30,13 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
     }
   }, [roundnum])
 
-  
 
   const fetchRoundGames = async (roundNum) => {
     if(onSchedulePage){
       return
     }
     try {
-      const response = await axios.get(`https://epl-ultimate-league-server.up.railway.app/api/getScheduleRoundGames/${roundNum}`, {
+      const response = await axios.get(`http://localhost:3000/api/getScheduleRoundGames/${roundNum}`, {
       });     
       setRoundGames(response.data);
     } catch (error) {
@@ -45,12 +45,8 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
   };
 
   const fetchRoundStatus = async () => {
-    
-    if(onSchedulePage){
-      return
-    }
-
-    const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getScheduleRoundStatus', {
+  
+    const response = await fetch('http://localhost:3000/api/getScheduleRoundStatus', {
       method: 'GET',
     });
   
@@ -65,14 +61,14 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
   
     const maxRoundNum = finishedRounds.length > 0 ? Math.max(...finishedRounds) : 0;
     const currentRound = maxRoundNum + 1;
-    setRoundNum(maxRoundNum > 0 ? maxRoundNum + 1 : 1);
+    setRoundBarOnlyNum(maxRoundNum > 0 ? maxRoundNum + 1 : 1);
   
     const currentRoundObject = data.find(round => round.round_num === currentRound);
   
     if (currentRoundObject) {
       const { is_current, start_date, finished } = currentRoundObject;
       const startDate = new Date(start_date);
-   
+      
       if (is_current || (startDate <= currentDate && !finished)) {
         setBlockChanges(true);
       } else {
@@ -81,6 +77,7 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
     }
     return currentRound;
   };
+
 
   useEffect(() => {
     const initialize = async () => {
@@ -134,7 +131,7 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
           game_time: formatTime(game.game_time), // Format the game_time here
         }))} 
         blockChanges={blockChanges} 
-        roundNum={roundNum}
+        roundNum={roundBarOnlyNum}
       />
     );
   });
@@ -144,9 +141,10 @@ function ScheduleRounds({ defaultExpanded, roundbarText, roundnum, onSchedulePag
       <div className="round-completed-bar"
            style={{ backgroundColor: '#a000cc'}}>
        
-        <div className="rounds" style={{ color:  '#fff'  }}>
-          Round {roundNum}
+       <div className="rounds" style={{ color:  '#fff'  }}>
+          Round {onSchedulePage ? roundNum : roundBarOnlyNum}
         </div>
+
         
         <div className="completed-arrow" onClick={toggleVisibility}>
           <span style={{ color: '#fff' }}>{roundNum < currentRoundNum ? 'COMPLETED' : (roundNum === currentRoundNum ? 'UPCOMING' : 'SCHEDULED')}</span>
