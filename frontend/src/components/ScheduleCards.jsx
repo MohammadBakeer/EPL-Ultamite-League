@@ -137,13 +137,11 @@ function Card({ gamePairs, blockChanges, roundNum }) {
       }
     };
     
-    
     fetchLiveScores();
     const pollingInterval = setInterval(fetchLiveScores, 20000);
 
     return () => clearInterval(pollingInterval);
   }, [blockChanges]);
-
 
   const setTeamScores = (gameId, team, score) => {
     setScores(prevScores => ({

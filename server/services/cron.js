@@ -136,14 +136,15 @@ cron.schedule('*/60 * * * * *', buildPlayerData);
 cron.schedule('0 */6 * * *', fetchRoundStatus);
 
 
-// cron.schedule('*/20 * * * * *', async () => {
-//   const { currentRound, roundLive } = await fetchRoundLive();
-//   if (roundLive) {
-//     console.log('Round is live. Tracking live games...');
-//     liveGameTracker(currentRound);
-//   } else {
-//     console.log('No live round.');
-// });
+ cron.schedule('*/20 * * * * *', async () => {
+   const { currentRound, roundLive } = await fetchRoundLive();
+  if (roundLive) {
+    console.log('Round is live. Tracking live games...');
+     liveGameTracker(currentRound);
+  } else {
+    console.log('No live round.');
+  }
+ });
 
 
 
