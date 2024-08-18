@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/Table.css';
-import { calculatePlayerPrice, updatePlayerPrices  } from './playerPrices'
+import { attachPrice } from './playerPrices'
 import { toast } from 'react-toastify';
 
 
@@ -62,14 +62,11 @@ const Table = ({ onPlayerSelect, blockChanges, roundNum }) => {
                 }
             });
 
-            // Calculate points and price for each player and sort by price
-            const { table: newTable } = calculatePlayerPrice(updatedTable);
-              console.log(table);
-            const orderedTable = newTable.sort((a, b) => b.price - a.price);
-            
-            updatePlayerPrices(orderedTable)
+            const tableWithPrices = await attachPrice(updatedTable);
 
-            setTable(orderedTable); 
+            const orderedTable = tableWithPrices.sort((a, b) => b.price - a.price);
+            
+            setTable(orderedTable);
 
             // Extract unique club names for the filter dropdown
             const eplClubsList = Array.from(new Set(teamData.team.map((team) => team.club)));
