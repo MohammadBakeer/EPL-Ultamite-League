@@ -128,7 +128,7 @@ const PrivateFantasyLeague = () => {
         },
       });
       const { isOwner, leagueCode } = response.data;
-      console.log(leagueCode);
+
       setIsOwner(isOwner);
     
       if(isOwner){

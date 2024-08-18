@@ -34,7 +34,7 @@ const fetchRoundDBStatus = async () => {
 };
 
 const fetchRoundLive = async () => {
-  console.log("hi from live");
+  
   try {
     const response = await fetch('http://localhost:3000/api/getRoundDBStatus', {
       method: 'GET',
@@ -62,8 +62,6 @@ const fetchRoundLive = async () => {
         roundLive = true;
       }
     }
-
-    console.log(`Current Round: ${currentRound}, Round Live: ${roundLive}`);
 
     return { currentRound, roundLive };
   } catch (error) {
@@ -135,16 +133,13 @@ cron.schedule('*/60 * * * * *', buildPlayerData);
 
 cron.schedule('0 */6 * * *', fetchRoundStatus);
 
-
  cron.schedule('*/20 * * * * *', async () => {
-   const { currentRound, roundLive } = await fetchRoundLive();
+  const { currentRound, roundLive } = await fetchRoundLive();
   if (roundLive) {
-    console.log('Round is live. Tracking live games...');
-     liveGameTracker(currentRound);
-  } else {
-    console.log('No live round.');
-  }
- });
+    liveGameTracker(currentRound);
+  } 
+});
+
 
 
 

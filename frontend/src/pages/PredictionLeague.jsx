@@ -54,7 +54,7 @@ const PredictionLeague = () => {
           teamName: item.team_name,
           leaguePoints: item.league_points
         }));
-        console.log("processedData: ", processedData);
+       
         
         setLeaderboardData(processedData);
     

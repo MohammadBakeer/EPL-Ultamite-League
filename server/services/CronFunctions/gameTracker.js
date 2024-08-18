@@ -45,9 +45,7 @@ const insertLiveGame = async (gameData) => {
         fixtureId,
       ]);
 
-    } else {
-      console.log(`Game with fixtureId ${fixtureId} not found.`);
-    }
+    } 
 
     // Commit transaction
     await db.query('COMMIT');

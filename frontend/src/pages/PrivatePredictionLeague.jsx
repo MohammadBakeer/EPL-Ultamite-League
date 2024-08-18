@@ -35,7 +35,7 @@ const PrivatePredictionLeague = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false); 
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [leagueName, setLeagueName] = useState('');
-  console.log(leagueName);
+  
   const navigate = useNavigate();
 
   const itemsPerPage = 5;
@@ -128,7 +128,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(response.data.prediction_type);
+  
     setSelectedPredictionOption(response.data.prediction_type);
 
   } catch (error) {
@@ -163,7 +163,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
       });
   
       const { leagueCode, leagueName, message } = response.data;
-      console.log(response.data);
+      
       if (message === 'User is not the owner') {
           setLeagueName(leagueName)
       } else if (leagueCode) {
@@ -271,7 +271,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
         },
       });
 
-      console.log('Prediction option stored successfully');
+  
     } catch (error) {
       console.error('Error storing prediction option:', error);
     }
@@ -332,7 +332,7 @@ const fetchPredictionOptionType = async (roundNum, owner) => {
           },
         }
       );
-      console.log('Submission status saved:', response.data);
+      
     } catch (error) {
       console.error('Error saving submission status:', error);
     }
