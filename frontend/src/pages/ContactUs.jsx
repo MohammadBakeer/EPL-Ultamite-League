@@ -55,13 +55,15 @@ const ContactUs = () => {
  
   const sendContactEmail = async () => {
     const token = sessionStorage.getItem('authToken');
-
     const { name, email, message } = formData;
   
+    // Append the email address to the end of the message
+    const updatedMessage = `${message}\n\nSent from: ${email}`;
+    
     try {
       const response = await axios.post(
         'http://localhost:3000/api/sendContactEmail',
-        { name, email, message },
+        { name, email, message: updatedMessage }, // Use the updated message here
         {
           headers: {
             'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
@@ -79,9 +81,9 @@ const ContactUs = () => {
         {
           from_name: emailDetails.from_name,
           from_email: emailDetails.from_email,
-          message: emailDetails.message,
-          subject: emailDetails.subject,
-          to_email: recipientEmail, 
+          message: updatedMessage, // Use the updated message here
+          subject: email, // Set the subject to the user's email address
+          to_email: recipientEmail,
         },
         emailConfig.userID
       );
@@ -93,6 +95,7 @@ const ContactUs = () => {
       toast.error('Failed to send message.');
     }
   };
+  
   
   
 
