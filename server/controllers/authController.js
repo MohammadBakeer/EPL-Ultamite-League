@@ -271,7 +271,6 @@ export const login = async (req, res) => {
     
     const { email } = req.params 
 
-
     if (!email) {
       return res.status(400).json({ error: 'Email is required' });
     }
@@ -280,11 +279,11 @@ export const login = async (req, res) => {
       // Query the users table to get the user ID based on the provided email
       const userQuery = 'SELECT user_id FROM users WHERE email = $1';
       const userResult = await db.query(userQuery, [email]);
-  
+      
       if (userResult.rows.length === 0) {
-        return res.status(404).json({ present: false, message: 'User not found' });
+        return res.status(200).json({ present: false, message: 'User not found' });
       }
-  
+      
       const userId = userResult.rows[0].user_id;
   
       // Query the teams table to find rows associated with the user ID

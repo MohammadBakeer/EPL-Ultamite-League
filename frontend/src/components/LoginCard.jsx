@@ -50,7 +50,7 @@ const LoginCard = ({roundNum}) => {
 
 
 
-  const handleLogIn = async () => { 
+  const handleLogIn = async () => {
     try {
       const teamResponse = await fetch(`http://localhost:3000/auth/teamPresent/${email}`, {
         method: 'GET',
@@ -59,23 +59,27 @@ const LoginCard = ({roundNum}) => {
         },
       });
   
+      // Check if the response status is 404 (Not Found)
+      if (teamResponse.status === 404) {
+        toast.error('No user found with this email');
+        return; // Stop further execution if no user is found
+      }
+  
+      // Handle other non-OK responses
       if (!teamResponse.ok) {
-        if (teamResponse.status === 404) {
-          toast.error('No User Found');
-        } else {
-          toast.error(`Request failed: ${teamResponse.status}`);
-        }
+        toast.error(`Request failed: ${teamResponse.status}`);
         return;
       }
   
+      // Parse the response if the email exists
       const teamData = await teamResponse.json();
       loginVerification(teamData);
   
     } catch (error) {
-      console.error('Error:', error.message);
       toast.error('Error during login');
     }
   };
+  
 
   const handleCreateAccount = () => {
     navigate('/signup');
