@@ -32,7 +32,7 @@ const __dirname = dirname(__filename);
 
 
 const corsOptions = {
-  origin: 'https://ultimatefpleague.vercel.app',
+  origin: ['https://ultimatefpleague.vercel.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 };
