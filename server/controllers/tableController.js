@@ -79,7 +79,8 @@ export const attachPlayerPrices = async (req, res) => {
         player.price = result.rows[0].price;
       } 
     }
- 
+
+    
     res.status(200).json({ message: 'Player prices attached successfully', table });
   } catch (error) {
     console.error('Error attaching player prices:', error.message);
