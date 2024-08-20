@@ -17,7 +17,7 @@ CREATE TABLE users (
 
 
 CREATE TABLE teams (
-    user_id INTEGER PRIMARY KEY REFERENCES users(user_id) ON DELETE CASCADE,
+    user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
     formation JSONB NOT NULL,
     player_lineup JSONB NOT NULL,
     total_budget INTEGER NOT NULL,
