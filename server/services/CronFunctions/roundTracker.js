@@ -59,7 +59,7 @@ const storeRoundStatus = async (rounds) => {
 };
 
 const insertTeam = async (currentRoundNum) => {
-  console.log("hi from roundTracker: ", currentRoundNum);
+ 
   try {
     const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/insertTeamTracker', {
       method: 'POST',
