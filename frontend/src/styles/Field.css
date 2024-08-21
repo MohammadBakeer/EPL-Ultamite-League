@@ -89,17 +89,20 @@
     justify-content: center;
     align-items: flex-end;
   }
-
-  .real-shirt-container-2-name{
-    height: 2vh;
-    width:7vw;
-    display: flex;
+  
+  .real-shirt-container-2-name {
+    height: auto;
+    min-width: 7vw;
+    width: auto;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     background-color: white;
     font-size: .8rem;
+    text-align: center;
+    white-space: nowrap;
   }
-
+  
 .real-shirt{
     height: 10vh;
     width:7vw;
