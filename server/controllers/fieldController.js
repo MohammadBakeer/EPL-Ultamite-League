@@ -17,7 +17,7 @@ export const updateLineup = async (req, res) => {
       const userId = decoded.userId; // Assuming the token payload contains userId
       
       const { formation, totalBudget, playerLineup, roundNum } = req.body;
-   
+ 
       // Convert playerLineup to a JSON string before storing in the database
       const playerLineupString = JSON.stringify(JSON.parse(playerLineup));
       

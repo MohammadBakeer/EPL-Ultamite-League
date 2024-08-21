@@ -75,7 +75,7 @@ useEffect(() => {
 
     
     const updateLineupInDatabase = async () => {
-        
+        console.log(totalBudget);
       try {
         const token = sessionStorage.getItem('authToken');
    
@@ -134,8 +134,10 @@ useEffect(() => {
       const defaultPosition = getDefaultPosition(removedPlayer);
       tempLineup[removedPlayerIndex] = defaultPosition;
       
+      let priceAsInteger = Math.floor(removedPlayer.price);
+
       // Create a temporary budget variable
-      let tempBudget = totalBudget + (removedPlayer.price || 0);
+      let tempBudget = totalBudget + (priceAsInteger || 0);
 
       // Set the playerLineup state with the temporary lineup
       setPlayerLineup(tempLineup);
