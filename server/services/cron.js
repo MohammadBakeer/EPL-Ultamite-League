@@ -131,7 +131,7 @@ async function buildPlayerData(){
 
 cron.schedule('*/60 * * * * *', buildPlayerData);
 
-cron.schedule('*/20 * * * * *', fetchRoundStatus);
+cron.schedule('*/60 * * * * *', fetchRoundStatus);
 
  cron.schedule('*/20 * * * * *', async () => {
   const { currentRound, roundLive } = await fetchRoundLive();
