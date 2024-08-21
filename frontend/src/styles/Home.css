@@ -101,20 +101,7 @@
   width: 6rem; /* Set the width to your desired size */
   height: 5rem; /* Maintain the aspect ratio */
 }
-
-.home-page .real-shirt-container-2-name{
-  height: 2vh;
-  width:7vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  font-size: .8rem;
-  position: relative;
-  top: 1em;
-}
-
-
+  
 @media only screen and (max-width: 800px) {
   .home-field {
     display: none;
