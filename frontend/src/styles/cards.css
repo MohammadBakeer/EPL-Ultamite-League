@@ -285,3 +285,19 @@
 }
 
 
+@media (max-width: 768px) {
+  .teams-card{
+    min-width: 100%;
+  }
+  .prediction-btn{
+    width: 110px;
+    height: 20px;
+    font-size: 12px;
+  }
+  .match-date p {
+    font-size: 10px;
+  }
+  .column-first-team p, .column-second-team p{
+    font-size: 13px;
+  }
+}
