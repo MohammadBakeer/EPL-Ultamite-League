@@ -147,12 +147,18 @@
   display: block;
 
 }
+
 @media only screen and (max-width: 700px) {
   .formation-dropdown  {
-    top: 182px !important;
+    position: relative;
+    top: 0;
+    right: 2em;
   }
   .team-stats {
-    top: 11em !important;
+    position: relative;
+    top: 0 !important;
+    right: 0;
   }
 }
+
 

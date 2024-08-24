@@ -76,8 +76,6 @@
     align-items: center;
   }
 
-
-
   @media (max-width: 375px) {
     .create-container {
       flex-direction: column;
@@ -119,6 +117,10 @@
     .confirm-button {
       width: 100%; /* Make the button full width */
       padding: 10px; /* Adjust padding */
+    }
+
+    .team-stats, .formation-dropdown {
+      width: 90%;
     }
   }
   

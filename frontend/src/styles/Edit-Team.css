@@ -80,7 +80,6 @@ justify-content: space-around;
 @media (max-width: 375px) {
   .edit-container {
     flex-direction: column;
-    height: 3000px; /* Allow the height to adjust based on content */
     padding: 10px; /* Add padding for smaller screens */
   }
 
@@ -88,6 +87,7 @@ justify-content: space-around;
     flex-direction: column;
     padding: 10px;
     min-height: auto; /* Adjust height */
+    width: 95%;
   }
 
   .edit-nav button {
@@ -101,7 +101,7 @@ justify-content: space-around;
   }
 
   .edit-team-table {
-    font-size: 15px; /* Reduce font size */
+    font-size: 10px; /* Reduce font size */
   }
 
   .edit-team-table tr th {
