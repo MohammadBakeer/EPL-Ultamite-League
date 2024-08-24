@@ -61,13 +61,11 @@ footer{
     color: #fff;
   }
   
-  
-  
-  
-  
-  
-  
-  
+  @media (max-width: 768px) {
+    .privacy{
+      min-width: 100%;
+    }
+  }
   
   
   
