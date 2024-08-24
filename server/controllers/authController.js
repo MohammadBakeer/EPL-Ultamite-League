@@ -241,6 +241,7 @@ export const login = async (req, res) => {
 };
 
   const fetchRoundDBStatus = async () => {
+    
     try {
       const response = await fetch('https://epl-ultimate-league-server.up.railway.app/api/getRoundDBStatus', {
         method: 'GET',
