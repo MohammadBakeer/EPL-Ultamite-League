@@ -156,4 +156,9 @@
     right: 0;
   }
 
+  .field-container {
+    width: 100%;
+    position: inherit;
+  }
+
 }
