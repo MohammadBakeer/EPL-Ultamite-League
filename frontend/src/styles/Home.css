@@ -105,7 +105,8 @@
 
 @media only screen and (max-width: 800px) {
   .home-field{
-    width: 90%;
+    width: 60%;
+    height: 500px;
   }
   .home-page .real-shirt img {
     width: 3rem;

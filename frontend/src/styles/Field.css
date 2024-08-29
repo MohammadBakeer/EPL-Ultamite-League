@@ -160,10 +160,4 @@
     right: 0;
   }
 
-
-  .field-container {
-    height: 40vh; /* Adjust the height to make it smaller */
-    width: 40%;   /* Adjust the width to make it smaller */
-  }
-
 }
