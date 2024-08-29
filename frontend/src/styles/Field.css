@@ -158,7 +158,8 @@
   }
 
   .field-container {
-    bottom: 15em;
+    width: 100%;
+    position: inherit;
   }
 
 }
