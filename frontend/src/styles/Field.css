@@ -188,6 +188,7 @@
     min-width: 6vw; /* Reduce minimum width */
     height: auto; /* Keep height auto to fit content */
     width: auto; /* Adjust width to content */
+    text-align: center;
   }
 
 }
