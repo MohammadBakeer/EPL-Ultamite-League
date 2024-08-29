@@ -77,7 +77,7 @@ justify-content: space-around;
 }
 
 
-@media (max-width: 375px) {
+@media (max-width: 480px) {
   .edit-container {
     flex-direction: column;
     padding: 10px; /* Add padding for smaller screens */

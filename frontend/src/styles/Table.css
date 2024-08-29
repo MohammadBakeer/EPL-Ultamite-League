@@ -175,9 +175,27 @@ tr:hover {
     border-color: black; /* Add a custom border color when focused, you can adjust the color as needed */
   }
 
+
   @media only screen and (max-width: 800px) {
     .table-container {
       width: 90%;
       left: 0;
+    }
+    .btn-view-table{
+      padding: 5px 10px;
+    }
+    .filter-input,
+    .filter-select{
+      font-size: 13px;
+    }
+    .clear-filters-btn{
+      padding: 8px 15px;
+      font-size: 13px;
+    }
+    .manual-page-input{
+      width: 100%;
+    }
+    .manual-page-input input{
+      width: 33%;
     }
   }

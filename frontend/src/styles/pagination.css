@@ -13,3 +13,11 @@
     font-size: 1.2em;
   }
   
+  @media (max-width: 768px) {
+    .pagination{
+      flex-wrap: nowrap;
+    }
+    .of{
+      text-wrap: nowrap;
+    }
+  }
