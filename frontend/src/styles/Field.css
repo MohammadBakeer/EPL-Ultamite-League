@@ -167,18 +167,17 @@
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically if needed */
     width: 18vw; /* Adjust width */
-    height: 15vh; /* Adjust height to fit both shirt and name */
-  }
-  
-
-  .real-shirt-container-1 {
-    width: 16vw; /* Increase width for shirt containers */
-    height: 15vh; /* Adjust height as needed */
+    height: 25vh; /* Adjust height to fit both shirt and name */
+    margin: 0 auto; /* Center container horizontally */
   }
 
+  .real-shirt-container-1,
   .real-shirt-container-2 {
     width: 16vw; /* Increase width for shirt containers */
     height: 15vh; /* Adjust height as needed */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
   }
 
   .real-shirt-container-2-name {
@@ -186,6 +185,8 @@
     min-width: 6vw; /* Reduce minimum width */
     height: auto; /* Keep height auto to fit content */
     width: auto; /* Adjust width to content */
-  }
+    margin-top: 0.5em; /* Add space between shirt and name */
+    text-align: center; /* Center text horizontally */
 
+}
 }
