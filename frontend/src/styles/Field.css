@@ -148,19 +148,12 @@
   .formation-dropdown  {
     position: relative;
     top: 0;
-    bottom: 100;
-    right: 2;
+    right: 2em;
   }
   .team-stats {
     position: relative;
     top: 0 !important;
     right: 0;
-  }
-
-  .field-container {
-    width: 100%;
-    position: relative;
-    bottom: 20;
   }
 
 }
