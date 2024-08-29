@@ -12,11 +12,7 @@
     background-position: center; 
     top: 5em;
   }
-  @media only screen and (max-width: 800px) {
-    .field-container {
-      top: 35em;
-    }
-  }
+
   .field-lines {
     height: 60vh;
     width: 88%;
