@@ -163,7 +163,6 @@
 
   .real-player-shirt-container {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically if needed */
     width: 18vw; /* Adjust width */
@@ -185,7 +184,6 @@
     min-width: 6vw; /* Reduce minimum width */
     height: auto; /* Keep height auto to fit content */
     width: auto; /* Adjust width to content */
-    margin-top: 0.5em; /* Add space between shirt and name */
     text-align: center; /* Center text horizontally */
 
 }
