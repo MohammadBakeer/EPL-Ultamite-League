@@ -162,22 +162,22 @@
   }
 
   .real-player-shirt-container {
-    width: 12vw; /* Increase width for wider shirts */
+    width: 17vw; /* Increase width for wider shirts */
     height: 15vh; /* Adjust height as needed */
   }
 
   .real-shirt-container-1 {
-    width: 10vw; /* Increase width for shirt containers */
+    width: 15vw; /* Increase width for shirt containers */
     height: 15vh; /* Adjust height as needed */
   }
 
   .real-shirt-container-2 {
-    width: 10vw; /* Increase width for shirt containers */
+    width: 15vw; /* Increase width for shirt containers */
     height: 15vh; /* Adjust height as needed */
   }
 
   .real-shirt-container-2-name {
-    font-size: 0.6rem; /* Make name tags smaller */
+    font-size: 0.4rem; /* Make name tags smaller */
     min-width: 6vw; /* Reduce minimum width */
     height: auto; /* Keep height auto to fit content */
     width: auto; /* Adjust width to content */
