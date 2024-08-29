@@ -148,12 +148,17 @@
   .formation-dropdown  {
     position: relative;
     top: 0;
+    bottom: 5em;
     right: 2em;
   }
   .team-stats {
     position: relative;
     top: 0 !important;
     right: 0;
+  }
+
+  .field-container {
+    bottom: 15em;
   }
 
 }
