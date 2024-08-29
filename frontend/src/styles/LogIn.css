@@ -71,16 +71,18 @@
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
-  .login-container {
-    flex-direction: column;
-    width: 100%;
-  }
 
-  .login-container > div:first-child,
-  .logincard {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #ddd;
+
+  @media (max-width: 768px) {
+    .login-container {
+      flex-direction: column;
+      width: 100%;
+    }
+  
+    .login-container > div:first-child,
+    .logincard {
+      width: 87%;
+      border-right: none;
+      border-bottom: 1px solid #ddd;
+    }
   }
-}
