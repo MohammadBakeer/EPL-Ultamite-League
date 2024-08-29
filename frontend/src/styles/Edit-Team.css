@@ -116,7 +116,7 @@ justify-content: space-around;
     top: 0; /* Adjust top positioning if needed */
     left: 0; /* Adjust left positioning if needed */
     right: 0; /* Adjust right positioning if needed */
-    bottom: 0; /* Adjust bottom positioning if needed */
+    bottom: 70; /* Adjust bottom positioning if needed */
   }
 
   .edit-team-container {
