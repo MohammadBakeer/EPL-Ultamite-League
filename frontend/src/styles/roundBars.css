@@ -69,3 +69,12 @@ span{
   margin-top: 10px; /* Add margin top for spacing */
   text-align: center; /* Ensure text alignment */
 }
+
+@media only screen and (max-width: 771px) {
+  .round-completed-bar{
+    width: 99%;
+  }
+  .container-round{
+    width: 100%;
+  }
+}
