@@ -121,5 +121,11 @@
     display: inline-flex;
 
   }
+  
+  .home-page  .real-shirt-container-2 {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+  }
 }
 
