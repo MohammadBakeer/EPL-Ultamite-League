@@ -109,12 +109,12 @@
     height: 650px;
   }
   .home-page .real-shirt img {
-    width: 2rem;
-    height: 2rem;
+    width: 3rem;
+    height: 3rem;
   }
   .home-page .real-shirt-container-2-name{
-    height: 4vh;
-    width: 20vw;
+    height: 2vh;
+    width: 10vw;
     top: 0;
     text-wrap: wrap;
   }
