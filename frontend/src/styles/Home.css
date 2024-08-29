@@ -105,12 +105,12 @@
 
 @media only screen and (max-width: 800px) {
   .home-field{
-    width: 60%;
-    height: 500px;
+    width: 70%;
+    height: 650px;
   }
   .home-page .real-shirt img {
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
   }
   .home-page .real-shirt-container-2-name{
     height: 4vh;
