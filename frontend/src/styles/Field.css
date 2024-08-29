@@ -162,9 +162,14 @@
   }
 
   .real-player-shirt-container {
-    width: 18vw; /* Increase width for wider shirts */
-    height: 15vh; /* Adjust height as needed */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically if needed */
+    width: 18vw; /* Adjust width */
+    height: 15vh; /* Adjust height to fit both shirt and name */
   }
+  
 
   .real-shirt-container-1 {
     width: 16vw; /* Increase width for shirt containers */
