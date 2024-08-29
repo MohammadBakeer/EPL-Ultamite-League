@@ -49,9 +49,6 @@
     align-items: center; /* Center items vertically */
   }
   
-
-  
-
   .create-field-component {
     display: flex;
     flex-direction: column;

@@ -13,7 +13,6 @@ justify-content: space-around;
 
 }
 
-
 .confirm-button {
   background-color: #009e00; /* Green color */
   color: white;
@@ -24,11 +23,11 @@ justify-content: space-around;
   background-color: var(--btn-hover); /* Darker green on hover */
 }
 
-
 .edit-field-h2 {
   font-weight: bold;
   margin-left: 3rem;
 }
+
 .edit-nav {
   background-color: #fffefe;
     color: black;
@@ -62,7 +61,7 @@ justify-content: space-around;
 .edit-field-component{
   width: 40%; /* Adjust as needed */
   max-width: 600px; /* Set a maximum width */
-  margin: 0 auto;
+  margin: 0 auto; 
 }
 
 .edit-team-container{
@@ -81,6 +80,7 @@ justify-content: space-around;
   .edit-container {
     flex-direction: column;
     padding: 10px; /* Add padding for smaller screens */
+    justify-content: space-around;
   }
 
   .edit-nav {
@@ -113,10 +113,6 @@ justify-content: space-around;
     max-width: 100%; /* Remove max-width to allow full screen usage */
     margin: 0 auto; /* Center the component */
     position: relative; /* or 'static' if you don't need positioning */
-    top: 0; /* Adjust top positioning if needed */
-    left: 0; /* Adjust left positioning if needed */
-    right: 0; /* Adjust right positioning if needed */
-    bottom: 70; /* Adjust bottom positioning if needed */
   }
 
   .edit-team-container {
