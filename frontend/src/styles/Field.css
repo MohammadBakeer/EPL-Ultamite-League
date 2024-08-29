@@ -148,7 +148,7 @@
   .formation-dropdown  {
     position: relative;
     top: 0;
-    bottom: 5em;
+    bottom: 20em;
     right: 2em;
   }
   .team-stats {
@@ -159,7 +159,8 @@
 
   .field-container {
     width: 100%;
-    position: inherit;
+    position: relative;
+    bottom: 20rem;
   }
 
 }
