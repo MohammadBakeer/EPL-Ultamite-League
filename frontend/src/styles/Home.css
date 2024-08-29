@@ -116,8 +116,7 @@
     height: 2vh;
     width: 10vw;
     top: 0;
-    word-wrap: break-word; 
-    white-space: normal; 
+    white-space: nowrap;
     font-size: 0.75rem; 
   }
 }
