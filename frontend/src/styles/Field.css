@@ -185,6 +185,9 @@
     min-width: 6vw; /* Reduce minimum width */
     height: auto; /* Keep height auto to fit content */
     width: auto; /* Adjust width to content */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
 
   
