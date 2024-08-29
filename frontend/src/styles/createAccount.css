@@ -106,9 +106,23 @@
     color: rgb(127, 245, 80);;
 }
 
-@media screen and(max-width: 768px){
+@media screen and (max-width: 768px){
+    .create-account-form{
+        width: 50%;
+    }
     .create-account-card{
         width: 90%;
+    }
+    #email, #userName, #password, #con-pasw{
+        width: 15rem;
+    }
+    .create-label-confirmpaswword{
+        text-wrap: nowrap;
+    }
+    .create-account-btn{
+        width: 10rem;
+        font-size: 16px;
+        padding: 7px 15px;
     }
 }
 

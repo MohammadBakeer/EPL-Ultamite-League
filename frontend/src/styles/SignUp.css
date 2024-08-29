@@ -81,8 +81,9 @@
 
   .signup-container > div:first-child,
   .signupcard {
-    width: 100%;
+    min-width: 90%;
     border-right: none;
     border-bottom: 1px solid #ddd;
   }
+  
 }
