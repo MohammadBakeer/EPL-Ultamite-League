@@ -112,6 +112,11 @@ justify-content: space-around;
     width: 80%; /* Increase width for smaller screens */
     max-width: 100%; /* Remove max-width to allow full screen usage */
     margin: 0 auto; /* Center the component */
+    position: relative; /* or 'static' if you don't need positioning */
+    top: 0; /* Adjust top positioning if needed */
+    left: 0; /* Adjust left positioning if needed */
+    right: 0; /* Adjust right positioning if needed */
+    bottom: 0; /* Adjust bottom positioning if needed */
   }
 
   .edit-team-container {
