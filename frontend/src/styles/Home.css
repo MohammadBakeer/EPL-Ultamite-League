@@ -103,17 +103,7 @@
 }
 
 @media only screen and (max-width: 800px) {
-  .home-field{
-    width: 90%;
-  }
-  .home-page .real-shirt img {
-    width: 3rem;
-    height: 3rem;
-  }
-  .home-page .real-shirt-container-2-name{
-    height: 4vh;
-    width: 20vw;
-    top: 0;
-    text-wrap: wrap;
+  .home-field {
+    display: none;
   }
 }
