@@ -116,6 +116,9 @@
     height: 2vh;
     width: 10vw;
     top: 0;
-    text-wrap: wrap;
+    word-wrap: break-word; 
+    white-space: normal; 
+    font-size: 0.75rem; 
   }
 }
+
