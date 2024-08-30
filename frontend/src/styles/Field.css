@@ -176,18 +176,18 @@
   }
 
   .real-shirt-container-2 {
-    width: 16vw; /* Increase width for shirt containers */
-    height: 15vh; /* Adjust height as needed */
+    width: 16vw; 
+    height: 15vh; 
     display: flex;
     justify-content: center;
     align-items: flex-end;
   }
 
   .real-shirt-container-2-name {
-    font-size: 0.5rem; /* Make name tags smaller */
-    min-width: 6vw; /* Reduce minimum width */
-    height: auto; /* Keep height auto to fit content */
-    width: auto; /* Adjust width to content */
+    font-size: 0.5rem; 
+    min-width: 6vw; 
+    height: auto; 
+    width: auto; 
     text-align: center;
   }
 
